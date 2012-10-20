@@ -1,0 +1,37 @@
+{
+    "brief": "Storage for your network data",
+    "full": {
+        "info": "The Black Board compoenent can be used as a quick access point to named data",
+        "outPorts": {
+            "Out": {
+                "info": "Output for the component.  Messages are sent to this component if no error has occured with the read or write",
+                "return": "Based on the operation it will set the 'active' pointer for the IP to the values requested or set"
+            },
+            "Error": {
+                "info": "Output for when an error has occured with a black board operation"
+            }
+        },
+        "inPorts": {
+            "Write": {
+                "info": "Writes the active object defined in the IP to the black board",
+                "expects": "ip.active to be set, also that the IIP.required.write_propertity to be set"
+            },
+            "Read": {
+                "info": "Writes the active object defined in the IP to the black board",
+                "expects": "ip.active to be set, also that the IIP.required.read_property to be set"
+            },
+            "Erase": {
+                "info": "Removes the value from the blackboard.  Sets the value as the output",
+                "expects": "ip.active to be set, and be the name of value to release"
+            },
+            "Erase All": {
+                "info": "Removes all values from the blackboard",
+                "expects": "ip.active to be set, also that the IIP.required.write_propertity to be set"
+            },
+            "Print Black Board": {
+                "info": "Dumps the total content of the Blackboard to the tty",
+                "expects": "Nothing"
+            }
+        }
+    }
+}

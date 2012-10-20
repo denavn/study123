@@ -1,0 +1,12 @@
+{
+    "name" : "Camera",
+    "UUID": 8,
+    "category" : ["Visual"],
+    "outPorts": [   "Out",
+                    "OnCameraMotionStop",
+                    "OnCameraMotionStart",
+                    "OnCameraMotion",
+                    "OnCameraZoomIn",
+                    "OnCameraZoomOut" ],
+    "inPorts": [ "Assign Touchable" ]
+}

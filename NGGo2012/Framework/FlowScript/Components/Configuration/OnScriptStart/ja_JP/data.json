@@ -1,0 +1,6 @@
+{
+    "name" : "On Script Started",
+    "UUID": 17,
+    "outPorts" : [ "Out", "Error" ],
+    "category" : ["Script"]
+}

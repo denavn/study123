@@ -1,0 +1,72 @@
+{
+	"c1": {
+		"generic": {
+			"def": {
+				"asset": "Content/tag/c1.png",
+				"info": {
+					"size": [100, 150]
+				}
+			}
+		}
+	},
+	"c2": {
+		"generic": {
+			"def": {
+				"asset": "Content/tag/c2.png",
+				"info": {
+					"size": [100, 150]
+				}
+			}
+		}
+	},
+	"c3": {
+		"generic": {
+			"def": {
+				"asset": "Content/tag/c3.png",
+				"info": {
+					"size": [100, 150]
+				}
+			}
+		}
+	},
+	"c4": {
+		"generic": {
+			"def": {
+				"asset": "Content/tag/c4.png",
+				"info": {
+					"size": [100, 150]
+				}
+			}
+		}
+	},
+	"c5": {
+		"generic": {
+			"def": {
+				"asset": "Content/tag/c5.png",
+				"info": {
+					"size": [100, 150]
+				}
+			}
+		}
+	},
+	"c6": {
+		"generic": {
+			"def": {
+				"asset": "Content/tag/c6.png",
+				"info": {
+					"size": [100, 150]
+				}
+			}
+		}
+	},
+	"c7": {
+		"generic": {
+			"def": {
+				"asset": "Content/tag/c7.png",
+				"info": {
+					"size": [100, 150]
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+    "name" : "Motion Factory",
+    "category" : ["Animation"],
+    "UUID": 4,
+    "IIP": {
+        "required": {
+            "name": "<MOTION_NAME>"
+        }
+    },
+    "inPorts": [
+                "create"
+                ],
+    "outPorts": [
+                 "motion",
+                 "error"
+                 ]
+}

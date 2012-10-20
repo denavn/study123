@@ -1,0 +1,27 @@
+[
+	{
+		"name": "MainGame",
+		"type": "view",
+		"attrs": {
+			"frame": [0, 0, 320, 480]
+		},
+		"children": [			
+			{
+				"name": "HomeButton",
+				"type": "button",
+				"attrs": {
+					"frame": [280, 10, 40, 40],
+					"normalImage": {
+						"url": "Content/home.png",
+						"size": [60, 60],
+						"anchor": [0, 0]
+					},					
+					"action": {
+						"name": "click",
+						"params": "HomeButton"
+					}
+				}
+			}
+		]
+	}
+]

@@ -1,0 +1,14 @@
+{
+    "name" : "Flow Factory",
+    "category" : ["Flow Script"],
+    "UUID": 13,
+    "outPorts": ["On Network Closed", "On Error],
+    "inPorts": [
+                "Open Network"
+                ],
+    "IIP": {
+        "required": {
+            "script": ""
+        }
+    }
+}

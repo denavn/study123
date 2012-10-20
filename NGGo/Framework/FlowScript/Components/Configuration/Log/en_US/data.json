@@ -1,0 +1,16 @@
+{
+    "name" : "Log",
+    "UUID": 3,
+    "category" : ["Debugging"],
+    "IIP": {
+        "optional": {
+            "message": "<Insert Header Message>"
+        }
+    },
+    "inPorts": [
+                "in"
+                ],
+    "outPorts": [
+                 "out"
+                 ]
+}

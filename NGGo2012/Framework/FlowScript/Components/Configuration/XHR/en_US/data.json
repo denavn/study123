@@ -1,0 +1,20 @@
+{
+    "name" : "Network HTTP",
+    "category" : ["Network"],
+    "UUID": 15,
+    "inPorts": [
+                "make request"
+                ],
+    "outPorts": [
+                 "Out",
+                 "On Response",
+                 "On Error 404",
+                 "On Error connect"
+                 ],
+    "IIP": {
+        "required": {
+            "server": "<URL>"
+        },
+        "optional":{}
+    }
+}

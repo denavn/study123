@@ -1,0 +1,19 @@
+{
+    "name" : "Song Player", 
+    "category" : ["Sound"],
+    "UUID": 12,
+    "outPorts": [
+                 "Out"
+                 ],
+    "inPorts": [
+                "Play Song For Asset Key",
+                "Play Song For Asset Path"
+                ],
+    "IIP" : {
+        "required" :
+        {
+            "assetKey" : "<ASSET KEY>",
+            "assetPath" : "<PATH TO ASSET>"
+        }
+    }
+}

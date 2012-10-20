@@ -1,0 +1,127 @@
+[
+	{
+		"name": "HUD",
+		"type": "sprite",
+		"attrs": {
+			"frame": [0, 0, 480, 320]
+		},
+		"children": [
+			{
+				"name": "HeaderBar",
+				"type": "sprite",
+				"attrs": {
+					"frame": [0, 0, 480, 30],
+					"image": {
+						"url": "Content/HUD/header.png",
+						"size": [480, 30],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "PlayerHp",
+				"type": "sprite",
+				"attrs": {
+					"frame": [0, 6, 150, 15],
+					"image": {
+						"url": "Content/HUD/red.png",
+						"size": [90, 15],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "EnemyHp",
+				"type": "sprite",
+				"attrs": {
+					"frame": [270, 6, 150, 15],
+					"image": {
+						"url": "Content/HUD/red.png",
+						"size": [90, 15],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "Home",
+				"type": "button",
+				"attrs": {
+					"frame": [60, 270, 40, 40],
+					"normalImage": {
+						"url": "Content/HUD/button1.png",
+						"size": [40, 40],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["Home"]
+					}
+				}
+			},
+			{
+				"name": "1",
+				"type": "button",
+				"attrs": {
+					"frame": [140, 270, 40, 40],
+					"normalImage": {
+						"url": "Content/HUD/button2.png",
+						"size": [40, 40],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["2"]
+					}
+				}
+			},
+			{
+				"name": "2",
+				"type": "button",
+				"attrs": {
+					"frame": [220, 270, 40, 40],
+					"normalImage": {
+						"url": "Content/HUD/button3.png",
+						"size": [40, 40],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["3"]
+					}
+				}
+			},
+			{
+				"name": "3",
+				"type": "button",
+				"attrs": {
+					"frame": [300, 270, 40, 40],
+					"normalImage": {
+						"url": "Content/HUD/button4.png",
+						"size": [40, 40],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["4"]
+					}
+				}
+			},
+			{
+				"name": "4",
+				"type": "button",
+				"attrs": {
+					"frame": [380, 270, 40, 40],
+					"normalImage": {
+						"url": "Content/HUD/button5.png",
+						"size": [40, 40],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["5"]
+					}
+				}
+			}
+		]
+	}
+]

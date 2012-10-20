@@ -1,0 +1,16 @@
+{
+    "brief": "Checks if a defined property exists in the incomming message",
+    "full": {
+        "info": "Checks if a defined property exists in the incomming message",
+        "outPorts": {
+            "yes": {
+                "info": "the property in the IP defined",
+                "expects" : "IIP.required.property"
+            },
+            "no" :{
+                "info": "the property in the IP is not defined",
+                "expects" : "IIP.required.property"
+            }
+        }
+    }
+}

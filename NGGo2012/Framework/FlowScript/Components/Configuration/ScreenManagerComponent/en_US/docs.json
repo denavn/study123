@@ -1,0 +1,26 @@
+{
+    "brief": "Manages the Screen environment for you game",
+    "full": {
+        "info": "This component can be used to change the screen orientation or manage your \"virtual\" screen space",
+        "outPorts": {
+            "Out": {
+                "info": "Called once the system has set the orientation on the device",
+                "return": "The data passed into."
+            },
+            "Error": {
+                "info": "Output for when an error has occured"
+            }
+        },
+        "inPorts": {
+            "Enable Landscape": {
+                "info": "Enables landscape mode for the game",
+                "expects": "Nothing"
+            },
+            "Enable Portait": {
+                "info": "Enables portait mode for the game",
+                "expects": "Nothing"
+            }
+        }
+    }
+}
+

@@ -1,0 +1,61 @@
+{
+"skills" : {
+
+    "skill_01" : {
+      "name":"Skill 01",
+	  "type":"fire_skill",
+	  "damage": 50,
+	  "avatar" : "image.png",
+	  "position":{
+	  	"x":0,
+	  	"y":0
+	  },      
+	  "animation" : {
+		  "attack" : {
+			  "duration" : 50,
+			  "frameCount" : 5,
+			  "frameHeight" : 50,
+			  "frameWidth" : 50,
+			  "img" : "image.png"
+		   },
+		  "additional" : {
+			  "duration" : 50,
+			  "frameCount" : 5,
+			  "frameHeight" : 50,
+			  "frameWidth" : 50,
+			  "img" : "image.png"
+		   }
+		}
+	},
+	   
+	"skill_02" : {
+	  "name":"Skill 02",
+	  "type":"water_skill",
+	  "damage": 50,
+	  "avatar" : "image.png",
+	  "position":{
+	  	"x":0,
+	  	"y":0
+	  },      
+	  "animation" : {
+		  "attack" : {
+			  "duration" : 50,
+			  "frameCount" : 5,
+			  "frameHeight" : 50,
+			  "frameWidth" : 50,
+			  "img" : "image.png"
+		   },
+		  "additional" : {
+			  "duration" : 50,
+			  "frameCount" : 5,
+			  "frameHeight" : 50,
+			  "frameWidth" : 50,
+			  "img" : "image.png"
+		   }
+	   }
+	
+	 }
+	
+	 
+  } 
+}

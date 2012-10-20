@@ -1,0 +1,105 @@
+////////////////////////////////////////////////////////////////////////////////
+/**
+ *  @author     Shibukawa Yoshiki
+ *  Website:    https://developer.mobage.com/
+ *  Copyright:  (C) 2011 ngmoco:) inc. All rights reserved.
+ */
+////////////////////////////////////////////////////////////////////////////////
+
+// Core Package
+var MessageListener = require('../../../../NGCore/Client/Core/MessageListener').MessageListener;
+// GL2 Package
+var GL2  = require('../../../../NGCore/Client/GL2').GL2;
+
+
+/** @private */
+exports.FPSWatcher = MessageListener.singleton(
+{
+    initialize: function()
+    {
+        var now = +new Date();
+        this._startOneSec      = now;
+        this._fpsCount         = 0;
+        this._fpsResult        = 0;
+        this._startTime        = now;
+        this._isActivated      = false;
+        this._text             = undefined;
+        this._shadow           = undefined;
+        this._updateInterval   = 1000;
+        this._startInterval    = now;
+    },
+
+    activate: function()
+    {
+        if (! this._isActivated)
+        {
+            this._isActivated = true;
+            Core.UpdateEmitter.addListener( this, this.onUpdate );
+            var text = new GL2.Text();
+            text.setDepth(30000);
+            text.setAnchor(0, 0);
+            text.setPosition(10, 150);
+            text.setFontSize(15);
+            text.setColor(0.8, 0.8, 0.8);
+            var shadow = new GL2.Text();
+            shadow.setDepth(29999);
+            shadow.setAnchor(0, 0);
+            shadow.setPosition(12, 152);
+            shadow.setFontSize(15);
+            shadow.setColor(0, 0, 0);
+            GL2.Root.addChild(text);
+            GL2.Root.addChild(shadow);
+            this._text = text;
+            this._shadow = shadow;
+        }
+    },
+
+    deactivate: function()
+    {
+        if (this._isActivated)
+        {
+            this._isActivated = false;
+            Core.UpdateEmitter.removeListener( this );
+            this._text.destroy();
+            this._shadow.destroy();
+        }
+    },
+
+    get isActivated()
+    {
+        return this._isActivated;
+    },
+
+    set isActivated(value)
+    {
+        this._isActivated = Boolean(value);
+    },
+
+    onUpdate: function()
+    {
+        var now = +new Date();
+
+        //----- count the number of frame
+        this._fpsCount++;
+        if (now - this._startOneSec > 1000)
+        {
+            this._fpsResult = this._fpsCount;
+            this._fpsCount  = 0;
+            this._startOneSec = now;
+        }
+
+        //----- display result fps
+        if ((now - this._startInterval) > this._updateInterval)
+        {
+
+            this._startInterval = now;
+            var playtime = (now - this._startTime) / 1000;
+            var logline = "FPS: " + this._fpsResult
+                + "  Time: " + " (" + playtime + ")";
+            this._text.setText(logline);
+            this._shadow.setText(logline);
+        }
+    }
+});
+
+exports.FPSWatcher.instantiate();

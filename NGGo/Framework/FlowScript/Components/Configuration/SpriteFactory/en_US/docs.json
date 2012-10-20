@@ -1,0 +1,21 @@
+{
+    "brief": "Creates new sprites that will be show in your game",
+    "full": {
+        "info": "Creates new sprites that will be show in your game",
+        "outPorts": {
+            "Sprite": {
+                "info": "Called when the new sprite object has been created",
+                "return": "Sets ip.active to the sprite"
+            },
+            "Error": {
+                "info": "Output for when an error has occured creating the sprite"
+            }
+        },
+        "inPorts": {
+            "create": {
+                "info": "Message that will create the sprite",
+                "expects": "expects IIP.required.parent to be set.\nAlso expects IIP.optional.assetPath or IIP.optional.assetKey to be set.\nIf the assetKey is set then the AssetManager system will be used.\nIf the path is set then the raw data path will be used"
+            }
+        }
+    }
+} 

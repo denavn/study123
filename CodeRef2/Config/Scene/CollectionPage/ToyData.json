@@ -1,0 +1,81 @@
+[
+	{
+		"name": "ToyData",
+		"type": "sprite",
+		"attrs": {
+			"frame": [0, 0, 320, 480],
+			"image": {
+				"url": "Content/galaxy.png",
+				"size": [320, 480],
+				"anchor": [0, 0],
+				"uvs": [0, 0, 1, 1]
+			}
+		},
+		"children": [						
+			{
+				"name": "Toy",
+				"type": "button",
+				"attrs": {
+					"frame": [150, 180, 40, 40],
+					"normalImage": {
+						"url": "Content/CollectionPage/c1.png",
+						"size": [60, 60],
+						"anchor": [0, 0]
+					},					
+					"action": {
+						"name": "click",
+						"params": "Toy"
+					}
+				}
+			},
+			{
+				"name": "Toy1",
+				"type": "button",
+				"attrs": {
+					"frame": [10, 210, 60, 60],
+					"normalImage": {
+						"url": "Content/CollectionPage/c1.png",
+						"size": [60, 60],
+						"anchor": [0, 0]
+					},					
+					"action": {
+						"name": "click",
+						"params": "Toy1"
+					}
+				}
+			},
+			{
+				"name": "Toy2",
+				"type": "button",
+				"attrs": {
+					"frame": [110, 110, 60, 60],
+					"normalImage": {
+						"url": "Content/CollectionPage/c1.png",
+						"size": [60, 60],
+						"anchor": [0, 0]
+					},					
+					"action": {
+						"name": "click",
+						"params": "Toy2"
+					}
+				}
+			},
+			{
+				"name": "Toy4",
+				"type": "button",
+				"attrs": {
+					"frame": [120, 200, 40, 40],
+					"normalImage": {
+						"url": "Content/CollectionPage/c1.png",
+						"size": [240, 240],
+						"anchor": [0, 0]
+					},					
+					"action": {
+						"name": "click",
+						"params": "Toy4"
+					}
+				}
+			}
+		]
+	}
+]

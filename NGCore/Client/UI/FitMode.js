@@ -1,0 +1,1 @@
+exports.FitMode = require("./Commands").Commands.FitMode;

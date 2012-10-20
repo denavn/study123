@@ -1,0 +1,28 @@
+{
+    "brief": "HTTP based network communication",
+    "full": {
+        "info": "Sends a HTTP based Get request to a server",
+        "outPorts": {
+            "Out": {
+                "info": "Callback for when the message is sent but no response has been received yet"
+            },
+            "On Response": {
+                "info": "Callback made when the server has successfully send back some data to the client",
+                "return": "active object will contain the server response object given by the request"
+            },
+            "On Error 404": {
+                "info": "Callback made when the server could not locate the file",
+                "return":"active object will contain the server response object given by the request"
+            },
+            "On Error connect": {
+                "info": "Callback made when connection to the server has failed"
+            }
+        },
+        "inPorts": {
+            "make request": {
+                "info": "Triggers an http request event",
+                "expects": "iip.required.server to contine the URL of the rquest.  Any optional message can be sent via the iip.request.optional object.\n\n Example: iip.required.server = 'http://foo.com/test'\n iip.optional.name = 'hello'\n\n URL = http://foo.com/test?name=hello"
+            }
+        }
+    }
+}

@@ -1,0 +1,162 @@
+[
+	{
+		"name": "story1",
+		"type": "sprite",
+		"attrs": {
+			"frame": [240, 160, 480, 320],
+			"image": {
+				"url": "Content/bg.png",
+				"size": [480, 320],
+				"uvs": [0, 0, 1, 1],
+				"anchor" : [0.5, 0.5]
+			}
+		}
+	},
+	{
+		"name": "txt1",
+		"type": "text",
+		"attrs": {
+			"size" : [400,100],
+			"anchor" : [0,0],
+			"color" : [1, 0, 0],
+			"fontFamily" : "CourierNewPS-ItalicMT",
+			"position" : [-500, 20],
+			"text" : "Vo lam chi ton - Bao dao do long\nHieu lenh thien ha -Mac cam bat tong\nY thien bat xuat - Thuy du tranh phong",
+			"fontSize" : 18
+		}
+	},
+	{
+	 "name" : "bgtext1",
+	 "type" : "sprite",
+	 "attrs": {
+			"frame": [0, 0, 480, 200],
+			"image": {
+				"url": "Content/black.png",
+				"size": [480, 200],
+				"uvs": [0, 0, 1, 1],
+				"anchor" : [0, 0]
+			}
+		}
+	 },
+	{
+		"name": "story2",
+		"type": "sprite",
+		"attrs": {
+			"frame": [240, 160, 480, 320],
+			"image": {
+				"url": "Content/bg4.png",
+				"size": [480, 320],
+				"uvs": [0, 0, 1, 1],
+				"anchor" : [0.5, 0.5]
+			}
+		}
+	},
+	{
+		"name": "txt2",
+		"type": "text",
+		"attrs": {
+			"size" : [400,200],
+			"anchor" : [0,0],
+			"color" : [1,0 , 0],
+			"position" : [-40,330],
+			"fontFamily" : "CourierNewPS-ItalicMT",
+			"text" : "Nam quoc son ha nam de cu\nTiet nhien dinh phan tai thien thu\nNhu ha nghich lo lai xam pham\nNhu dang hanh khan thu bai hu",
+			"fontSize" : 16
+		}
+	},
+	{
+	 "name" : "bgtext2",
+	 "type" : "sprite",
+	 "attrs": {
+			"frame": [0, 0, 330, 380],
+			"image": {
+				"url": "Content/black.png",
+				"size": [300, 380],
+				"uvs": [0, 0, 1, 1],
+				"anchor" : [0, 0]
+			}
+		}
+	 },
+	{
+		"name": "story3",
+		"type": "sprite",
+		"attrs": {
+			"frame": [240, 160, 480, 320],
+			"image": {
+				"url": "Content/galaxy.png",
+				"size": [480, 320],
+				"uvs": [0, 0, 1, 1],
+				"anchor" : [0.5, 0.5]
+			}
+		}
+	},
+	{
+		"name": "txt3",
+		"type": "text",
+		"attrs": {
+			"size" : [400,200],
+			"anchor" : [0,0],
+			"color" : [1, 1, 1],
+			"fontFamily" : "CourierNewPS-ItalicMT",
+			"position" : [480,20],
+			"text" : "Tinh da tu \nSang tien minh nguyet quang\nNghi thi đia thuong suong,\nCu dau vong minh nguyet\nDe dau tu co huong",
+			"fontSize" : 22
+		}
+	},
+	{
+     "name" : "bgtext3",
+     "type" : "sprite",
+     "attrs": {
+            "frame": [200, 0, 300, 320],
+            "image": {
+                "url": "Content/black.png",
+                "size": [300, 320],
+                "uvs": [0, 0, 1, 1],
+                "anchor" : [0, 0]
+            }
+        }
+     },
+	{
+	 "name": "btnNext",
+     "type": "sprite",
+     "attrs": {
+			"frame": [400, 280, 50, 30],
+			"image": {
+				"url": "Content/viet/arrow.png",
+				"size": [50, 30],
+				"uvs": [0, 0, 1, 1],
+				"anchor" : [0, 0]
+			}
+		}
+	},
+	{
+	 "name" : "bgtext3",
+	 "type" : "sprite",
+	 "attrs": {
+			"frame": [480, 100, 480, 80],
+			"image": {
+				"url": "Content/black.png",
+				"size": [480, 80],
+				"uvs": [0, 0, 1, 1],
+				"anchor" : [0, 0]
+			}
+		}
+	 },
+	{
+	 "name" : "CONF",
+	 "type" : "StoryScene",
+	 "attrs" : {
+	 	"description" : "This is description for each Scene",
+	 	"debug" : true,
+	 	"debugAttrs" : ["bgtextAlpha", "posTextBgMove", "posTextMove", "tScale", "bgScale", "tEachStory", "debug"],
+	 	"tEachStory" : 15,
+	 	"bgScale" : [1.5,1.5],
+	 	"tScale" : 12,
+	 	"tTextMove" : 4,
+	 	"posTextMove" : [20,20],
+	 	"posTextBgMove" : [0,100],
+	 	"bgtextAlpha" : 0.8
+	 	}
+	 }
+]
+

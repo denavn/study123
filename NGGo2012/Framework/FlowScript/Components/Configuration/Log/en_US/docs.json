@@ -1,0 +1,16 @@
+{
+    "brief": "Outputs information to the TTY",
+    "full": {
+        "info": "Outputs information to the TTY",
+        "outPorts": {
+            "Out": {
+                "info": "Passes IP received back out"
+            } 
+        },
+        "inPorts": {
+            "in": {
+                "info": "if the ip.message or ip.error is set it will display that message to the tty"
+            }
+        }
+    }
+}

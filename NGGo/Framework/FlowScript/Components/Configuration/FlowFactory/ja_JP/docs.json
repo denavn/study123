@@ -1,0 +1,22 @@
+{
+    "brief" : "The flow script factory will open and execute a new flow script",
+    "full" : {
+        "info" : "The flow script factory will open and execute a new flow script.  When the created script has completed it will trigger an event on the outport 'On Network Close'",
+        "outPorts" : {
+            "On Network Closed" : {
+                "info" : "Called when a network has closed",
+                "return" : "A new IP will be sent"
+            },
+            "On Error" : {
+                "info" : "Called when error has occured when launching the script.  This will set the ip field 'error'",
+                "return" : "ip used to create the script"
+            }
+        },
+        "inPorts" : {
+            "Open Network" : {
+                "info" : "Open up a new network port.  If the IIP script file is undefined then it try to create a script based on the name given in ip.active",
+                "expects" : "IIP.required.script to be set or ip.active to be name of script"
+            }
+        }
+    }
+}

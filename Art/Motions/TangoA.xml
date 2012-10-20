@@ -1,0 +1,32 @@
+<Motion duration="84" xmlns="fl.motion.*" xmlns:geom="flash.geom.*" xmlns:filters="flash.filters.*">
+	<source>
+		<Source frameRate="24" x="42.5" y="419.5" scaleX="1" scaleY="1" rotation="0" elementType="graphic" symbolName="Dancer1Tween">
+			<dimensions>
+				<geom:Rectangle left="-42.5" top="-60.5" width="85" height="121"/>
+			</dimensions>
+			<transformationPoint>
+				<geom:Point x="0.5" y="0.5"/>
+			</transformationPoint>
+		</Source>
+	</source>
+
+	<Keyframe index="0" tweenSnap="true">
+		<tweens>
+			<SimpleEase ease="0"/>
+		</tweens>
+	</Keyframe>
+
+	<Keyframe index="47" tweenSnap="true" x="235">
+		<tweens>
+			<SimpleEase ease="0"/>
+		</tweens>
+	</Keyframe>
+
+	<Keyframe index="64" tweenSnap="true" x="111" y="-117">
+		<tweens>
+			<SimpleEase ease="0"/>
+		</tweens>
+	</Keyframe>
+
+	<Keyframe index="83" x="0" y="0"/>
+</Motion>

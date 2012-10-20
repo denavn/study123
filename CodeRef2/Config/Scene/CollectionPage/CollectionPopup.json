@@ -1,0 +1,50 @@
+[
+	{
+		"name": "CollectionPopup",
+		"type": "sprite",
+		"attrs": {
+			"frame": [0, 0, 320, 480],
+			"image": {
+				"url": "Content/galaxy.png",
+				"size": [320, 480],
+				"anchor": [0, 0],
+				"uvs": [0, 0, 1, 1]
+			}
+		},
+		"children": [			
+			{
+				"name": "GotoCollectionPage",
+				"type": "button",
+				"attrs": {
+					"frame": [280, 10, 40, 40],
+					"normalImage": {
+						"url": "Content/home.png",
+						"size": [60, 60],
+						"anchor": [0, 0]
+					},
+					"text": "CollecionPage",
+					"action": {
+						"name": "click",
+						"params": "GotoCollectionPage"
+					}
+				}
+			},
+			{
+				"name": "Toy",
+				"type": "button",
+				"attrs": {
+					"frame": [130, 180, 80, 80],
+					"normalImage": {
+						"url": "Content/CollectionPage/c1.png",
+						"size": [80, 80],
+						"anchor": [0, 0]
+					},					
+					"action": {
+						"name": "click",
+						"params": "Toy"
+					}
+				}
+			}
+		]
+	}
+]

@@ -1,0 +1,19 @@
+{
+    "name" : "Motion Player",
+    "UUID": 10,
+    "category" : ["Animation"],
+    "outPorts": [
+                 "Out",
+                 "On Motion Complete",
+                 "Error"
+                 ],
+    "inPorts": [
+                "Play",
+                "Stop"
+                ],
+    "IIP": {
+        "optional": {
+            "property": "<NAME_OF_PROPERTY>"
+        }
+    }
+}

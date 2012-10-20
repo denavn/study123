@@ -1,0 +1,67 @@
+var SceneFactory = require('../NGGo/Framework/Scene/SceneFactory').SceneFactory;
+exports.Scene = {
+    register: function () {
+//++@
+        SceneFactory.register(require('./Scene/BattleJoinScene').BattleJoinScene);
+        SceneFactory.register(require('./Scene/BattleListScene').BattleListScene);
+        SceneFactory.register(require('./Scene/BattleProcessScene').BattleProcessScene);
+        SceneFactory.register(require('./Scene/BattleReadyScene').BattleReadyScene);
+        SceneFactory.register(require('./Scene/BattleResultScene').BattleResultScene);
+        SceneFactory.register(require('./Scene/BattleScene').BattleScene);
+        SceneFactory.register(require('./Scene/BossAppearScene').BossAppearScene);
+        SceneFactory.register(require('./Scene/BossBattleScene').BossBattleScene);
+        SceneFactory.register(require('./Scene/BossResultScene').BossResultScene);
+        SceneFactory.register(require('./Scene/CaptureAppearScene').CaptureAppearScene);
+        SceneFactory.register(require('./Scene/CaptureBattleScene').CaptureBattleScene);
+        SceneFactory.register(require('./Scene/CaptureResultScene').CaptureResultScene);
+        SceneFactory.register(require('./Scene/CollectionMapScene').CollectionMapScene);        
+        SceneFactory.register(require('./Scene/CollectionShowScene').CollectionShowScene);   
+        SceneFactory.register(require('./Scene/HeroCollectionScene').HeroCollectionScene);   
+        SceneFactory.register(require('./Scene/HeroShowScene').HeroShowScene);   
+        SceneFactory.register(require('./Scene/CombineBaseSelectScene').CombineBaseSelectScene);
+        SceneFactory.register(require('./Scene/CombineMultiSelectScene').CombineMultiSelectScene);
+        SceneFactory.register(require('./Scene/CombineReadyScene').CombineReadyScene);
+        SceneFactory.register(require('./Scene/CombineResultScene').CombineResultScene);
+        SceneFactory.register(require('./Scene/CombineSingleSelectScene').CombineSingleSelectScene);
+        SceneFactory.register(require('./Scene/EpisodeListScene').EpisodeListScene);
+        SceneFactory.register(require('./Scene/FeedDetailScene').FeedDetailScene);
+        SceneFactory.register(require('./Scene/FeedListScene').FeedListScene);
+        SceneFactory.register(require('./Scene/FriendListScene').FriendListScene);
+        SceneFactory.register(require('./Scene/FriendPendingCompleteScene').FriendPendingCompleteScene);
+        SceneFactory.register(require('./Scene/FriendPendingConfirmScene').FriendPendingConfirmScene);
+        SceneFactory.register(require('./Scene/FriendRequestCancelCompleteScene').FriendRequestCancelCompleteScene);
+        SceneFactory.register(require('./Scene/FriendRequestCancelConfirmScene').FriendRequestCancelConfirmScene);
+        SceneFactory.register(require('./Scene/ItemListScene').ItemListScene);
+        SceneFactory.register(require('./Scene/ItemUseScene').ItemUseScene);
+        SceneFactory.register(require('./Scene/KKDMaxDetailScene').KKDMaxDetailScene);
+        SceneFactory.register(require('./Scene/KKDMaxScene').KKDMaxScene);
+        SceneFactory.register(require('./Scene/LevelUpDetailScene').LevelUpDetailScene);
+        SceneFactory.register(require('./Scene/LevelUpScene').LevelUpScene);
+        SceneFactory.register(require('./Scene/LoadingScene').LoadingScene);
+        SceneFactory.register(require('./Scene/LoseScene').LoseScene);
+        SceneFactory.register(require('./Scene/MenuScene').MenuScene);
+        SceneFactory.register(require('./Scene/MissionCompleteDetailScene').MissionCompleteDetailScene);
+        SceneFactory.register(require('./Scene/MissionCompleteScene').MissionCompleteScene);
+        SceneFactory.register(require('./Scene/MissionListScene').MissionListScene);
+        SceneFactory.register(require('./Scene/MissionMovieScene').MissionMovieScene);
+        SceneFactory.register(require('./Scene/MissionScene').MissionScene);
+        SceneFactory.register(require('./Scene/ModalDialogScene').ModalDialogScene);
+        SceneFactory.register(require('./Scene/MovieScene').MovieScene);
+        SceneFactory.register(require('./Scene/MyPageScene').MyPageScene);
+        SceneFactory.register(require('./Scene/OthersMyPageScene').OthersMyPageScene);
+        SceneFactory.register(require('./Scene/PokeScene').PokeScene);
+        SceneFactory.register(require('./Scene/ProfileScene').ProfileScene);
+        SceneFactory.register(require('./Scene/RequestSecretScene').RequestSecretScene);
+        SceneFactory.register(require('./Scene/ShopFinishScene').ShopFinishScene);
+        SceneFactory.register(require('./Scene/ShopItemScene').ShopItemScene);
+        SceneFactory.register(require('./Scene/ShopListScene').ShopListScene);
+        SceneFactory.register(require('./Scene/StaminaEmptyScene').StaminaEmptyScene);
+        SceneFactory.register(require('./Scene/StatusScene').StatusScene);
+        SceneFactory.register(require('./Scene/TagScene').TagScene);
+        SceneFactory.register(require('./Scene/TagSelectScene').TagSelectScene);
+        SceneFactory.register(require('./Scene/WelcomeScene').WelcomeScene);
+        SceneFactory.register(require('./Scene/WinScene').WinScene);
+//--@
+    }
+};
+

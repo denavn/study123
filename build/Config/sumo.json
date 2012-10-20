@@ -1,0 +1,124 @@
+{
+"sumos" : {
+
+    "sumo_01" : {
+      "name" : "Sumoning 1",
+      "type" : "sumo",
+      "hp" : 500,
+      "attack" : 25,
+      "attackInterval" : 1000,
+      "defense" : 10,
+      "speed" : 50,
+      "move_type" : {
+      	"type":"small_jump",
+      	"step":1
+      },
+      "avatar" : "avatar.png",
+      "animation" : {
+       "stand" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.png"
+        },
+        "move" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.png"
+        },
+        "damage" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.png"
+        },
+        "attack" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.img"
+        },
+        "dead" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 90,
+          "img" : "image.png"
+        },
+        "additional" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 90,
+          "img" : "image.png"
+        }
+      }
+      
+    },
+    
+    "monster_01" : {
+      "name" : "Monster 1",
+      "type" : "sumo",
+      "hp" : 500,
+      "attack" : 25,
+      "attackInterval" : 1000,
+      "defense" : 10,
+      "speed" : 50,
+      "move_type" : {
+      	"type":"small_jump",
+      	"step":1
+      },
+      "avatar" : "avatar.png",
+      "animation" : {
+       "stand" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.png"
+        },
+        "move" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.png"
+        },
+        "damage" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.png"
+        },
+        "attack" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 50,
+          "img" : "image.img"
+        },
+        "dead" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 90,
+          "img" : "image.png"
+        },
+        "additional" : {
+          "duration" : 50,
+          "frameCount" : 5,
+          "frameHeight" : 50,
+          "frameWidth" : 90,
+          "img" : "image.png"
+        }
+      }
+    }
+    
+  }
+}

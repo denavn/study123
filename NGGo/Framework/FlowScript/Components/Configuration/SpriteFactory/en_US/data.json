@@ -1,0 +1,32 @@
+{
+    "name" : "Sprite Factory",
+    "UUID": 7,
+    "category" : ["Visual"],
+    "outPorts": [
+                 "Sprite",
+                 "Error"
+                 ],
+    "inPorts": [
+                "create"
+                ],
+    "IIP": {
+        "required": {
+            "parent": "GL2Root"
+        },
+        "optional": {
+            "assetPath": "<PATH TO ASSET>",
+            "assetKey": "<ADD ASSET KEY>",
+            "anchor_x": 0.5,
+            "anchor_y": 0.5,
+            "size_x": 100,
+            "size_y": 100,
+            "pos_x": 0,
+            "pos_y": 0,
+            "depth": 1,
+            "u_start": 0,
+            "u_end": 1,
+            "v_start": 0,
+            "v_end": 1
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="Service/|Service/Data/|GLUI/|Service/Network/|Foundation/|Service/Network/HTTP/|Service/Audio/|Service/Graphics/|Framework/FlowScript/|Framework/Scene/|Framework/|Service/Storage/|Service/Display/_DebugMenu/|Server/|Server/Modules/|Foundation/Math/|Framework/FlowScript/Components/|Service/Display/" kind="src" path=""/>
+	<classpathentry excluding="Math/" kind="src" path="Foundation"/>
+	<classpathentry kind="src" path="Foundation/Math"/>
+	<classpathentry excluding="FlowScript/|Scene/|FlowScript/Components/" kind="src" path="Framework"/>
+	<classpathentry excluding="Components/" kind="src" path="Framework/FlowScript"/>
+	<classpathentry kind="src" path="Framework/FlowScript/Components"/>
+	<classpathentry kind="src" path="Framework/Scene"/>
+	<classpathentry kind="src" path="GLUI"/>
+	<classpathentry excluding="Modules/" kind="src" path="Server"/>
+	<classpathentry kind="src" path="Server/Modules"/>
+	<classpathentry excluding="Data/|Network/|Network/HTTP/|Audio/|Graphics/|Storage/|Display/_DebugMenu/|Display/" kind="src" path="Service"/>
+	<classpathentry kind="src" path="Service/Audio"/>
+	<classpathentry kind="src" path="Service/Data"/>
+	<classpathentry excluding="_DebugMenu/" kind="src" path="Service/Display"/>
+	<classpathentry kind="src" path="Service/Display/_DebugMenu"/>
+	<classpathentry kind="src" path="Service/Graphics"/>
+	<classpathentry excluding="HTTP/" kind="src" path="Service/Network"/>
+	<classpathentry kind="src" path="Service/Network/HTTP"/>
+	<classpathentry kind="src" path="Service/Storage"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

@@ -1,0 +1,17 @@
+{
+    "brief": "Attaches a sprite animation to an object",
+    "full": {
+        "info": "Attaches a sprite animation to an object",
+        "outPorts": {
+            "Out": {
+                "info": "Passes IP received back out"
+            } 
+        },
+        "inPorts": {
+            "Set Animation": {
+                "info": "Attaches a Sprite Animation defined by the ngFlow animation system",
+                "expects" : "ip.active to be sprite object.  Also expects IIP.required.group and IIP.required.type to be set based on the infomation defined in the ngBuilder 'Animation' tab of the editor"
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "brief": "Component to stop your script",
+    "full": {
+        "info": "When a message is passed into this component, the script will be stopped",
+        "inPorts": {
+            "Exit Script": {
+                "info": "Shuts the script down",
+                "expects": "Nothing"
+            }
+        }
+    }
+}

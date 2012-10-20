@@ -1,0 +1,20 @@
+{
+	"code":[
+		"./NGCore/Client/Legacy.js",
+		"./Code/Main.js"
+	],
+
+	"textures":[
+		"./Content/*.png"
+	],
+
+	"audio":[
+		
+	],
+
+	"other":[
+		"./Config/*.json",
+		"./Content/*.plist",
+		"./Content/viet/*.ttf"
+	]		
+}

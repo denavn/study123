@@ -1,0 +1,17 @@
+{
+    "name" : "Message Gate",
+    "UUID": 14,
+    "category" : ["Logical"],
+    "inPorts": [
+                "in",
+                "active in"
+                ],
+    "outPorts": [
+                 "out"
+                 ],
+    "IIP": {
+        "required": {
+            "count": 1
+        }
+    }
+}

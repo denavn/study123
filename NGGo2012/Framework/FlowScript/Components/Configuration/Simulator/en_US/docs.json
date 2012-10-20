@@ -1,0 +1,14 @@
+{
+    "brief": "Generates update ticks to be used by the scripts",
+    "full": {
+        "info": "Generates update ticks to be used by the scripts",
+        "outPorts": {
+            "Sim Event": {
+                "info": "Generates an update tick each frame of the game"
+            }, 
+            "First Event": {
+                "info": "Generates a tick only once when the Simulator object has been first started"
+            } 
+        }
+    }
+}

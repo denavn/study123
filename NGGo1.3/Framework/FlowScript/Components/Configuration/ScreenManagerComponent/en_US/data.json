@@ -1,0 +1,7 @@
+{
+    "name" : "Screen Manager",
+    "UUID": 19,
+    "inPorts" : ["Enable Landscape", "Enable Portrait"],
+    "outPorts": [ "Out", "Error" ],
+    "category" : ["ngGo"]
+}

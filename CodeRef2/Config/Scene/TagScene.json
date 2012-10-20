@@ -1,0 +1,89 @@
+[
+	{
+		"name": "TagOne",
+		"type": "sprite",
+		"attrs": {
+			"frame": [0, 0, 320, 480],
+			"image": {
+				"url": "Content/tag/tag_change_BG2.png",
+				"size": [320, 480],
+				"anchor": [0, 0],
+				"uvs": [0, 0, 1, 1]
+			}
+		},
+		"children": [
+			{
+				"name": "Status",
+				"type": "image",
+				"attrs": {
+					"frame": [0, 0, 320, 60],
+					"normalImage": {
+						"url": "Content/tag/dmy_status.png",
+						"size": [320, 60],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "Home",
+				"type": "button",
+				"attrs": {
+					"frame": [284, 5, 36, 36],
+					"normalImage": {
+						"url": "Content/tag/btn_home.png",
+						"size": [36, 36],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["HomeButton"]
+					}
+				}
+			},
+			{
+				"name": "Tag",
+				"type": "image",
+				"attrs": {
+					"frame": [84, 126, 152, 128],
+					"normalImage": {
+						"url": "Content/tag/tag_change_TAG.png",
+						"size": [152, 128],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "Tag1",
+				"type": "button",
+				"attrs": {
+					"frame": [12, 268, 136, 49],
+					"image": {
+						"url": "Content/tag/tag_change-BT1.png",
+						"size": [136, 49],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["Tag1Button"]
+					}
+				}
+			},
+			{
+				"name": "Tag2",
+				"type": "button",
+				"attrs": {
+					"frame": [176, 268, 136, 49],
+					"normalImage": {
+						"url": "Content/tag/tag_change_BT2.png",
+						"size": [136, 49],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["Tag2Button"]
+					}
+				}
+			}
+		]
+	}
+]

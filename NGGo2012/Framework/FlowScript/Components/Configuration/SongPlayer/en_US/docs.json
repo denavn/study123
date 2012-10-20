@@ -1,0 +1,19 @@
+{
+    "brief": "Plays a song in a loop",
+    "full": {
+        "info": "Plays a song in a loop",
+        "outPorts": {
+            "Out": {
+                "info": "Passes IP received back out"
+            } 
+        },
+        "inPorts": {
+            "Play Song For Asset Key": {
+                "info": "Plays the song defined in the IIP.required.assetKey, using the AssetManager system"
+            },
+            "Play Song For Asset Path": {
+                "info": "Plays the song defined in the IIP.required.assetPath, uses the raw file path location"
+            }
+        }
+    }
+}

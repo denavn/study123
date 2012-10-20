@@ -1,0 +1,22 @@
+{
+    "name" : "Black Board",
+    "UUID": 9,
+    "outPorts": [ "Out", "Error" ],
+    "category" : ["Storage"],
+    "inPorts":
+    [
+        "Write",
+        "Read",
+        "Erase",
+        "Erase All",
+        "Print Black Board"
+    ],
+    "IIP":
+    {
+        "required":
+        {
+            "read_property": "<NAME_OF_PROPERTY>",
+            "write_property": "<NAME_OF_PROPERTY>"
+        }
+    }
+}

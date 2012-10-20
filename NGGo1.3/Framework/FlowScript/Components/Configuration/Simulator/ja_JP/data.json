@@ -1,0 +1,9 @@
+{
+    "name" : "Simulator",
+    "category" : ["Logical"],
+    "UUID": 6,
+    "outPorts": [
+                 "Sim Event",
+                 "First Event"
+                 ]
+}

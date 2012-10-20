@@ -1,0 +1,17 @@
+{
+    "name" : "Sprite Animation Player",
+    "category" : ["Animation"],
+    "UUID": 16,
+    "inPorts": [
+                "Set Animation"
+                ],
+    "outPorts": [
+                 "Out"
+                 ],
+    "IIP": {
+        "required": {
+            "group": "<GROUP>",
+            "type": "<ANIMATION_TYPE>"
+        }
+    }
+}

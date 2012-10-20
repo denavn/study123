@@ -1,0 +1,15 @@
+{
+    "brief": "Generates an event with the script is started",
+    "full": {
+        "info": "Generates an event with the script is started.  This event will trigger each time the script is executed",
+        "outPorts": {
+            "Out": {
+                "info": "Event",
+                "return": "Empty data"
+            },
+            "Error": {
+                "info": "Output for when an error has occured with a Starting of the script"
+            }
+        }
+    }
+}

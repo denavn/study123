@@ -1,0 +1,10 @@
+{
+	"Screen": {
+		"depth": 0,
+		"childrenDepthGrouped": true,
+		"children": {
+			"CameraScreen": { "depth": 1 },
+			"StaticScreen": { "depth": 2 }
+		}
+	}
+}

@@ -1,0 +1,9 @@
+{
+    "name" : "Exit Script",
+    "UUID": 18,
+    "category" : ["Script"],
+    "inPorts":
+    [
+        "Exit Script"
+    ]
+}

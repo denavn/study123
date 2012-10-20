@@ -1,0 +1,19 @@
+{
+    "name" : "Sound Effect", 
+    "category" : ["Sound"],
+    "UUID": 11,
+    "outPorts": [
+                 "Out"
+                 ],
+    "inPorts": [
+                "Play Effect For Asset Key",
+                "Play Effect For Asset Path"
+                ],
+    "IIP" : {
+        "required" :
+        {
+            "assetKey" : "<ASSET KEY>",
+            "assetPath" : "<PATH TO ASSET>"
+        }
+    }
+}

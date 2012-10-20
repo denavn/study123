@@ -1,0 +1,15 @@
+{
+	"mySetting": {
+        "camera_zoom_in": 3.0,
+        "camera_zoom_out": 1.0,
+        "camera_double_tap_dist": 64,
+        "camera_double_tap_time": 400,
+        "camera_zoom_time": 1.0,
+        "camera_velocity_friction": 0.85,
+        "camera_delta_friction": 0.2,
+        "camera_snap_decay": 0.6,
+        "camera_max_velocity": 40,
+        "camera_friction": 0.875,
+        "camera_starting_zoom": 1.0
+	}
+}

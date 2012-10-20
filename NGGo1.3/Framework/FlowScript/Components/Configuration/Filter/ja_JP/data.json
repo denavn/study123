@@ -1,0 +1,17 @@
+{
+    "name" : "Property Filter",
+    "category" : ["Logical"], 
+    "UUID": 2,
+    "IIP": {
+        "required": {
+            "property": "value"
+        }
+    },
+    "inPorts": [
+                "in"
+                ],
+    "outPorts": [
+                 "yes",
+                 "no"
+                 ]
+}

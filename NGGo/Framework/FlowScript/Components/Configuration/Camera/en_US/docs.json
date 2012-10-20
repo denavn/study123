@@ -1,0 +1,46 @@
+{
+    "brief" : "Camera Wrapper",
+    "full" : {
+        "info" : "Wrapper around the ngGo Camera System.  It is assumed by this module that the Camera is basically a singleton object",
+       "outPorts" : {
+           "Out" : {
+                "info" : "INFO",
+                "return" : "RETURN"
+           },
+           "OnCameraMotionStop" : {
+                "info" : "INFO",
+                "return" : "RETURN"
+           },
+           "OnCameraMotionStart" : {
+                "info" : "INFO",
+                "return" : "RETURN"
+           },
+           "OnCameraMotion" : {
+                "info" : "INFO",
+                "return" : "RETURN"
+           },
+           "OnCameraZoomIn" : {
+                "info" : "INFO",
+                "return" : "RETURN"
+           },
+           "OnCameraZoomOut" : {
+                "info" : "INFO",
+                "return" : "RETURN"
+           }
+        },
+        "inPorts" : {
+            "Assign Touchable" : {
+                "info" : "INFO",
+                "expects" : "EXPECTS"
+            }
+        },
+        "IIP" :
+        {
+            "camera_def" :
+            {
+                "type" : "String",
+                "info" : "The \"type\" of camera this is. This key should come from the data in the \"Camera Tunables\" object."
+            }
+        }
+    }
+}
