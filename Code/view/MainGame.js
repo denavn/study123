@@ -118,10 +118,14 @@ exports.MainGame = Core.Class.subclass({
             gradient: [ "FF55 0.0", "FF00 1.0"],
         },
         onClick: function(event) {
-              Log("Back button onclicked + currentScene = " + SceneDirector.currentScene.sceneName);
-                if(SceneDirector.currentScene.sceneName != "DEBUG_SCENE")
-                    SceneDirector.pop();
-                else SceneDirector.currentScene.controller._initBackKey();
+              //Log("Back button onclicked + currentScene = " + SceneDirector.currentScene.sceneName);
+                if(!SceneDirector.currentScene) { return;}
+                if(SceneDirector.currentScene.sceneName != "DEBUG_SCENE") {
+                	SceneDirector.pop();
+                }
+                else{
+                	SceneDirector.currentScene.controller._initBackKey();
+                }
              
         }
     })

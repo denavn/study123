@@ -14,6 +14,7 @@ var GlobalParameter 	= require('../utils/GlobalParameter').GlobalParameter;
 var SpecialMission 		= require('../module/cutscene/SpecialMission').SpecialMission;
 var BattleEntry 		= require('../module/battle/BattleEntry').BattleEntry;
 var Logger 				= require('../utils/Logger').Logger;
+var MissionScene 		= require('../module/mission/MissionScene').MissionScene;
 
 var debugSceneController = 
 {
@@ -31,9 +32,8 @@ var debugSceneController =
         	this.gotoBattle(self);
         } else if (battleName === "Mission") {
         	console.log("NDL:---- Mission");
-        	//SceneDirector.pop();
-   			//SceneDirector.push(new SpecialMission(null, "SPECIAL", "MISSION!!"));
-   			//SceneDirector.transition("CUT_SCENE");
+        	this.transitionToMission();
+        	
         } else if (battleName === "Test") {
         	this.transitionToTest();
         	var a = [];
@@ -74,7 +74,10 @@ var debugSceneController =
         this._scene.node.setTouchable(false);
         SceneDirector.push("HOME_SCENE");
     },
-    
+    transitionToMission: function() {
+		console.log("Jump into mission");
+		SceneDirector.push("MISSION_SCENE");
+    },
 	_initBackKey: function () {
 		// back key
 		var KeyListener = Core.MessageListener.singleton ({
