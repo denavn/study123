@@ -1,4 +1,4 @@
-var ModelBase = require('./ModelBase').ModelBase;
+var ModelBase = require('../../../../model/Entity/ModelBase').ModelBase;
 
 exports.Mission = ModelBase.subclass({
     classname: "Mission",

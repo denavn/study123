@@ -1,4 +1,4 @@
-var ModelBase = require('./ModelBase').ModelBase;
+var ModelBase = require('../../../../model/Entity/ModelBase').ModelBase;
 var GL2		  = require('../../../../../NGCore/Client/GL2').GL2;
 var SumoUtil = require('../../../../utils/SumoUtil').SumoUtil;
 var AnimationManager = require('../../../../../NGGo/Framework/AnimationManager').AnimationManager;

@@ -1,6 +1,6 @@
 var Core = require('../../../NGCore/Client/Core').Core;
 
-exports.ModelBase = Core.Class.subclass({
+exports.ModelBase = Core.MessageListener.subclass({
     classname: 'ModelBase',
 
     initialize: function (d) {
