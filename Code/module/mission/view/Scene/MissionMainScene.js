@@ -15,6 +15,7 @@ var TouchManager 	 = require('../../../../utils/TouchManager').TouchManager;
 
 var mainScene = {
 	initialize: function() {
+		TouchManager.initialize();
 		this.controller = new MissionMainSceneController();
 		
 		this.mission = new Mission();
@@ -53,6 +54,9 @@ var mainScene = {
 	onExit: function(nextScene, option) {
 		this.node.destroy();
 		TouchManager.instance().destroy();
+		if(this.mission) {
+			this.mission.destroy();
+		}
 	}
 };
 
