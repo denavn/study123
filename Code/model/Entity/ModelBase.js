@@ -31,7 +31,7 @@ exports.ModelBase = Core.MessageListener.subclass({
     },
 
     destroy: function() {
-        removeAllListers();
+        this.removeAllListers();
     },
 
     dispath: function() {

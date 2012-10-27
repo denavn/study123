@@ -10,59 +10,35 @@ var ParticleEmitter = require('../../../../NGGo/Service/Graphics/ParticleEmitter
 var Logger 			= require('../../../utils/Logger').Logger;
 var UI 				= require('../../../../NGCore/Client/UI').UI;
 var BattleEntry= require('../../battle/BattleEntry').BattleEntry;
+var TouchManager 	 = require('../../../utils/TouchManager').TouchManager;
 
 var mainSceneController = 
 {
 	
 	initialize: function() {
 		this.currentBattle = "";
-		this.enemyTurn = false;
-		this.isFightingE = false;
-		this.isFighting = false;
-		this._skillTypeS = 1;
-		this._skillTypeE = 1;
 		this._addGoButton();
 	},
-    
-	initData: function(sumoObj, isEnemy) {
-		var hp = 200;
-		var ap = 1000;
-		var dp = 400;
-		var name = "dragon";
-		
-		if (isEnemy) {
-			if (this.currentBattle === "Battle1") {
-				ap = 600;
-				dp = 300;
-			} else {
-				ap = 1600;
-				dp = 600;
-			}
-		}
-		
-		sumoObj.hp = hp;
-		sumoObj.ap = ap;
-		sumoObj.dp = dp;
-		sumoObj.name = name;
-	},
-	
+    	
 	setupHero: function(hero) {		
 		if(hero) {
 				hero.setAnim("hero", "stand");
 				this.MainGame.addChild(hero.getAnim());
 		}
-			
 	},
 	setupMonster: function(monsters) {		
 		if(monsters) {
 			for(var i in monsters) {
 				var mon = monsters[i];
+				TouchManager.instance().addListener(this, mon.touch, this.onTouch);
 				mon.setAnim("evil", "stand");
 				this.MainGame.addChild(mon.getNode());
 			}
 		}
 	},
-	
+	onTouch:function(touch) {
+		console.log("NDL----onTouch");
+	},
 	_addGoButton: function() {
 		this.nextButton = new UI.Button({
 			frame: [400, 10, 60, 30],
