@@ -1,0 +1,196 @@
+[
+	{
+		"name": "HUD",
+		"type": "sprite",
+		"attrs": {
+			"frame": [0, 0, 480, 320]
+		},
+		"children": [
+			{
+				"name": "HeaderBar",
+				"type": "sprite",
+				"attrs": {
+					"frame": [58, 255, 360, 60],
+					"image": {
+						"url": "Content/battle/HUD/bar.png",
+						"size": [360, 60],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "PlayerHp",
+				"type": "sprite",
+				"attrs": {
+					"frame": [111, 270, 100, 10],
+					"image": {
+						"url": "Content/battle/HUD/hp.png",
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "EnemyHp",
+				"type": "sprite",
+				"attrs": {
+					"frame": [365, 270, 100, 10],
+					"image": {
+						"url": "Content/battle/HUD/hp.png",
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "SkillHolder1",
+				"type": "sprite",
+				"attrs": {
+					"frame": [114, 283, 90, 26],
+					"image": {
+						"url": "Content/battle/HUD/rings.png",
+						"size": [90, 20],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "SkillHolder2",
+				"type": "sprite",
+				"attrs": {
+					"frame": [274, 283, 90, 26],
+					"image": {
+						"url": "Content/battle/HUD/rings.png",
+						"size": [90, 20],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "avatar1",
+				"type": "sprite",
+				"attrs": {
+					"frame": [112, 257, 53, 53],
+					"image": {
+						"url": "Content/battle/HUD/avatar_1.png",
+						"size": [53, 53],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "1",
+				"type": "button",
+				"attrs": {
+					"frame": [115, 283, 25, 25],
+					"normalImage": {
+						"url": "Content/battle/HUD/skill_1.png",
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["1"]
+					}
+				}
+			},
+			{
+				"name": "2",
+				"type": "button",
+				"attrs": {
+					"frame": [146.5, 283, 25, 25],
+					"normalImage": {
+						"url": "Content/battle/HUD/skill_1.png",
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["2"]
+					}
+				}
+			},
+			{
+				"name": "3",
+				"type": "button",
+				"attrs": {
+					"frame": [178, 283, 25, 25],
+					"normalImage": {
+						"url": "Content/battle/HUD/skill_1.png",
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["3"]
+					}
+				}
+			},
+			{
+				"name": "avatar2",
+				"type": "sprite",
+				"attrs": {
+					"frame": [361, 257, 53, 53],
+					"image": {
+						"url": "Content/battle/HUD/avatar_1.png",
+						"size": [53, 53],
+						"anchor": [0, 0]
+					}
+				}
+			},
+			{
+				"name": "4",
+				"type": "button",
+				"attrs": {
+					"frame": [275, 283, 25, 25],
+					"normalImage": {
+						"url": "Content/battle/HUD/skill_1.png",
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["1"]
+					}
+				}
+			},
+			{
+				"name": "5",
+				"type": "button",
+				"attrs": {
+					"frame": [306, 283, 25, 25],
+					"normalImage": {
+						"url": "Content/battle/HUD/skill_1.png",
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["2"]
+					}
+				}
+			},
+			{
+				"name": "6",
+				"type": "button",
+				"attrs": {
+					"frame": [337.5, 283, 25, 25],
+					"normalImage": {
+						"url": "Content/battle/HUD/skill_1.png",
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": ["3"]
+					}
+				}
+			}
+		]
+	},
+	
+	{
+		"name": "MainGame",
+		"type": "sprite",
+		"attrs": {
+			"frame": [0, 0, 480, 320],
+			"image": {
+				"url": "Content/bg.png",
+				"size": [480, 320],
+				"anchor": [0, 0]
+			}
+		}
+	}
+]

@@ -79881,7 +79881,7 @@ var MoveListener = Core.MessageListener.subclass({
 				this._controller.skill.setPosition(-500, this._newY1);
 				
 				this._controller.resetSkillSlot(this._controller._skillTypeS);
-				this._controller.resetSkillSlot(this._controller._skillTypeE);
+				this._controller.resetSkillSlot(this._controller._skillTypeE, true);
 			}
 		}
 		
@@ -79927,18 +79927,27 @@ var battleSceneController =
 		}
 		
 		if (enemyHp >= 0) {
-			this.HUD.EnemyHp.setScale(enemyHp/maxEnemyHp, 1);
+			this.HUD.EnemyHp.setScale(-enemyHp/maxEnemyHp, 1);
 		}
 	},
 	
-	highlightSkillSlot: function(skillType) {
+	highlightSkillSlot: function(skillType, isEnemy) {
 	    Logger.log("skillType = " + skillType);
-		this.HUD[skillType].setColor(0, 0.7, 0.5);
+	    var x = isEnemy ? 3 : 0;
+		this.HUD[skillType + x].setColor(0, 0.7, 0.5);
+		
+		var pos = this.HUD[skillType + x].getPosition();
+		Logger.log("pos = " + pos.getX() + ", " + pos.getY());
+		var light = new GL2.Sprite();
+		light.setImage("Content/battle/effect/light.png", new Core.Size(30, 30), new Core.Point(0,0));
+		light.setPosition(pos.getX() - 3, pos.getY());
+		this.HUD.addChild(light);
 	},
 	
-	resetSkillSlot: function(skillType) {
+	resetSkillSlot: function(skillType, isEnemy) {
 		Logger.log("skillType = " + skillType);
-		this.HUD[skillType].setColor(1, 1, 1);
+		var x = isEnemy ? 3 : 0;
+		this.HUD[skillType + x].setColor(1, 1, 1);
 	},
 	
 	initData: function(sumoObj, isEnemy) {
@@ -80005,10 +80014,16 @@ var battleSceneController =
 		
 		this.enemyHp = this.enemy.hp;
 		this.sumoHp = this.sumo.hp;
+		this.HUD.avatar1.setScale(-1, 1);
+		this.HUD.EnemyHp.setScale(-1, 1);
+		this.HUD["5"].setVisible(false);
+		this.HUD["6"].setVisible(false);
 		
 		if (this.currentBattle === "Battle2") {
 			this.enemy.name = "bull2";
 			this.enemy.setScale(1, 1);
+			this.HUD["5"].setVisible(true);
+			this.HUD["6"].setVisible(true);
 		}
 		
 		enemy.setAnim(null, "stand");
@@ -80039,7 +80054,7 @@ var battleSceneController =
 		this.skill.setRotation(0);
 		this.skill.setPosition(1000, this.skill.getPosition().getY());
 		if (skillType == 1) { this.enemy.setAlpha(0); }
-		this.highlightSkillSlot(skillType);
+		this.highlightSkillSlot(skillType, true);
 	},
 	
 	getRandomSkill: function(isEnemy) {
@@ -80054,6 +80069,10 @@ var battleSceneController =
 			
 			return this._skillTypeS;
 		}
+	},
+	
+	addChild: function(child) {
+		this.MainGame.addChild(child);
 	}
 };
 
@@ -99611,7 +99630,7 @@ var __dirname = 'Code/view/Scene';
 var __filename = 'Code/view/Scene/HomeScene.js';
 
 /*
- *
+ *ls
  * 
  * 
  * 

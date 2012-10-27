@@ -13,29 +13,27 @@
 		},
 		"children": [
 			{
-				"name": "Battle1",
+				"name": "Home",
 				"type": "button",
 				"attrs": {
-					"frame": [100, 100, 70, 40],
-					"normalText": "Battle1",
-					"textSize": 10,
+					"frame": [100, 100, 40, 40],
 					"normalImage": {
-						"url": "Content/mainmenu/1.png",
-						"size": [70, 40],
+						"url": "Content/home.png",
+						"size": [40, 40],
 						"anchor": [0, 0]
 					},
 					"action": {
 						"name": "click",
-						"params": "Battle1"
+						"params": ["Home"]
 					}
 				}
 			},
 			{
-				"name": "Battle2",
+				"name": "Battle",
 				"type": "button",
 				"attrs": {
 					"frame": [200, 100, 70, 40],
-					"normalText": "Battle2",
+					"normalText": "Battle",
 					"textSize": 10,
 					"normalImage": {
 						"url": "Content/mainmenu/1.png",
@@ -44,16 +42,16 @@
 					},
 					"action": {
 						"name": "click",
-						"params": "Battle2"
+						"params": "Battle"
 					}
 				}
 			},
 			{
-				"name": "CutScene",
+				"name": "Mission",
 				"type": "button",
 				"attrs": {
 					"frame": [300,100, 70, 40],
-					"normalText": "CutScene",
+					"normalText": "Mission",
 					"textSize": 10,
 					"normalImage": {
 						"url": "Content/mainmenu/1.png",
@@ -62,64 +60,10 @@
 					},
 					"action": {
 						"name": "click",
-						"params": "CutScene"
+						"params": "Mission"
 					}
 				}
-			},
-			{
-				"name": "Reload",
-				"type": "button",
-				"attrs": {
-					"frame": [10, 270, 70, 40],
-					"normalText": "Reload",
-					"textSize": 10,
-					"normalImage": {
-						"url": "Content/mainmenu/1.png",
-						"size": [70, 40],
-						"anchor": [0, 0]
-					},
-					"action": {
-						"name": "click",
-						"params": "Reload"
-					}
-				}
-			},
-			{
-				"name": "Test",
-				"type": "button",
-				"attrs": {
-					"frame": [90, 270, 70, 40],
-					"normalText": "Test",
-					"textSize": 10,
-					"normalImage": {
-						"url": "Content/mainmenu/1.png",
-						"size": [70, 40],
-						"anchor": [0, 0]
-					},
-					"action": {
-						"name": "click",
-						"params": "Test"
-					}
-				}
-			},
-			{
-                "name": "Viet",
-                "type": "button",
-                "attrs": {
-                    "frame": [440, 280, 40, 40],
-                    "normalText": "Viet",
-                    "textSize": 10,
-                    "normalImage": {
-                        "url": "Content/mainmenu/1.png",
-                        "size": [70, 40],
-                        "anchor": [0, 0]
-                    },
-                    "action": {
-                        "name": "click",
-                        "params": "Viet"
-                    }
-                }
-            }
+			}
 		]
 	}
 ]

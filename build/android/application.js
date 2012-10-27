@@ -78898,6 +78898,281 @@ exports.Scene = Class.subclass(
     onExit: function(nextScene, option) {}
 });
 ; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/utils/GlobalParameter'] = function(){var exports = $MODULE_REGISTRY['Code/utils/GlobalParameter'] || {}; $MODULE_REGISTRY['Code/utils/GlobalParameter'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/GlobalParameter.js';
+
+var Core = require('NGCore/Client/Core').Core;
+
+exports.GlobalParameter = Core.Class.singleton({    
+});
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/cutscene/SpecialMission'] = function(){var exports = $MODULE_REGISTRY['Code/module/cutscene/SpecialMission'] || {}; $MODULE_REGISTRY['Code/module/cutscene/SpecialMission'] = exports; 
+var __dirname = 'Code/module/cutscene';
+var __filename = 'Code/module/cutscene/SpecialMission.js';
+
+var Core  = require('NGCore/Client/Core').Core;
+var GL2   = require('NGCore/Client/GL2').GL2;
+var Audio = require('NGCore/Client/Audio').Audio;
+var SceneDirector 		= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var ScreenManager		= require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
+//========================================================================================
+exports.SpecialMission = Scene.subclass({
+	
+	//--------------------------------------------------------------------------
+	initialize: function( rootNode, message1, message2,onCompleteHandler ) {
+		
+		this.name = "SpecialMission";
+		this.rootNode = rootNode  ||  new GL2.Node();
+		this.rootNode.setDepth(65535);
+		
+		this.nodes = [];
+		this.onCompleteHandler = onCompleteHandler;
+		this._message1 = message1;
+		this._message2 = message2;
+		
+		this._color1 = [1, 1, 0.5];
+		this._color2 = [0.2, 0.8, 0.2];
+	},
+	//--------------------------------------------------------------------------
+	destroy: function() {},
+	
+	//--------------------------------------------------------------------------
+	onEnter: function() {
+		console.log("NDL: --- onEnter");
+		
+		
+		var duration = 1.0;
+		//dn.AudioPlayer.playEffect( 'common/Z_009.wav' );
+		
+		//----- diagonal black frame
+		//var p = this.makeBrushStroke( 145-50, 235, 100, 100 );
+		var p = new GL2.Sprite();
+		p.setImage("Content/cutscene/brush_stroke.png");
+		//p.setRotation( 45 );
+		//p.setAlpha( 0 );
+		this.rootNode.addChild( p );
+		this.nodes.push( p );
+		GL2.Root.addChild(this.rootNode);
+		//dn.VFX.enchant( p ).fi( 0.2 ).wait( duration ).fo( 0.2 );
+		//dn.VFX.enchant( p ).move( 0.2, 50, 0, -1 ).wait( duration ).move( 0.2, 50, 0, 1);
+		
+		
+		//----- logo: SPECIAL MISSION
+		//var n = new GL2.Node();
+		
+		//var t = dn.ImageFontFactory.create(
+		//	'common/font/general.png', nj.TT('SPECIAL'), 48, -1, [1, 1, 0.5], [0.2, 0.8, 0.2]
+		//);
+		//t.setAnchor( 1, 1 );
+		//t.setPosition( 0, 0 );
+		//console.log("NDL:1111");
+		//var t = new GL2.Text();
+		//t.setSize(100, 30);
+		//t.setText("SPECIAL ABCDEF");
+		//n.addChild( t );
+		//this.nodes.push( t );
+		
+		//var t = dn.ImageFontFactory.create(
+		//	'common/font/general.png', nj.TT('MISSION!'), 48, -1, [1, 1, 0.5], [0.2, 0.8, 0.2]
+		//);
+		//t.setAnchor( 1, 1 );
+		//t.setPosition( 120, 42 );
+		//n.addChild( t );
+		//this.nodes.push( t );
+		//console.log("NDL:2222");
+		//n.setRotation( 45 );
+		//n.setPosition( 135 - 200, 200 - 200 );
+		//this.rootNode.addChild( n );
+		//this.nodes.push( n );
+		//console.log("NDL:33333");
+		//dn.VFX.enchant( n ).move( 0.3, 200, 200, 1 )
+		//	.move( 0.03, -5, -5, -1 ).move( 0.03, 9, 9, -1 )
+		//	.move( 0.03, -7, -7, -1 ).move( 0.03, 5, 5, -1 )
+		//	.move( 0.03, -3, -3, -1 ).move( 0.03, 1, 1, -1 )
+		//	.wait( duration - 0.3 ).move( 0.4, 250, 250, 1 );
+		//dn.VFX.enchant( n ).wait( duration + 0.2 ).fo( 0.3 );
+		
+		//----- set end trigger
+		console.log("NDL:-- set time out");
+		dn.Timekeeper.setTimeout( dn.bind( this, function() {
+			this.endScene();
+		}), duration + 0.6 );
+	},
+	
+	//--------------------------------------------------------------------------
+	onExit: function() {
+		
+		dn.VFX.removeAllTasks();
+		dn.Timekeeper.clearAllTimeout();
+		dn.each( this.nodes, function(i) {
+			i.destroy();
+		});
+		this.destroy();
+	},
+	
+	//--------------------------------------------------------------------------
+	endScene: function() {
+		console.log("NDL: endScene");
+		SceneDirector.pop();
+		console.log("NDL:this.onCompleteHandler="+this.onCompleteHandler);
+		//if (this.onCompleteHandler) {
+		//	this.onCompleteHandler.apply();
+		//}
+	},
+	makePrimitive: function( x, y, w, h, color1, color2, color3, color4 ) {
+		
+		if (arguments.length <= 6) {
+			color3 = color2 || color1;
+			color4 = color2 || color1;
+			color2 = color1;
+		}
+		
+		var p = new GL2.Primitive();
+		p.setType( GL2.Primitive.Type.TriangleStrip );
+		
+		p.pushVertex( new GL2.Primitive.Vertex([0, 0], [0, 0], color1) );
+		p.pushVertex( new GL2.Primitive.Vertex([w, 0], [1, 0], color2) );
+		p.pushVertex( new GL2.Primitive.Vertex([0, h], [0, 1], color3) );
+		p.pushVertex( new GL2.Primitive.Vertex([w, h], [1, 1], color4) );
+		
+		p.setPosition( x, y );
+		return p;
+	},
+	//--------------------------------------------------------------------------
+	makeBrushStroke: function( x, y, w, h ) {
+		
+		var s = new GL2.Sprite();
+		s.setImage("Content/cutscene/brush_stroke.png");
+		//nj.Utils.setSpriteImage(
+		//	s,
+		//	nj.IMG("common/cutscene", "brush_stroke.png"),
+		//	[w, h], [0.5, 0.5]
+		//);
+		s.setPosition( x, y );
+		return s;
+	},
+	
+	//--------------------------------------------------------------------------
+	onEnterViaPush: function( prevScene, option ) { this.onEnter( prevScene ); },
+	onEnterViaPop : function( prevScene, option ) {},
+	onExitViaPush : function( nextScene, option ) {},
+	onExitViaPop  : function( nextScene, option ) { this.onExit( nextScene ); }
+});
+
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/utils/Logger'] = function(){var exports = $MODULE_REGISTRY['Code/utils/Logger'] || {}; $MODULE_REGISTRY['Code/utils/Logger'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/Logger.js';
+
+var Core = require('NGCore/Client/Core').Core; 
+exports.Logger = Core.Class.singleton({
+	log: function(obj, title) {
+		var t = title || "study123:";
+		console.log(t + obj);
+	},
+	
+	log1: function(obj, title){
+		var _title = title || "";
+		if(typeof(obj) == "object" && obj != null && obj != undefined){
+			if(Core.Capabilities.getPlatformOS() == 'flash'){
+				console.log("Logger.log>>===========Start logging========" + _title + "====================");
+				console.log(obj);
+				console.log("Logger.log>>===========End logging==========" + _title + "====================");
+			}else{
+				console.log("Logger.log>>===========Start logging========" + _title + "====================");
+				for(var k in obj){
+					console.log("Logger.log>>"+k+": " + obj[k]);
+				}
+				console.log("Logger.log>>===========End logging==========" + _title + "====================");
+			}
+		}else{
+			console.log("Logger.log>>" + _title + ": " + obj);
+		}		
+	}
+});; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/battle/controller/PreBattleSceneController'] = function(){var exports = $MODULE_REGISTRY['Code/module/battle/controller/PreBattleSceneController'] || {}; $MODULE_REGISTRY['Code/module/battle/controller/PreBattleSceneController'] = exports; 
+var __dirname = 'Code/module/battle/controller';
+var __filename = 'Code/module/battle/controller/PreBattleSceneController.js';
+
+/**
+ * @author sonnn
+ */
+
+var Core 				= require('NGCore/Client/Core').Core;
+var Device 				= require('NGCore/Client/Device').Device;
+var SceneDirector 		= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var SceneFactory 		= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var JSONData 			= require('NGGo/Service/Data/JSONData').JSONData;
+var GUIBuilder 			= require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var ScreenManager 		= require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var GL2 				= require('NGCore/Client/GL2').GL2;
+var GlobalParameter 	= require('Code/utils/GlobalParameter').GlobalParameter;
+var Logger 				= require('Code/utils/Logger').Logger;
+
+var preBattleSceneController = 
+{
+	initialize: function() {
+		Logger.log("Load Game successfully!");
+	},
+	
+    action_click: function (elem, battleName)
+    {
+    	var self = this;
+        console.log('You clicked ' + battleName + '!');
+        
+        if (battleName === "Battle1" || battleName === "Battle2") {
+        	this.gotoBattle(self, battleName);
+        } else if (battleName === "Reload") {
+        	this._initBackKey();
+        } else if (battleName === "Back") {
+            this.transitionToDebugScene();
+        }
+    },
+    
+    gotoBattle: function(self, battleName) {
+    	self.transitionToBattleMain(battleName);
+    },
+    
+    transitionToBattleMain: function(battleName) {
+		console.log("transition to main scene: " + battleName);
+		SceneDirector.push("BATTLE_SCENE", battleName);
+    },
+    
+    transitionToTest: function() {
+		console.log("transition to test scene");
+		SceneDirector.transition("TEST_SCENE");
+    },
+    
+    transitionToDebugScene: function() {
+        console.log("transition to Viet");
+        SceneDirector.push("DEBUG_SCENE");
+    },
+    
+	_initBackKey: function () {
+		// back key
+		var KeyListener = Core.MessageListener.singleton ({
+			initialize: function() {
+				Device.KeyEmitter.addListener(this, this.onUpdate);
+				Device.KeyEmitter.emit(new Device.KeyEmitter.KeyEvent(Device.KeyEmitter.EventType.onUp, Device.KeyEmitter.Modifier.NONE, Device.KeyEmitter.Keycode.back));
+			},
+
+			onUpdate : function(keyEvent) {
+				var gameUrl = Core.Capabilities.getStartingServer() + "/" + Core.Capabilities.getBootGame();
+				Logger.log("Reload Game " + gameUrl);
+				
+				Core.LocalGameList.runUpdatedGame(gameUrl);
+				return false;
+			}
+		});
+		
+		KeyListener.instantiate();
+	}
+};
+
+exports.PreBattleSceneController = Core.Class.subclass(preBattleSceneController);
+; return exports;};
 $MODULE_FACTORY_REGISTRY['NGGo/Service/Graphics/ParticleEmitter'] = function(){var exports = $MODULE_REGISTRY['NGGo/Service/Graphics/ParticleEmitter'] || {}; $MODULE_REGISTRY['NGGo/Service/Graphics/ParticleEmitter'] = exports; 
 var __dirname = 'NGGo/Service/Graphics';
 var __filename = 'NGGo/Service/Graphics/ParticleEmitter.js';
@@ -79324,50 +79599,20 @@ var ParticleEmitter = Node.subclass(
 
 exports.ParticleEmitter = ParticleEmitter;
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/utils/Logger'] = function(){var exports = $MODULE_REGISTRY['Code/utils/Logger'] || {}; $MODULE_REGISTRY['Code/utils/Logger'] = exports; 
-var __dirname = 'Code/utils';
-var __filename = 'Code/utils/Logger.js';
-
-var Core = require('NGCore/Client/Core').Core; 
-exports.Logger = Core.Class.singleton({
-	log: function(obj, title) {
-		var t = title || "study123:";
-		console.log(t + obj);
-	},
-	
-	log1: function(obj, title){
-		var _title = title || "";
-		if(typeof(obj) == "object" && obj != null && obj != undefined){
-			if(Core.Capabilities.getPlatformOS() == 'flash'){
-				console.log("Logger.log>>===========Start logging========" + _title + "====================");
-				console.log(obj);
-				console.log("Logger.log>>===========End logging==========" + _title + "====================");
-			}else{
-				console.log("Logger.log>>===========Start logging========" + _title + "====================");
-				for(var k in obj){
-					console.log("Logger.log>>"+k+": " + obj[k]);
-				}
-				console.log("Logger.log>>===========End logging==========" + _title + "====================");
-			}
-		}else{
-			console.log("Logger.log>>" + _title + ": " + obj);
-		}		
-	}
-});; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/controller/MainSceneController'] = function(){var exports = $MODULE_REGISTRY['Code/controller/MainSceneController'] || {}; $MODULE_REGISTRY['Code/controller/MainSceneController'] = exports; 
-var __dirname = 'Code/controller';
-var __filename = 'Code/controller/MainSceneController.js';
+$MODULE_FACTORY_REGISTRY['Code/module/battle/controller/BattleSceneController'] = function(){var exports = $MODULE_REGISTRY['Code/module/battle/controller/BattleSceneController'] || {}; $MODULE_REGISTRY['Code/module/battle/controller/BattleSceneController'] = exports; 
+var __dirname = 'Code/module/battle/controller';
+var __filename = 'Code/module/battle/controller/BattleSceneController.js';
 
 /**
  * @author sonnn
  */
 
-var Core = require('NGCore/Client/Core').Core;
-var GL2  = require('NGCore/Client/GL2').GL2;
-var SceneDirector = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
-var SceneFactory = require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var Core 			= require('NGCore/Client/Core').Core;
+var GL2  			= require('NGCore/Client/GL2').GL2;
+var SceneDirector 	= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var SceneFactory 	= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
 var ParticleEmitter = require('NGGo/Service/Graphics/ParticleEmitter').ParticleEmitter;
-var Logger = require('Code/utils/Logger').Logger;
+var Logger 			= require('Code/utils/Logger').Logger;
 
 var MoveListener = Core.MessageListener.subclass({
 	initialize: function(controller, offsetX, step) {
@@ -79627,7 +79872,7 @@ var MoveListener = Core.MessageListener.subclass({
 				
 				if (this._controller.enemyHp == 0 || this._controller.sumoHp == 0) {
 					this.destroy();
-					SceneDirector.transition("DEBUG_SCENE");
+					SceneDirector.pop();
 				}
 				
 				this._resetObj();
@@ -79636,7 +79881,7 @@ var MoveListener = Core.MessageListener.subclass({
 				this._controller.skill.setPosition(-500, this._newY1);
 				
 				this._controller.resetSkillSlot(this._controller._skillTypeS);
-				this._controller.resetSkillSlot(5 - this._controller._skillTypeE);
+				this._controller.resetSkillSlot(this._controller._skillTypeE, true);
 			}
 		}
 		
@@ -79654,7 +79899,7 @@ var MoveListener = Core.MessageListener.subclass({
 	}	
 });
 
-var mainSceneController = 
+var battleSceneController = 
 {
 	
 	initialize: function() {
@@ -79663,8 +79908,8 @@ var mainSceneController =
 		this.isFightingE = false;
 		this.isFightingS = false;
 		this.isFighting = false;
-		this._skillTypeS = 1;
-		this._skillTypeE = 1;
+		this._skillTypeS = 0;
+		this._skillTypeE = 0;
 	},
 	
 	action_click: function (elem, buttnName) {
@@ -79672,7 +79917,7 @@ var mainSceneController =
         
         if (buttnName === "Home") {
         	this._mvListener.destroy();
-        	SceneDirector.transition("DEBUG_SCENE");
+        	SceneDirector.pop();
         }
     },
     
@@ -79682,16 +79927,20 @@ var mainSceneController =
 		}
 		
 		if (enemyHp >= 0) {
-			this.HUD.EnemyHp.setScale(enemyHp/maxEnemyHp, 1);
+			this.HUD.EnemyHp.setScale(-enemyHp/maxEnemyHp, 1);
 		}
 	},
 	
-	highlightSkillSlot: function(skillType) {
-		this.HUD[skillType].setColor(0, 0.7, 0.5);
+	highlightSkillSlot: function(skillType, isEnemy) {
+	    Logger.log("skillType = " + skillType);
+	    var x = isEnemy ? 3 : 0;
+		this.HUD[skillType + x].setColor(0, 0.7, 0.5);
 	},
 	
-	resetSkillSlot: function(skillType) {
-		this.HUD[skillType].setColor(1, 1, 1);
+	resetSkillSlot: function(skillType, isEnemy) {
+		Logger.log("skillType = " + skillType);
+		var x = isEnemy ? 3 : 0;
+		this.HUD[skillType + x].setColor(1, 1, 1);
 	},
 	
 	initData: function(sumoObj, isEnemy) {
@@ -79758,10 +80007,16 @@ var mainSceneController =
 		
 		this.enemyHp = this.enemy.hp;
 		this.sumoHp = this.sumo.hp;
+		this.HUD.avatar1.setScale(-1, 1);
+		this.HUD.EnemyHp.setScale(-1, 1);
+		this.HUD["5"].setVisible(false);
+		this.HUD["6"].setVisible(false);
 		
 		if (this.currentBattle === "Battle2") {
 			this.enemy.name = "bull2";
 			this.enemy.setScale(1, 1);
+			this.HUD["5"].setVisible(true);
+			this.HUD["6"].setVisible(true);
 		}
 		
 		enemy.setAnim(null, "stand");
@@ -79790,9 +80045,9 @@ var mainSceneController =
 		var skillType = this.enemy.isBoss ? this.enemy.skillType : this.getRandomSkill(false);
 		this._skillTypeE = skillType;
 		this.skill.setRotation(0);
-		this.skill.setPosition(1000);
+		this.skill.setPosition(1000, this.skill.getPosition().getY());
 		if (skillType == 1) { this.enemy.setAlpha(0); }
-		this.highlightSkillSlot(skillType);
+		this.highlightSkillSlot(skillType, true);
 	},
 	
 	getRandomSkill: function(isEnemy) {
@@ -79800,27 +80055,17 @@ var mainSceneController =
 			this._skillTypeE = 1;
 			return this._skillTypeE; 
 		} else {
-			
-			// Skill: 1, 2, 3
-			var seed = Math.random() * 10;
-			
-			if (seed <= 3) {
-				this._skillTypeS = 1;
-				this._skillTypeE = 1;
-			} else if (3 < seed && seed <= 6) {
-				this._skillTypeS = 2;
-				this._skillTypeE = 2;
-			} else if (6 < seed && seed <= 10) {
-				this._skillTypeS = 3;
-				this._skillTypeE = 3;
-			}
+			var s = (this._skillTypeS + 1) % 3;
+			var e = (this._skillTypeE + 1) % 3;
+			this._skillTypeS = s == 0 ? 3 : s;
+			this._skillTypeE = e == 0 ? 3 : e;
 			
 			return this._skillTypeS;
 		}
 	}
 };
 
-exports.MainSceneController = Core.Class.subclass(mainSceneController);; return exports;};
+exports.BattleSceneController = Core.Class.subclass(battleSceneController);; return exports;};
 $MODULE_FACTORY_REGISTRY['Code/model/Entity/ModelBase'] = function(){var exports = $MODULE_REGISTRY['Code/model/Entity/ModelBase'] || {}; $MODULE_REGISTRY['Code/model/Entity/ModelBase'] = exports; 
 var __dirname = 'Code/model/Entity';
 var __filename = 'Code/model/Entity/ModelBase.js';
@@ -79875,157 +80120,13 @@ exports.ModelBase = Core.Class.subclass({
     _setParams: function(d) {}
 });
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/utils/SumoUtil'] = function(){var exports = $MODULE_REGISTRY['Code/utils/SumoUtil'] || {}; $MODULE_REGISTRY['Code/utils/SumoUtil'] = exports; 
-var __dirname = 'Code/utils';
-var __filename = 'Code/utils/SumoUtil.js';
+$MODULE_FACTORY_REGISTRY['Code/module/battle/model/Entity/Sumo'] = function(){var exports = $MODULE_REGISTRY['Code/module/battle/model/Entity/Sumo'] || {}; $MODULE_REGISTRY['Code/module/battle/model/Entity/Sumo'] = exports; 
+var __dirname = 'Code/module/battle/model/Entity';
+var __filename = 'Code/module/battle/model/Entity/Sumo.js';
 
-var Core = require('NGCore/Client/Core').Core;
-var GL2  = require('NGCore/Client/GL2').GL2;
-
-exports.SumoUtil = Core.Class.singleton({
-    
-    //Create animation 
-    createAnimation: function(path, frameCount, duration, w, h){
-    	//path = nj.IMG(null, path);
-    	if (duration == undefined)
-    		duration = 500;
-        var animation = new GL2.Animation();
-
-    	for (var i = 0; i < frameCount ; i ++ ){
-        	animation.pushFrame(new GL2.Animation.Frame(path, duration, [w, h], [0.5, 1], [i/frameCount, 0, 1/frameCount, 1]));
-    	}
-        
-        return animation;
-    },
-	
-	//--------------------------------------------------------------------------
-	traverse: function( obj, func, level ) {
-		var level = level || 0;
-		for (var i in obj) {
-			func.apply( this, [i, obj[i], level] );
-			if (typeof( obj[i] ) === "object" ) {
-				this.traverse( obj[i], func, level+1 );
-			}
-		}
-	},
-	
-	//--------------------------------------------------------------------------
-	dump: function( obj, name ) {
-		NgLogD( '--------------- traverse: ' + name );
-		
-		this.traverse( obj, function( key, val, level ) {
-			var indent = '';
-			var output = '';
-			for (var i=0;  i<level;  i++) { indent += '    '; }
-			output += indent + key + ': ';
-			if (! (val + '').match(/\[object Object\]/)) {
-				output += val;
-			}
-			NgLogD( output );
-		}, 1);
-	},
-		
-	//--------------------------------------------------------------------------
-	makeButton: function( x, y, image, pressedImage, size, anchor, listener, onTouchHandler ) {
-	
-		var b = new GL2.Sprite();
-		nj.Utils.setSpriteImage(b,  image, size, anchor );
-		b.setPosition( x, y );
-		b.image = image;
-		b.pressedImage = pressedImage;
-		
-		var target = new GL2.TouchTarget();
-		target.setAnchor( [0, 0] );
-		target.setSize( size[0], size[1] );
-		nj.crystal.touchEmitter.addListener(
-			listener,
-			target,
-			//----- on touch
-			function( touch ) {
-				if (! this._hasPushed) { this._hasPushed = false; }
-				switch (touch.getAction()) {
-				case touch.Action.Start:
-					nj.Utils.setSpriteImage(b,  pressedImage, size, anchor );
-					this._hasPushed = true;
-					break;
-				case touch.Action.End:
-					if (this._hasPushed) {
-						nj.Utils.setSpriteImage(b,  image, size, anchor );
-						onTouchHandler.apply( listener );
-					}
-					break;
-				}
-			},
-			//----- on finger out
-			function() {
-				nj.Utils.setSpriteImage(b,  image, size, anchor );
-			}
-		);
-		b.addChild( target );
-		
-		return b;
-	},
-	
-	//--------------------------------------------------------------------------
-	makePrimitive: function( x, y, w, h, color1, color2, color3, color4 ) {
-		
-		if (arguments.length <= 6) {
-			color3 = color2 || color1;
-			color4 = color2 || color1;
-			color2 = color1;
-		}
-		
-		var p = new GL2.Primitive();
-		p.setType( GL2.Primitive.Type.TriangleStrip );
-		
-		p.pushVertex( new GL2.Primitive.Vertex([0, 0], [0, 0], color1) );
-		p.pushVertex( new GL2.Primitive.Vertex([w, 0], [1, 0], color2) );
-		p.pushVertex( new GL2.Primitive.Vertex([0, h], [0, 1], color3) );
-		p.pushVertex( new GL2.Primitive.Vertex([w, h], [1, 1], color4) );
-		
-		p.setPosition( x, y );
-		return p;
-	},
-	
-	//--------------------------------------------------------------------------
-	makeText: function( text, size, color ) {
-		return new nj.crystal.ShadowText( text, size, color );
-	},
-	
-	//--------------------------------------------------------------------------
-	makeBlind: function() {
-		
-		//----- linear scaling して余った部分を黒い帯で隠す
-		//----- (とりあえずの応急処置)
-		var width  = Core.Capabilities.getScreenHeight();
-		var height = Core.Capabilities.getScreenWidth();
-		
-		var scale    = height / 320;
-		var shortage = width - (480 * scale);
-		
-		var blind;
-		if (shortage > 0) {
-			blind = new GL2.Primitive();
-			blind.setType( GL2.Primitive.Type.TriangleStrip );
-			blind.pushVertex( new GL2.Primitive.Vertex([width - shortage,      0], [0, 0], [0,0,0]) );
-			blind.pushVertex( new GL2.Primitive.Vertex([width           ,      0], [1, 0], [0,0,0]) );
-			blind.pushVertex( new GL2.Primitive.Vertex([width - shortage, height], [0, 1], [0,0,0]) );
-			blind.pushVertex( new GL2.Primitive.Vertex([width           , height], [1, 1], [0,0,0]) );
-			blind.setDepth( 99999999 );
-			GL2.Root.addChild( blind );
-		}
-		return blind;
-	}
-});
-; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/model/Entity/Sumo'] = function(){var exports = $MODULE_REGISTRY['Code/model/Entity/Sumo'] || {}; $MODULE_REGISTRY['Code/model/Entity/Sumo'] = exports; 
-var __dirname = 'Code/model/Entity';
-var __filename = 'Code/model/Entity/Sumo.js';
-
-var ModelBase = require('Code/model/Entity/ModelBase').ModelBase;
-var GL2		  = require('NGCore/Client/GL2').GL2;
-var SumoUtil = require('Code/utils/SumoUtil').SumoUtil;
-var AnimationManager = require('NGGo/Framework/AnimationManager').AnimationManager;
+var GL2		  			= require('NGCore/Client/GL2').GL2;
+var AnimationManager 	= require('NGGo/Framework/AnimationManager').AnimationManager;
+var ModelBase 			= require('Code/model/Entity/ModelBase').ModelBase;
 
 exports.Sumo = ModelBase.subclass({
     classname: "Sumo",
@@ -81374,9 +81475,9 @@ exports.VFX = MessageListener.singleton(
 });
 
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/model/Entity/Skill'] = function(){var exports = $MODULE_REGISTRY['Code/model/Entity/Skill'] || {}; $MODULE_REGISTRY['Code/model/Entity/Skill'] = exports; 
-var __dirname = 'Code/model/Entity';
-var __filename = 'Code/model/Entity/Skill.js';
+$MODULE_FACTORY_REGISTRY['Code/module/battle/model/Entity/Skill'] = function(){var exports = $MODULE_REGISTRY['Code/module/battle/model/Entity/Skill'] || {}; $MODULE_REGISTRY['Code/module/battle/model/Entity/Skill'] = exports; 
+var __dirname = 'Code/module/battle/model/Entity';
+var __filename = 'Code/module/battle/model/Entity/Skill.js';
 
 var ModelBase 			= require('Code/model/Entity/ModelBase').ModelBase;
 var GL2		  			= require('NGCore/Client/GL2').GL2;
@@ -81418,7 +81519,7 @@ var skillObj = {
     },
     
     getPosition: function() {
-    	this._sprite.getPosition();
+    	return this._sprite.getPosition();
     },
     
     setScale: function(sx, sy) {
@@ -81478,35 +81579,26 @@ var skillObj = {
 
 exports.Skill = ModelBase.subclass(skillObj);
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/utils/GlobalParameter'] = function(){var exports = $MODULE_REGISTRY['Code/utils/GlobalParameter'] || {}; $MODULE_REGISTRY['Code/utils/GlobalParameter'] = exports; 
-var __dirname = 'Code/utils';
-var __filename = 'Code/utils/GlobalParameter.js';
-
-var Core = require('NGCore/Client/Core').Core;
-
-exports.GlobalParameter = Core.Class.singleton({    
-});
-; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/MainScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/MainScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/MainScene'] = exports; 
-var __dirname = 'Code/view/Scene';
-var __filename = 'Code/view/Scene/MainScene.js';
+$MODULE_FACTORY_REGISTRY['Code/module/battle/view/Scene/BattleScene'] = function(){var exports = $MODULE_REGISTRY['Code/module/battle/view/Scene/BattleScene'] || {}; $MODULE_REGISTRY['Code/module/battle/view/Scene/BattleScene'] = exports; 
+var __dirname = 'Code/module/battle/view/Scene';
+var __filename = 'Code/module/battle/view/Scene/BattleScene.js';
 
 /**
  * @author sonnn
  */
-var ScreenManager		 = require('NGGo/Service/Display/ScreenManager').ScreenManager;
-var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
-var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
-var GL2					 = require('NGCore/Client/GL2').GL2;
-var MainSceneController	 = require('Code/controller/MainSceneController').MainSceneController;
-var SceneDirector 		 = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
-var Sumo		 		 = require('Code/model/Entity/Sumo').Sumo;
-var Skill		 		 = require('Code/model/Entity/Skill').Skill;
-var GlobalParameter 	 = require('Code/utils/GlobalParameter').GlobalParameter;
+var ScreenManager		 	= require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var GUIBuilder			 	= require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var Scene				 	= require('NGGo/Framework/Scene/Scene').Scene;
+var GL2					 	= require('NGCore/Client/GL2').GL2;
+var SceneDirector 		 	= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var GlobalParameter 	 	= require('Code/utils/GlobalParameter').GlobalParameter;
+var BattleSceneController	= require('Code/module/battle/controller/BattleSceneController').BattleSceneController;
+var Sumo		 		 	= require('Code/module/battle/model/Entity/Sumo').Sumo;
+var Skill		 		 	= require('Code/module/battle/model/Entity/Skill').Skill;
 
-var mainScene = {
+var battleScene = {
 	initialize: function() {
-		this.controller = new MainSceneController();
+		this.controller = new BattleSceneController();
 		
 		this.playerSumo = new Sumo();
     	this.playerSumo.setPosition(GlobalParameter.battle.player.x - 250, GlobalParameter.battle.player.y - 150);
@@ -81530,7 +81622,7 @@ var mainScene = {
 	onEnter: function(prevScene, option) {
 		this.controller.currentBattle = option;
 		this.node = new GL2.Node();
-	    GUIBuilder.loadConfigFromFile("Config/Scene/MainScene.json", this.controller, function ()
+	    GUIBuilder.loadConfigFromFile("Config/Scene/battle/BattleScene.json", this.controller, function ()
 	    {
 	    	ScreenManager.getRootNode().addChild(this.node);
 	    	this.controller.HUD.setDepth(65535);
@@ -81557,218 +81649,114 @@ var mainScene = {
 	},
 	
 	onExit: function(nextScene, option) {
+	    this.controller._mvListener.destroy();
 		this.node.destroy();
 	}
 };
 
-exports.MainScene = Scene.subclass(mainScene);
-; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/controller/HUDController'] = function(){var exports = $MODULE_REGISTRY['Code/controller/HUDController'] || {}; $MODULE_REGISTRY['Code/controller/HUDController'] = exports; 
-var __dirname = 'Code/controller';
-var __filename = 'Code/controller/HUDController.js';
+exports.BattleScene = Scene.subclass(battleScene);; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/battle/view/Scene/PreBattleScene'] = function(){var exports = $MODULE_REGISTRY['Code/module/battle/view/Scene/PreBattleScene'] || {}; $MODULE_REGISTRY['Code/module/battle/view/Scene/PreBattleScene'] = exports; 
+var __dirname = 'Code/module/battle/view/Scene';
+var __filename = 'Code/module/battle/view/Scene/PreBattleScene.js';
 
 /**
  * @author sonnn
  */
+var ScreenManager		         = require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var GUIBuilder			         = require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var Scene				         = require('NGGo/Framework/Scene/Scene').Scene;
+var SceneFactory                 = require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var GL2					         = require('NGCore/Client/GL2').GL2;
+var PreBattleSceneController	 = require('Code/module/battle/controller/PreBattleSceneController').PreBattleSceneController;
+var BattleScene                  = require('Code/module/battle/view/Scene/BattleScene').BattleScene;
 
-var Core = require('NGCore/Client/Core').Core;
-var SceneDirector = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
-
-
-var controller = 
-{
-    action_click: function (elem, buttnName) {
-        console.log('You clicked ' + buttnName + '!');
-        for (var key in this) {
-        	console.log(key);
-        	console.log(this[key].name);
-        }
-        
-        // if (buttnName === "1") {
-        	// SceneDirector.currentScene.fightEnemy();
-        // }
-        
-        if (buttnName === "Home") {
-        	SceneDirector.transition("DEBUG_SCENE");
-        }
-    },
-    
-    updateHpBar: function(playerHp, maxPlayerHp, enemyHp, maxEnemyHp) {
-		if(playerHp) {
-			this.HUD.PlayerHp.setScale(playerHp/maxPlayerHp, 1);
-		}
-		
-		if(enemyHp) {
-			this.HUD.EnemyHp.setScale(enemyHp/maxEnemyHp, 1);
-		}
+var preBattleScene = {
+	initialize: function() {
+	    SceneFactory.register(BattleScene, "BATTLE_SCENE");
+		this.controller = new PreBattleSceneController();
 	},
 	
-	highlightSkill: function(skillType) {
-		this.HUD[skillType].setColor(0, 0.7, 0.5);
+	onEnter: function(prevScene, option) {
+		this.node = new GL2.Node();
+		console.log("SON:in debugScene1");
+	    GUIBuilder.loadConfigFromFile("Config/Scene/battle/PreBattleScene.json", this.controller, function() {
+	    	console.log("SON:in debugScene2:"+this.controller);
+	    	this.node.addChild(this.controller.DebugScene);
+	        ScreenManager.getRootNode().addChild(this.node);
+	        console.log("SON:in debugScene3");
+	    }.bind(this));
 	},
 	
-	resetSkill: function(skillType) {
-		this.HUD[skillType].setColor(1, 1, 1);
+	onExit: function(nextScene, option) {
+		this.node.destroy();
 	}
 };
 
-exports.HUDController = Core.Class.subclass(controller);
+exports.PreBattleScene = Scene.subclass(preBattleScene);
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/module/cutscene/SpecialMission'] = function(){var exports = $MODULE_REGISTRY['Code/module/cutscene/SpecialMission'] || {}; $MODULE_REGISTRY['Code/module/cutscene/SpecialMission'] = exports; 
-var __dirname = 'Code/module/cutscene';
-var __filename = 'Code/module/cutscene/SpecialMission.js';
+$MODULE_FACTORY_REGISTRY['Code/module/battle/BattleEntry'] = function(){var exports = $MODULE_REGISTRY['Code/module/battle/BattleEntry'] || {}; $MODULE_REGISTRY['Code/module/battle/BattleEntry'] = exports; 
+var __dirname = 'Code/module/battle';
+var __filename = 'Code/module/battle/BattleEntry.js';
 
-var Core  = require('NGCore/Client/Core').Core;
-var GL2   = require('NGCore/Client/GL2').GL2;
-var Audio = require('NGCore/Client/Audio').Audio;
+/**
+ * @author sonnn
+ */
+var Core				= require('NGCore/Client/Core').Core;
 var SceneDirector 		= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
-var ScreenManager		= require('NGGo/Service/Display/ScreenManager').ScreenManager;
-var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
-//========================================================================================
-exports.SpecialMission = Scene.subclass({
-	
-	//--------------------------------------------------------------------------
-	initialize: function( rootNode, message1, message2,onCompleteHandler ) {
-		
-		this.name = "SpecialMission";
-		this.rootNode = rootNode  ||  new GL2.Node();
-		this.rootNode.setDepth(65535);
-		
-		this.nodes = [];
-		this.onCompleteHandler = onCompleteHandler;
-		this._message1 = message1;
-		this._message2 = message2;
-		
-		this._color1 = [1, 1, 0.5];
-		this._color2 = [0.2, 0.8, 0.2];
-	},
-	//--------------------------------------------------------------------------
-	destroy: function() {},
-	
-	//--------------------------------------------------------------------------
-	onEnter: function() {
-		console.log("NDL: --- onEnter");
-		
-		
-		var duration = 1.0;
-		//dn.AudioPlayer.playEffect( 'common/Z_009.wav' );
-		
-		//----- diagonal black frame
-		//var p = this.makeBrushStroke( 145-50, 235, 100, 100 );
-		var p = new GL2.Sprite();
-		p.setImage("Content/cutscene/brush_stroke.png");
-		//p.setRotation( 45 );
-		//p.setAlpha( 0 );
-		this.rootNode.addChild( p );
-		this.nodes.push( p );
-		GL2.Root.addChild(this.rootNode);
-		//dn.VFX.enchant( p ).fi( 0.2 ).wait( duration ).fo( 0.2 );
-		//dn.VFX.enchant( p ).move( 0.2, 50, 0, -1 ).wait( duration ).move( 0.2, 50, 0, 1);
-		
-		
-		//----- logo: SPECIAL MISSION
-		//var n = new GL2.Node();
-		
-		//var t = dn.ImageFontFactory.create(
-		//	'common/font/general.png', nj.TT('SPECIAL'), 48, -1, [1, 1, 0.5], [0.2, 0.8, 0.2]
-		//);
-		//t.setAnchor( 1, 1 );
-		//t.setPosition( 0, 0 );
-		//console.log("NDL:1111");
-		//var t = new GL2.Text();
-		//t.setSize(100, 30);
-		//t.setText("SPECIAL ABCDEF");
-		//n.addChild( t );
-		//this.nodes.push( t );
-		
-		//var t = dn.ImageFontFactory.create(
-		//	'common/font/general.png', nj.TT('MISSION!'), 48, -1, [1, 1, 0.5], [0.2, 0.8, 0.2]
-		//);
-		//t.setAnchor( 1, 1 );
-		//t.setPosition( 120, 42 );
-		//n.addChild( t );
-		//this.nodes.push( t );
-		//console.log("NDL:2222");
-		//n.setRotation( 45 );
-		//n.setPosition( 135 - 200, 200 - 200 );
-		//this.rootNode.addChild( n );
-		//this.nodes.push( n );
-		//console.log("NDL:33333");
-		//dn.VFX.enchant( n ).move( 0.3, 200, 200, 1 )
-		//	.move( 0.03, -5, -5, -1 ).move( 0.03, 9, 9, -1 )
-		//	.move( 0.03, -7, -7, -1 ).move( 0.03, 5, 5, -1 )
-		//	.move( 0.03, -3, -3, -1 ).move( 0.03, 1, 1, -1 )
-		//	.wait( duration - 0.3 ).move( 0.4, 250, 250, 1 );
-		//dn.VFX.enchant( n ).wait( duration + 0.2 ).fo( 0.3 );
-		
-		//----- set end trigger
-		console.log("NDL:-- set time out");
-		dn.Timekeeper.setTimeout( dn.bind( this, function() {
-			this.endScene();
-		}), duration + 0.6 );
-	},
-	
-	//--------------------------------------------------------------------------
-	onExit: function() {
-		
-		dn.VFX.removeAllTasks();
-		dn.Timekeeper.clearAllTimeout();
-		dn.each( this.nodes, function(i) {
-			i.destroy();
-		});
-		this.destroy();
-	},
-	
-	//--------------------------------------------------------------------------
-	endScene: function() {
-		console.log("NDL: endScene");
-		SceneDirector.pop();
-		console.log("NDL:this.onCompleteHandler="+this.onCompleteHandler);
-		//if (this.onCompleteHandler) {
-		//	this.onCompleteHandler.apply();
-		//}
-	},
-	makePrimitive: function( x, y, w, h, color1, color2, color3, color4 ) {
-		
-		if (arguments.length <= 6) {
-			color3 = color2 || color1;
-			color4 = color2 || color1;
-			color2 = color1;
-		}
-		
-		var p = new GL2.Primitive();
-		p.setType( GL2.Primitive.Type.TriangleStrip );
-		
-		p.pushVertex( new GL2.Primitive.Vertex([0, 0], [0, 0], color1) );
-		p.pushVertex( new GL2.Primitive.Vertex([w, 0], [1, 0], color2) );
-		p.pushVertex( new GL2.Primitive.Vertex([0, h], [0, 1], color3) );
-		p.pushVertex( new GL2.Primitive.Vertex([w, h], [1, 1], color4) );
-		
-		p.setPosition( x, y );
-		return p;
-	},
-	//--------------------------------------------------------------------------
-	makeBrushStroke: function( x, y, w, h ) {
-		
-		var s = new GL2.Sprite();
-		s.setImage("Content/cutscene/brush_stroke.png");
-		//nj.Utils.setSpriteImage(
-		//	s,
-		//	nj.IMG("common/cutscene", "brush_stroke.png"),
-		//	[w, h], [0.5, 0.5]
-		//);
-		s.setPosition( x, y );
-		return s;
-	},
-	
-	//--------------------------------------------------------------------------
-	onEnterViaPush: function( prevScene, option ) { this.onEnter( prevScene ); },
-	onEnterViaPop : function( prevScene, option ) {},
-	onExitViaPush : function( nextScene, option ) {},
-	onExitViaPop  : function( nextScene, option ) { this.onExit( nextScene ); }
-});
+var SceneFactory 		= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var JSONData 			= require('NGGo/Service/Data/JSONData').JSONData;
+var GlobalParameter 	= require('Code/utils/GlobalParameter').GlobalParameter;
+var PreBattleScene 		= require('Code/module/battle/view/Scene/PreBattleScene').PreBattleScene;
+var BattleScene 		= require('Code/module/battle/view/Scene/BattleScene').BattleScene;
 
-; return exports;};
+var battleEntry = {
+	initialize: function(mode) {
+		
+		var jsondata = new JSONData();
+		jsondata.load("Config/player.json", function(err, obj) {
+			if (err) {
+				console.log("Error:" + err.errorText);
+			} else {
+				GlobalParameter.player = obj.data.player;
+
+				jsondata.load("Config/sumo.json", function(err, obj) {
+					if (err) {
+						console.log("Error:" + err.errorText);
+					} else {
+						GlobalParameter.sumo = obj.data.sumos;
+						
+						jsondata.load("Config/skill.json", function(err, obj) {
+    						if (err) {
+    							console.log("Error:" + err.errorText);
+    						} else {
+    							GlobalParameter.skill = obj.data.skills;
+    							
+    							jsondata.load("Config/battle.json", function(err, obj) {
+	        						if (err) {
+	        							console.log("Error:" + err.errorText);
+	        						} else {
+	        							GlobalParameter.battle = obj.data.battle;
+	        							
+	        							SceneFactory.register(PreBattleScene, "PRE_BATTLE_SCENE");
+								    	SceneFactory.register(BattleScene, "BATTLE_SCENE");
+								    	
+								    	if (mode == "DEBUG") {
+								    		SceneDirector.push("PRE_BATTLE_SCENE");
+								    	} else {
+								    		SceneDirector.transition("BATTLE_SCENE", "Battle2");
+								    	}
+	        						}
+	        					});
+		        			}
+	        			});
+	        		}
+        		});
+			}
+		});
+	}
+};
+
+exports.BattleEntry = Core.Class.subclass(battleEntry);; return exports;};
 $MODULE_FACTORY_REGISTRY['Code/controller/DebugSceneController'] = function(){var exports = $MODULE_REGISTRY['Code/controller/DebugSceneController'] || {}; $MODULE_REGISTRY['Code/controller/DebugSceneController'] = exports; 
 var __dirname = 'Code/controller';
 var __filename = 'Code/controller/DebugSceneController.js';
@@ -81785,15 +81773,16 @@ var JSONData 			= require('NGGo/Service/Data/JSONData').JSONData;
 var GUIBuilder 			= require('NGGo/Framework/GUIBuilder').GUIBuilder;
 var ScreenManager 		= require('NGGo/Service/Display/ScreenManager').ScreenManager;
 var GL2 				= require('NGCore/Client/GL2').GL2;
-var HUDController 		= require('Code/controller/HUDController').HUDController;
 var GlobalParameter 	= require('Code/utils/GlobalParameter').GlobalParameter;
 var SpecialMission 		= require('Code/module/cutscene/SpecialMission').SpecialMission;
+var BattleEntry 		= require('Code/module/battle/BattleEntry').BattleEntry;
 var Logger 				= require('Code/utils/Logger').Logger;
 
 var debugSceneController = 
 {
-	initialize: function() {
+	initialize: function(scene) {
 		Logger.log("Load Game successfully!");
+		this._scene = scene;
 	},
 	
     action_click: function (elem, battleName)
@@ -81801,12 +81790,12 @@ var debugSceneController =
     	var self = this;
         console.log('You clicked ' + battleName + '!');
         
-        if (battleName === "Battle1" || battleName === "Battle2") {
-        	this.gotoBattle(self, battleName);
-        } else if (battleName === "CutScene") {
-        	console.log("NDL:---- cutscene");
-        	SceneDirector.pop();
-   			SceneDirector.push(new SpecialMission(null, "SPECIAL", "MISSION!!"));
+        if (battleName === "Battle") {
+        	this.gotoBattle(self);
+        } else if (battleName === "Mission") {
+        	console.log("NDL:---- Mission");
+        	//SceneDirector.pop();
+   			//SceneDirector.push(new SpecialMission(null, "SPECIAL", "MISSION!!"));
    			//SceneDirector.transition("CUT_SCENE");
         } else if (battleName === "Test") {
         	this.transitionToTest();
@@ -81821,53 +81810,18 @@ var debugSceneController =
         	this._initBackKey();
         } else if (battleName === "Viet") {
             this.transitionToViet();
+        } else if (battleName === "Home") {
+            this.transitionToHomeScene();
         }
     },
     
-    gotoBattle: function(self, battleName) {
-    	var jsondata = new JSONData();
-		jsondata.load("Config/player.json", function(err, obj) {
-			if (err) {
-				console.log("Error:"+err.errorText);
-			} else {
-				GlobalParameter.player = obj.data.player;
-				console.log("Player_01.name="+obj.data.player.player_01.name);
-
-				jsondata.load("Config/sumo.json", function(err, obj) {
-					if (err) {
-						
-					} else {
-						GlobalParameter.sumo = obj.data.sumos;
-						console.log("Sumo_01.name="+obj.data.sumos.sumo_01.name);
-						
-						jsondata.load("Config/skill.json", function(err, obj) {
-    						if (err) {
-    							
-    						} else {
-    							GlobalParameter.skill = obj.data.skills;
-    							console.log("Skill_01.name="+GlobalParameter.skill.skill_01.name);
-    							
-    							jsondata.load("Config/battle.json", function(err, obj) {
-	        						if (err) {
-	        							
-	        						} else {
-	        							GlobalParameter.battle = obj.data.battle;
-	        							console.log("battle_01.name="+obj.data.battle.background);
-									    
-									    self.transitionToMain(battleName);
-	        						}
-	        					});
-		        			}
-	        			});
-	        		}
-        		});
-			}
-		});
+    gotoBattle: function(self) {
+    	self.transitionToBattle();
     },
     
-    transitionToMain: function(battleName) {
-		console.log("transition to main scene: " + battleName);
-		SceneDirector.transition("MAIN_SCENE", battleName);
+    transitionToBattle: function() {
+		console.log("Jump into battle");
+		new BattleEntry("DEBUG");
     },
     
     transitionToTest: function() {
@@ -81877,6 +81831,11 @@ var debugSceneController =
     transitionToViet: function() {
         console.log("transition to Viet");
         SceneDirector.push("ALL_SCENE");
+    },
+    transitionToHomeScene: function() {
+        console.log("transition to Viet");
+        this._scene.node.setTouchable(false);
+        SceneDirector.push("HOME_SCENE");
     },
     
 	_initBackKey: function () {
@@ -81916,11 +81875,13 @@ var GL2					 = require('NGCore/Client/GL2').GL2;
 var DebugSceneController	 = require('Code/controller/DebugSceneController').DebugSceneController;
 
 var debugScene = {
+    sceneName: "DEBUG_SCENE",
 	initialize: function() {
-		this.controller = new DebugSceneController();
+		this.controller = new DebugSceneController(this);
 	},
 	
 	onEnter: function(prevScene, option) {
+	    Log("VVVVVVVVVVVVVVVVVVVSLRLRSSSSSSSSSSSSS111111112222SSSS");
 		this.node = new GL2.Node();
 		console.log("SON:in debugScene1");
 	    GUIBuilder.loadConfigFromFile("Config/Scene/DebugScene.json", this.controller, function() {
@@ -81933,255 +81894,15 @@ var debugScene = {
 	
 	onExit: function(nextScene, option) {
 		this.node.destroy();
+	},
+	onResume: function() {
+	    Log("VVVVVVVVVVVVVVVVVVVSLRLRSSSSSSSSSSSSSSSSS" + this.node.getTouchable());
+	    this.node.setTouchable(true);
 	}
 };
 
 exports.DebugScene = Scene.subclass(debugScene);
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/HUD/HUDScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/HUD/HUDScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/HUD/HUDScene'] = exports; 
-var __dirname = 'Code/view/Scene/HUD';
-var __filename = 'Code/view/Scene/HUD/HUDScene.js';
-
-/**
- * @author sonnn
- */
-var ScreenManager = require('NGGo/Service/Display/ScreenManager').ScreenManager;
-var GUIBuilder = require('NGGo/Framework/GUIBuilder').GUIBuilder;
-var Scene = require('NGGo/Framework/Scene/Scene').Scene;
-var GL2 = require('NGCore/Client/GL2').GL2;
-var HUDController = require('Code/controller/HUDController').HUDController;
-var Core = require('NGCore/Client/Core').Core;
-var SceneDirector = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
-var GLUI = require('NGGo/GLUI').GLUI;
-
-var hudObj = {
-	initialize: function() {
-		this.controller = new HUDController();
-	},
-	
-	onEnter: function(preScene, option) {
-		this.node = new GL2.Node();
-	    GUIBuilder.loadConfigFromFile("Config/Scene/HUDScene.json", this.controller, function ()
-	    {
-	    	this.node.addChild(this.controller.HUD);
-	        ScreenManager.getRootNode().addChild(this.node);
-	    }.bind(this));
-	},
-	
-	onExit: function(nextScene, option) {
-		this.node.destroy();
-	},
-	
-	updateHpBar: function(playerHp, enemyHp) {
-		if(playerHp) {
-			this.PlayerHp.setSize(playerHp, 15);
-		}
-		if(enemyHp) {
-			this.EnemyHp.setSize(enemyHp, 15);
-		}
-	}
-};
-
-exports.HUDScene = Scene.subclass(hudObj);; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/controller/TestSceneController'] = function(){var exports = $MODULE_REGISTRY['Code/controller/TestSceneController'] || {}; $MODULE_REGISTRY['Code/controller/TestSceneController'] = exports; 
-var __dirname = 'Code/controller';
-var __filename = 'Code/controller/TestSceneController.js';
-
-/**
- * @author sonnn
- */
-
-var Core 				= require('NGCore/Client/Core').Core;
-var GL2  				= require('NGCore/Client/GL2').GL2;
-var SceneDirector 		= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
-var SceneFactory 		= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
-var ParticleEmitter 	= require('NGGo/Service/Graphics/ParticleEmitter').ParticleEmitter;
-var AnimationManager 	= require('NGGo/Framework/AnimationManager').AnimationManager;
-var Logger 				= require('Code/utils/Logger').Logger;
-
-var testSceneController = 
-{
-	
-	initialize: function() {
-	},
-	
-	action_click: function (elem, buttnName) {
-        console.log('You clicked ' + buttnName + '!');
-        
-        if (buttnName === "Home") {
-        	SceneDirector.transition("DEBUG_SCENE");
-        }
-   },
-   
-   setup: function() {
-   		var sprite = new GL2.Sprite();
-		
-		// var a = new GL2.Animation();
-		// var dimension = [1952, 845];
-		var fRate = 100;
-		// var offset = [0, 0.5];
-		// a.pushFrame(new GL2.Animation.Frame('Content/test/lighting/lighting-1.png', fRate, dimension, offset, [0, 0, 1, 1]));
-		// a.pushFrame(new GL2.Animation.Frame('Content/test/lighting/lighting-2.png', fRate, dimension, offset, [0, 0, 1, 1]));
-		// a.pushFrame(new GL2.Animation.Frame('Content/test/lighting/lighting-3.png', fRate, dimension, offset, [0, 0, 1, 1]));
-		// a.pushFrame(new GL2.Animation.Frame('Content/test/lighting/lighting-4.png', fRate, dimension, offset, [0, 0, 1, 1]));
-// 		
-		// sprite.setAnimation(a);
-		
-		sprite.setAnimation(AnimationManager.getAnimationGL2("lighting", "line", fRate));
-		
-		sprite.setScale(-1, 1);
-		sprite.setPosition(220, 100);
-		this.MainGame.addChild(sprite);
-   }
-};
-
-exports.TestSceneController = Core.Class.subclass(testSceneController);
-; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Test/TestScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Test/TestScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/Test/TestScene'] = exports; 
-var __dirname = 'Code/view/Scene/Test';
-var __filename = 'Code/view/Scene/Test/TestScene.js';
-
-/**
- * @author sonnn
- */
-var ScreenManager		 = require('NGGo/Service/Display/ScreenManager').ScreenManager;
-var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
-var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
-var GL2					 = require('NGCore/Client/GL2').GL2;
-var SceneDirector 		 = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
-var TestSceneController	 = require('Code/controller/TestSceneController').TestSceneController;
-
-var testScene = {
-	initialize: function() {
-		this.controller = new TestSceneController();
-	},
-	
-	onEnter: function(prevScene, option) {
-		this.node = new GL2.Node();
-	    GUIBuilder.loadConfigFromFile("Config/Scene/TestScene.json", this.controller, function ()
-	    {
-	    	ScreenManager.getRootNode().addChild(this.node);
-	    	this.controller.HUD.setDepth(65535);
-	    	this.controller.MainGame.setDepth(0);
-	    	this.node.addChild(this.controller.HUD);
-	    	this.node.addChild(this.controller.MainGame);
-	    	
-	    	this.controller.setup();
-	    }.bind(this));
-	},
-	
-	onExit: function(nextScene, option) {
-		this.node.destroy();
-	}
-};
-
-exports.TestScene = Scene.subclass(testScene);
-; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/VietLib/DebugView'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/DebugView'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/DebugView'] = exports; 
-var __dirname = 'Code/view/Scene/Viet/VietLib';
-var __filename = 'Code/view/Scene/Viet/VietLib/DebugView.js';
-
-var GL2					 = require('NGCore/Client/GL2').GL2;
-var Core				 = require('NGCore/Client/Core').Core;
-var UI 					 = require('NGCore/Client/UI').UI;
-
-/*
- * DebugView is used to modify configurations for one scene. Instead of restart Game, we can use DebugView to enter values for
- * some configurations, and then reload Scene to view result. To use DebugView, Scene must install:
- * 1. Init a debugView object as its attribute
- * 2. reloadForDebug function (see StoryScene's one)
- * 3. Call debugView.destroy in scene's onExit
- * 
- */
-exports.DebugView = Core.Class.subclass({
-	// max frame width = 480
-	initialize: function(scene, text, frame) {
-		this._scene = scene;
-		this._text = text;
-		this._frame = frame;
-		this.values = [];
-		this._view = new UI.View();
-		this.scrollView = new UI.ScrollView();
-		this.config = new UI.Button();
-		this.reset = new UI.Button();
-		
-		this.objs = [];
-		this.createView();
-	},
-	createView: function() {
-		Log("in CreateView");
-		this._view.setFrame(this._frame);
-		this.scrollView.setFrame(this._frame[2]/16 + 2, 0, this._frame[2]/16*14 -2, this._frame[3]);
-		this.scrollView.setContentSize((3 + this._frame[2]/7)*this._text.length, this._frame[3]);
-		this.scrollView.setScrollIndicatorsVisible(false);
-		UI.Window.document.addChild(this._view.addChild(this.scrollView));
-		this.scrollView.setVisible(false);
-		this._create2Button();
-		var x = 0;
-		var w = this._frame[2]/ 7;
-		for(var i = 0; i < this._text.length; i++) {
-			var obj = {};
-				
-			obj.editText = new UI.EditText();
-			//obj.editText.setBackgroundColor("FF2FFF");
-			obj.editText.setAlpha(0.4);
-			obj.editText.setPlaceholder(this._text[i]);
-			obj.editText.setBackgroundColor("FFFFFF");
-			obj.editText.setPlaceholderColor("FF0000");
-			obj.editText.setFrame([x, 0, w, this._frame[3]]);
-			this.scrollView.addChild(obj.editText);
-			this.objs.push(obj);
-		
-			x += w + 2 ;
-		}
-	},
-	
-	_create2Button: function() {
-		Log("in Create2Button");
-		this.config.setFrame(0,0,this._frame[2]/16, this._frame[3]);
-		this.config.setImage('Content/viet/avatar_arrow.png');
-		this.config.onclick = function() {
-			this.scrollView.setVisible(true);
-			this.reset.setVisible(true);
-		}.bind(this);
-		this._view.addChild(this.config);
-		this.reset.setImage('Content/viet/reset.png');
-		this.reset.setFrame(this._frame[2] - this._frame[2]/16, 0,this._frame[2]/18, this._frame[3] -5);
-		this.reset.setVisible(false);
-		this.reset.onclick = function() {
-			this.scrollView.setVisible(false);
-			this.reset.setVisible(false);
-			this.values = [];
-			if(this.objs != undefined) {
-				for(var i = 0; i < this.objs.length; i++) {
-					
-					this.values.push(this._getValue(this.objs[i].editText.getText()));
-					Log("values_origin[" + i + "]  = " + this.values[i]);
-				}
-			}
-			
-			setTimeout(function() {this._scene.reloadForDebug(this.values);}.bind(this),500);
-			
-		}.bind(this);
-		this._view.addChild(this.reset);
-	},
-	/*
-	 * Return number value or array from a string that contains comma ','
-	 * ex: 34,56
-	 */
-	_getValue: function(str) {
-		if(str) {
-			if(str.indexOf(',') == -1)
-				return str;
-			else {
-				return str.split(',');
-			}
-		}
-	},
-	destroy: function() {
-		this._view.destroy();
-	}
-});; return exports;};
 $MODULE_FACTORY_REGISTRY['NGGo1.3/Foundation/Math/Utils'] = function(){var exports = $MODULE_REGISTRY['NGGo1.3/Foundation/Math/Utils'] || {}; $MODULE_REGISTRY['NGGo1.3/Foundation/Math/Utils'] = exports; 
 var __dirname = 'NGGo1.3/Foundation/Math';
 var __filename = 'NGGo1.3/Foundation/Math/Utils.js';
@@ -85121,21 +84842,126 @@ exports.VFX = Core.Class.singleton(
         return VFXActions.isRunning();
     }
 });; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/VietScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/VietScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/VietScene'] = exports; 
-var __dirname = 'Code/view/Scene/Viet';
-var __filename = 'Code/view/Scene/Viet/VietScene.js';
+$MODULE_FACTORY_REGISTRY['Code/utils/DebugView'] = function(){var exports = $MODULE_REGISTRY['Code/utils/DebugView'] || {}; $MODULE_REGISTRY['Code/utils/DebugView'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/DebugView.js';
+
+var GL2					 = require('NGCore/Client/GL2').GL2;
+var Core				 = require('NGCore/Client/Core').Core;
+var UI 					 = require('NGCore/Client/UI').UI;
+
+/*
+ * DebugView is used to modify configurations for one scene. Instead of restart Game, we can use DebugView to enter values for
+ * some configurations, and then reload Scene to view result. To use DebugView, Scene must install:
+ * 1. Init a debugView object as its attribute
+ * 2. reloadForDebug function (see StoryScene's one)
+ * 3. Call debugView.destroy in scene's onExit
+ * 
+ */
+exports.DebugView = Core.Class.subclass({
+	// max frame width = 480
+	initialize: function(scene, text, frame) {
+		this._scene = scene;
+		this._text = text;
+		this._frame = frame;
+		this.values = [];
+		this._view = new UI.View();
+		this.scrollView = new UI.ScrollView();
+		this.config = new UI.Button();
+		this.reset = new UI.Button();
+		
+		this.objs = [];
+		this.createView();
+	},
+	createView: function() {
+		Log("in CreateView");
+		this._view.setFrame(this._frame);
+		this.scrollView.setFrame(this._frame[2]/16 + 2, 0, this._frame[2]/16*14 -2, this._frame[3]);
+		this.scrollView.setContentSize((3 + this._frame[2]/7)*this._text.length, this._frame[3]);
+		this.scrollView.setScrollIndicatorsVisible(false);
+		UI.Window.document.addChild(this._view.addChild(this.scrollView));
+		this.scrollView.setVisible(false);
+		this._create2Button();
+		var x = 0;
+		var w = this._frame[2]/ 7;
+		for(var i = 0; i < this._text.length; i++) {
+			var obj = {};
+				
+			obj.editText = new UI.EditText();
+			//obj.editText.setBackgroundColor("FF2FFF");
+			obj.editText.setAlpha(0.4);
+			obj.editText.setPlaceholder(this._text[i]);
+			obj.editText.setBackgroundColor("FFFFFF");
+			obj.editText.setPlaceholderColor("FF0000");
+			obj.editText.setFrame([x, 0, w, this._frame[3]]);
+			this.scrollView.addChild(obj.editText);
+			this.objs.push(obj);
+		
+			x += w + 2 ;
+		}
+	},
+	
+	_create2Button: function() {
+		Log("in Create2Button");
+		this.config.setFrame(0,0,this._frame[2]/16, this._frame[3]);
+		this.config.setImage('Content/viet/avatar_arrow.png');
+		this.config.onclick = function() {
+			this.scrollView.setVisible(true);
+			this.reset.setVisible(true);
+		}.bind(this);
+		this._view.addChild(this.config);
+		this.reset.setImage('Content/viet/reset.png');
+		this.reset.setFrame(this._frame[2] - this._frame[2]/16, 0,this._frame[2]/18, this._frame[3] -5);
+		this.reset.setVisible(false);
+		this.reset.onclick = function() {
+			this.scrollView.setVisible(false);
+			this.reset.setVisible(false);
+			this.values = [];
+			if(this.objs != undefined) {
+				for(var i = 0; i < this.objs.length; i++) {
+					
+					this.values.push(this._getValue(this.objs[i].editText.getText()));
+					Log("values_origin[" + i + "]  = " + this.values[i]);
+				}
+			}
+			
+			setTimeout(function() {this._scene.reloadForDebug(this.values);}.bind(this),500);
+			
+		}.bind(this);
+		this._view.addChild(this.reset);
+	},
+	/*
+	 * Return number value or array from a string that contains comma ','
+	 * ex: 34,56
+	 */
+	_getValue: function(str) {
+		if(str) {
+			if(str.indexOf(',') == -1)
+				return str;
+			else {
+				return str.split(',');
+			}
+		}
+	},
+	destroy: function() {
+		this._view.destroy();
+	}
+});; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/VietScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/VietScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/VietScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/VietScene.js';
 
 var GL2					 = require('NGCore/Client/GL2').GL2;
 var Core				 = require('NGCore/Client/Core').Core;
 var UI 					 = require('NGCore/Client/UI').UI;
 var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
 var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
-var DebugView			 = require('Code/view/Scene/Viet/VietLib/DebugView').DebugView;
 var VFX                  = require('NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions           = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops                  = require('NGGo1.3/Foundation/Math/Ops').Ops;
 var Scene                = require('NGGo/Framework/Scene/Scene').Scene;
 var SceneDirector        = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var DebugView            = require('Code/utils/DebugView').DebugView;
 
 var VietScene = ({
  	classname: "VietScene",  // must be unique
@@ -85147,10 +84973,10 @@ var VietScene = ({
  		this.node = new GL2.Node();
  		this._addBackground();
  	},
- 	onEnter: function() {
+ 	onEnter: function(preScene, option) {
  		Log(" call onEnter");
 		GUIBuilder.registerTypeMethod(this.classname, this.defineConfig);
-		GUIBuilder.loadConfigFromFile("Config/VietConfig/" + this.classname + ".json", this.controller, function(err) {
+		GUIBuilder.loadConfigFromFile("Config/Scene/" + this.classname + ".json", this.controller, function(err) {
 			if(this.controller.CONF!= undefined) {
 				this.CONF = this.controller.CONF;
 				if(this.CONF.debug) {
@@ -85214,12 +85040,12 @@ var VietScene = ({
  			this._debugView.destroy();
  	},
  	onPause: function() {
- 		this.btnBack.setEnabled(false);
+ 		//this.btnBack.setEnabled(false);
  	},
  	onResume: function() {
  	    Log(this.sceneName + " resumed");
  		this._slowAppear();
- 		this.btnBack.setEnabled(true);
+ 		//this.btnBack.setEnabled(true);
  	},
  	
  	//add background right after init, so hard code
@@ -85234,7 +85060,7 @@ var VietScene = ({
 	    seq.play(this.node);
 	},
 	_addBackButton: function() {
-        this.btnBack = new UI.Button({
+        /*this.btnBack = new UI.Button({
         frame: [460, 0, 20, 20],
         text: "X",
         disabledTextColor: "FFFF",
@@ -85268,9 +85094,9 @@ var VietScene = ({
             while(SceneDirector.currentScene.sceneName != this.sceneName) {
                 SceneDirector.pop();
                 Log("CurrentScene is " + SceneDirector.currentScene.sceneName);
-            }*/
+            }
         }.bind(this));
-        UI.Window.document.addChild(this.btnBack);
+        UI.Window.document.addChild(this.btnBack); */
     },
  });
  exports.VietScene = Scene.subclass(VietScene);; return exports;};
@@ -98473,9 +98299,9 @@ exports.GLUI =
 	NGWindow	: require('NGGo1.3/GLUI/NGWindow').NGWindow  /* __deprecated__  use GLUI.Window.document instead */
 };
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/StoryScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/StoryScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/StoryScene'] = exports; 
-var __dirname = 'Code/view/Scene/Viet';
-var __filename = 'Code/view/Scene/Viet/StoryScene.js';
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/StoryScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/StoryScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/StoryScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/StoryScene.js';
 
 /*
  *
@@ -98495,8 +98321,8 @@ var VFX					 = require('NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions			 = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops 				 = require('NGGo1.3/Foundation/Math/Ops').Ops;
 var GLUI				 = require('NGGo1.3/GLUI').GLUI;
-var DebugView 			 = require('Code/view/Scene/Viet/VietLib/DebugView').DebugView;
-var VietScene 			 = require('Code/view/Scene/Viet/VietScene').VietScene;
+var DebugView 			 = require('Code/utils/DebugView').DebugView;
+var VietScene 			 = require('Code/view/Scene/VietScene').VietScene;
 
 
 _StorySceneListener = Core.MessageListener.subclass({
@@ -98714,9 +98540,9 @@ exports.StoryScene = VietScene.subclass({
 
 
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/VietLib/ListNode'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/ListNode'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/ListNode'] = exports; 
-var __dirname = 'Code/view/Scene/Viet/VietLib';
-var __filename = 'Code/view/Scene/Viet/VietLib/ListNode.js';
+$MODULE_FACTORY_REGISTRY['Code/utils/ListNode'] = function(){var exports = $MODULE_REGISTRY['Code/utils/ListNode'] || {}; $MODULE_REGISTRY['Code/utils/ListNode'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/ListNode.js';
 
 var ImageListView		 = require('NGGo1.3/Service/Graphics/ImageListView').ImageListView;
 var GL2					 = require('NGCore/Client/GL2').GL2;
@@ -98876,9 +98702,103 @@ exports.ListNode = GL2.Node.subclass({
 		this.node.addChild(bg);
 	}
  });; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/VietLib/Builder'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/Builder'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/Builder'] = exports; 
-var __dirname = 'Code/view/Scene/Viet/VietLib';
-var __filename = 'Code/view/Scene/Viet/VietLib/Builder.js';
+$MODULE_FACTORY_REGISTRY['Code/utils/eff'] = function(){var exports = $MODULE_REGISTRY['Code/utils/eff'] || {}; $MODULE_REGISTRY['Code/utils/eff'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/eff.js';
+
+var ImageListView        = require('NGGo1.3/Service/Graphics/ImageListView').ImageListView;
+var GL2                  = require('NGCore/Client/GL2').GL2;
+var Core                 = require('NGCore/Client/Core').Core;
+var UI                   = require('NGCore/Client/UI').UI;
+var GL2                  = require('NGCore/Client/GL2').GL2;
+var GUIBuilder           = require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var GLUI                 = require('NGGo1.3/GLUI').GLUI;
+var VFX                  = require('NGGo1.3/Service/Graphics/VFX').VFX;
+var VFXActions           = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
+var Ops                  = require('NGGo1.3/Foundation/Math/Ops').Ops;
+var Builder              = require('Code/utils/Builder').Builder;
+
+exports.eff = {};
+exports.eff.shakeNode = function(node, time, dx) {
+        Log("call eff shakeNode");
+        var n = 50;
+        var dt = time*1000/n;
+        var x = node.getPosition().getX();
+        var y = node.getPosition().getY();
+        for( var i = 0; i < n; i++) {
+            switch(i%4) {
+                case 0: setTimeout(function() {node.setPosition(x + dx, y);}, i*dt); break;
+                case 1: setTimeout(function() {node.setPosition(x - dx, y);}, i*dt); break;
+                case 2: setTimeout(function() {node.setPosition(x, y + dx);}, i*dt); break;
+                case 3: setTimeout(function() {node.setPosition(x, y - dx);}, i*dt); break;
+            }
+        }
+};
+exports.eff.scaleAppear = function(parent, child, time) {
+    child.setScale(0.1,0.1);
+    parent.addChild(child);
+    var seq = VFX.sequence().scaleTo(time,[1,1]);
+    seq.play(child);
+};
+/*
+ * Swinging a gl2 node in different direction, maybe random direction, forever time.
+ * @param direction: horizontal, vertical, or crossal
+ * @dx: distance that node swing.
+ * @time: decide to speed of node's movement
+ */
+
+exports.eff.swingNode = function(node, direction, dx, time) {
+    var pos = [0,0];
+    switch(direction) {
+        case 'horizontal':
+            pos = [dx,0]; 
+            break;
+        case 'vertical':
+            pos = [0, dx];
+            break;
+        case 'other':
+            pos = [dx,dx];
+            break;
+    }
+    var sequence = VFX.sequence().move(time, pos).move(time,[0 - pos[0], 0 - pos[1]]).repeatForEver();
+    sequence.play(node);
+};
+
+/*
+ * see arrow motion in Daovang game
+ */
+exports.eff.guideArrow = function(arrowNode) {
+    
+};
+
+/*
+ * Effect when user touch any point on screen, two circle appears and scale gradually (android  keyboard unlock)
+ */
+exports.eff.touch = function(pos,cb) {
+    Log("touch effectwwwwwww");
+   
+    for (var i = 0; i < 5; i++) {
+        var bubble = new GL2.Sprite();
+        bubble.setImage("Content/viet/drop_water.png", [20,20],[0,0]);
+        bubble.setPosition(Math.random()*480, 320 * Math.random());
+        bubble.setDepth(62128);
+        GL2.Root.addChild(bubble);
+        var seq = VFX.sequence().moveTo(1,pos, Ops.easeInExpo).fadeOut(1,0.5).disappear();
+        seq.play(bubble);
+       // setTimeout(function() {Log("ahahahahah: +" + i);bubble.destroy();cb();}, 1100);
+    }
+},
+/*
+ * lighting a gl2 node by cycle ( node will delight each cycle time)
+ * @params cycle: time that after each, node will delight
+ */
+exports.eff.lightNode = function(node, cycle) {
+    
+}
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/utils/Builder'] = function(){var exports = $MODULE_REGISTRY['Code/utils/Builder'] || {}; $MODULE_REGISTRY['Code/utils/Builder'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/Builder.js';
 
 var ImageListView		 = require('NGGo1.3/Service/Graphics/ImageListView').ImageListView;
 var GL2					 = require('NGCore/Client/GL2').GL2;
@@ -98890,7 +98810,7 @@ var GLUI				 = require('NGGo1.3/GLUI').GLUI;
 var VFX					 = require('NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions			 = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops 				 = require('NGGo1.3/Foundation/Math/Ops').Ops;
-
+var eff                  = require('Code/utils/eff').eff;
 exports.Builder = {};
 exports.Builder.makeSpriteButton = function(imgPath, frame, onclick) {
 		Log("[SpriteButton] = " + imgPath);
@@ -98909,7 +98829,13 @@ exports.Builder.makeSpriteButton = function(imgPath, frame, onclick) {
 		sprite.addChild(button.getGLObject());
 		return sprite;
 };
+/*
+ * Create a GL2 Sprite and add to parent
+ * @params frame: [x,y,z,t] in this [x,y]: position of sprite, [z,t]: size of image
+ * @return sprite :GL2 Sprite
+ */
 exports.Builder.makeSprite = function(parent, imgPath, frame, anchor, uvs) {
+    var anchor = (anchor == undefined ? [0,0] : anchor);
 	var sprite = new GL2.Sprite();
 	sprite.setPosition(frame[0], frame[1]);
 	sprite.setImage(imgPath, [frame[2], frame[3]],anchor, uvs );
@@ -98962,12 +98888,97 @@ exports.Builder.makeNode = function(parent, frame) {
     return prim1;
 };
 
+/*
+ * Create and attach a touch target in to parent(GL2Node). a touch target has same size as its parents.
+ * @params type: which touch event will be catched, default: tap, type = 1: scroll up, type =2 scroll down, etc
+ */
+exports.Builder.makeTouch = function(parent, size, cb, type) {
+    var tt = new GL2.TouchTarget();
+    tt.setAnchor(0,0);
+    tt.setSize(size);
+    var lis = new Core.MessageListener();
+   // parent.cb = cb;
+    lis.onTouch = function(touch) {
+          Log("onTouch function called");
+            switch(touch.getAction()) {
+            case touch.Action.Start:
+                // Start tracking the touch event.
+                this.trackingId = touch.getId();
+                this.trackingPosition = touch.getPosition();
+                this.trackingPositionStart = this.trackingPosition;
 
+                // Identify the touch event's offset from the global
+                // scene coordinates.
+                var local = this.screenToLocal(this.trackingPosition);
+                var current = this.getPosition();
+                this.trackingOffset = new Core.Vector(current.getX() - local.getX(),
+                  current.getY() - local.getY());
+                    Log("type =========2SSFSSSSSSSSSSSSSSSSSSSSSSSS ");
+                if(type == 2) {
+                    Log("type =========2 ");
+                  
+                } else {
+                    eff.touch(this.trackingPosition, cb);
+                    cb.func(cb.args);
+                      break;
+                 }
+                
+                // Return true so that we continue to get touch events.
+                return true;
 
+            case touch.Action.Move:
+                // Make sure this is the same touch that we are
+                // currently tracking.
+                if (this.trackingId != touch.getId()) {
+                    return;
+                }
+                // Update the touch position.
+                this.trackingPosition = touch.getPosition();
+                //Log("tracking at:::::" + this.trackingPosition.getX() + " y = " + this.trackingPosition.getY());
+                break;
+
+            case touch.Action.End:
+                // Make sure this is the same touch that we are
+                // currently tracking.
+                if (this.trackingId != touch.getId()) {
+                    return;
+                }
+                if(touch.getPosition().getY() < this.trackingPositionStart.getY() - 25) {
+                    Log("OK, scroll up occured");
+                    cb.func(cb.args);
+                }
+                // Clear the ID and position.
+                this.trackingId = this.trackingPosition = null;
+                break;
+        }
+    };
+    tt.getTouchEmitter().addListener(lis, lis.onTouch.bind(parent));
+    parent.addChild(tt);
+    return tt;
+}
+
+exports.Builder.makeText = function(parent, pos, size, message, fontSize, fontColor) {
+    var text = new GL2.Text();
+    text.setFontSize(fontSize);
+    text.setSize(size);
+    text.setColor(fontColor);
+    text.setFontLocation(GL2.Text.FontLocation.Manifest);
+    text.setFontFamily("Content/viet/StrikeOut.ttf");
+   // font = new GL2.Font("Content/viet/StrikeOut.otf");
+    //text.setFont(font);
+    text.setHorizontalAlign(GL2.Text.HorizontalAlign.Center);
+    text.setVerticalAlign(GL2.Text.VerticalAlign.Top);
+    //text.setOverflowMode(GL2.Text.OverflowMode.Multiline);
+   text.setAnchor(0,0);
+   // text.setFont("Arial");
+    text.setText(message || "");
+    parent.addChild(text);
+    return text;
+}
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/ListScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/ListScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/ListScene'] = exports; 
-var __dirname = 'Code/view/Scene/Viet';
-var __filename = 'Code/view/Scene/Viet/ListScene.js';
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/ListScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/ListScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/ListScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/ListScene.js';
 
 var ImageListView		 = require('NGGo1.3/Service/Graphics/ImageListView').ImageListView;
 var GL2					 = require('NGCore/Client/GL2').GL2;
@@ -98980,10 +98991,10 @@ var VFXActions			 = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops 				 = require('NGGo1.3/Foundation/Math/Ops').Ops;
 var Observable           = require("NGGo/Foundation/Observable").Observable;
 var GLUI				 = require('NGGo1.3/GLUI').GLUI;
-var ListNode             = require('Code/view/Scene/Viet/VietLib/ListNode').ListNode;
-var Builder				 = require('Code/view/Scene/Viet/VietLib/Builder').Builder;
-var DebugView            = require('Code/view/Scene/Viet/VietLib/DebugView').DebugView;
-var VietScene            = require('Code/view/Scene/Viet/VietScene').VietScene;
+var ListNode             = require('Code/utils/ListNode').ListNode;
+var Builder				 = require('Code/utils/Builder').Builder;
+var DebugView            = require('Code/utils/DebugView').DebugView;
+var VietScene            = require('Code/view/Scene/VietScene').VietScene;
 
 
 ListSceneListener = Core.MessageListener.subclass({
@@ -99087,9 +99098,9 @@ exports.ListScene = VietScene.subclass({
 },[Observable]);
 
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/AllScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/AllScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/AllScene'] = exports; 
-var __dirname = 'Code/view/Scene/Viet';
-var __filename = 'Code/view/Scene/Viet/AllScene.js';
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/AllScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/AllScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/AllScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/AllScene.js';
 
 var GL2					 = require('NGCore/Client/GL2').GL2;
 var Core				 = require('NGCore/Client/Core').Core;
@@ -99100,7 +99111,7 @@ var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
 var VFX					 = require('NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions			 = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops 				 = require('NGGo1.3/Foundation/Math/Ops').Ops;
-var VietScene 			 = require('Code/view/Scene/Viet/VietScene').VietScene;
+var VietScene 			 = require('Code/view/Scene/VietScene').VietScene;
 
 exports.AllScene = VietScene.subclass({
  	classname: "AllScene",  // must be unique
@@ -99109,7 +99120,7 @@ exports.AllScene = VietScene.subclass({
  		$super();
  		this.btns = [];
  		this.ui = new UI.View();
- 		this.ui.setFrame(0,0,800,480);  //GL2.Node co the khong can set position nhung UI.View thi phai set Frame
+ 		this.ui.setFrame(0,0,450,320); 
  		UI.Window.document.addChild(this.ui);
  	},
  	defineConfig: function(controller,def){
@@ -99153,7 +99164,9 @@ exports.AllScene = VietScene.subclass({
 	 		});
 	 		sceneButton.setOnClick(function() {
 	 			this.getParent().setVisible(false);
-	 			SceneDirector.push(this.getText());
+	 			if(this.getText() == 'TUTOR_SCENE')
+	 			   SceneDirector.push(this.getText(), "OPP pa pa gangnam style");
+	 			else SceneDirector.push(this.getText());
 	 		});
 	 		this.ui.addChild(sceneButton);
 	 		x += btnSize[0] + 10;
@@ -99190,85 +99203,9 @@ exports.AllScene = VietScene.subclass({
 	
 });
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/VietLib/eff'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/eff'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/VietLib/eff'] = exports; 
-var __dirname = 'Code/view/Scene/Viet/VietLib';
-var __filename = 'Code/view/Scene/Viet/VietLib/eff.js';
-
-var ImageListView        = require('NGGo1.3/Service/Graphics/ImageListView').ImageListView;
-var GL2                  = require('NGCore/Client/GL2').GL2;
-var Core                 = require('NGCore/Client/Core').Core;
-var UI                   = require('NGCore/Client/UI').UI;
-var GL2                  = require('NGCore/Client/GL2').GL2;
-var GUIBuilder           = require('NGGo/Framework/GUIBuilder').GUIBuilder;
-var GLUI                 = require('NGGo1.3/GLUI').GLUI;
-var VFX                  = require('NGGo1.3/Service/Graphics/VFX').VFX;
-var VFXActions           = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
-var Ops                  = require('NGGo1.3/Foundation/Math/Ops').Ops;
-
-exports.eff = {};
-exports.eff.shakeNode = function(node, time, dx) {
-        Log("call eff shakeNode");
-        var n = 50;
-        var dt = time*1000/n;
-        var x = node.getPosition().getX();
-        var y = node.getPosition().getY();
-        for( var i = 0; i < n; i++) {
-            switch(i%4) {
-                case 0: setTimeout(function() {node.setPosition(x + dx, y);}, i*dt); break;
-                case 1: setTimeout(function() {node.setPosition(x - dx, y);}, i*dt); break;
-                case 2: setTimeout(function() {node.setPosition(x, y + dx);}, i*dt); break;
-                case 3: setTimeout(function() {node.setPosition(x, y - dx);}, i*dt); break;
-            }
-        }
-};
-exports.eff.scaleAppear = function(parent, child, time) {
-    child.setScale(0.1,0.1);
-    parent.addChild(child);
-    var seq = VFX.sequence().scaleTo(time,[1,1]);
-    seq.play(child);
-};
-/*
- * Swinging a gl2 node in different direction, maybe random direction, forever time.
- * @param direction: horizontal, vertical, or crossal
- * @dx: distance that node swing.
- * @time: decide to speed of node's movement
- */
-
-exports.eff.swingNode = function(node, direction, dx, time) {
-    var pos = [0,0];
-    switch(direction) {
-        case 'horizontal':
-            pos = [0,dx]; 
-            break;
-        case 'vertical':
-            pos = [dx, 0];
-            break;
-        case 'other':
-            pos = [dx,dx];
-            break;
-    }
-    var sequence = VFX.sequence().move(time, pos).move(time,[0 - pos[0], 0 - pos[1]]).repeatForEver();
-    sequence.play(node);
-};
-
-/*
- * see arrow motion in Daovang game
- */
-exports.eff.guideArrow = function(arrowNode) {
-    
-};
-
-/*
- * lighting a gl2 node by cycle ( node will delight each cycle time)
- * @params cycle: time that after each, node will delight
- */
-exports.eff.lightNode = function(node, cycle) {
-    
-}
-; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/EffectScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/EffectScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/EffectScene'] = exports; 
-var __dirname = 'Code/view/Scene/Viet';
-var __filename = 'Code/view/Scene/Viet/EffectScene.js';
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/EffectScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/EffectScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/EffectScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/EffectScene.js';
 
 var GL2                  = require('NGCore/Client/GL2').GL2;
 var Core                 = require('NGCore/Client/Core').Core;
@@ -99278,9 +99215,9 @@ var GUIBuilder           = require('NGGo/Framework/GUIBuilder').GUIBuilder;
 var VFX                  = require('NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions           = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops                  = require('NGGo1.3/Foundation/Math/Ops').Ops;
-var VietScene            = require('Code/view/Scene/Viet/VietScene').VietScene;
-var Builder              = require('Code/view/Scene/Viet/VietLib/Builder').Builder;
-var eff                  = require('Code/view/Scene/Viet/VietLib/eff').eff;
+var VietScene            = require('Code/view/Scene/VietScene').VietScene;
+var Builder              = require('Code/utils/Builder').Builder;
+var eff                  = require('Code/utils/eff').eff;
 
 exports.EffectScene = VietScene.subclass({
     classname: "EffectScene",  // must be unique
@@ -99309,6 +99246,17 @@ exports.EffectScene = VietScene.subclass({
         var sp2 = Builder.makeSprite(this.node, 'Content/viet/arrow.png',[200,200,64,64]);
         eff.swingNode(sp2,'other', 18, 0.5);
     },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //Must be override
     defineConfig: function(controller,def){
             var conf = {};
@@ -99378,23 +99326,26 @@ exports.EffectScene = VietScene.subclass({
 
 
 ; return exports;};
-$MODULE_FACTORY_REGISTRY['Code/view/Scene/Viet/MapSelectionScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/Viet/MapSelectionScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/Viet/MapSelectionScene'] = exports; 
-var __dirname = 'Code/view/Scene/Viet';
-var __filename = 'Code/view/Scene/Viet/MapSelectionScene.js';
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/MapSelectionScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/MapSelectionScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/MapSelectionScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/MapSelectionScene.js';
 
 var GL2					 = require('NGCore/Client/GL2').GL2;
 var Core				 = require('NGCore/Client/Core').Core;
 var UI 					 = require('NGCore/Client/UI').UI;
 var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
 var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
-var DebugView			 = require('Code/view/Scene/Viet/VietLib/DebugView').DebugView;
-var VietScene			 = require('Code/view/Scene/Viet/VietScene').VietScene;
-var Builder				 = require('Code/view/Scene/Viet/VietLib/Builder').Builder;
+var SceneDirector        = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var SceneFactory         = require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
 var VFX					 = require('NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions			 = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops 				 = require('NGGo1.3/Foundation/Math/Ops').Ops;
-var Builder 			 = require('Code/view/Scene/Viet/VietLib/Builder').Builder;
-var eff                  = require('Code/view/Scene/Viet/VietLib/eff').eff;
+var Builder 			 = require('Code/utils/Builder').Builder;
+var eff                  = require('Code/utils/eff').eff;
+var DebugView            = require('Code/utils/DebugView').DebugView;
+var Builder              = require('Code/utils/Builder').Builder;
+var VietScene            = require('Code/view/Scene/VietScene').VietScene;
+
 
 exports.MapSelectionScene = VietScene.subclass({
  	classname: "MapSelectionScene",  // must be unique
@@ -99409,7 +99360,12 @@ exports.MapSelectionScene = VietScene.subclass({
  	 */
  	initialize: function($super,data) {
  		$super();
- 		this._data = data || [{name: "SM1", status: 1}, {name: "SM2", status: 0}, {name: "SM3", status: 0}, {name: "SM4", status: 0}, {name: "SM5", status: 0}, {name: "SM6", status: 0}];
+ 		this._data = data || [   {name: "SM1", status:  {stt1:0, tutorial : "hi there SM1"}}, 
+ 		                         {name: "SM2", status:  {stt1:1}},
+ 		                         {name: "SM3", status:  {stt1:2}}, 
+ 		                         {name: "SM4", status:  {stt1:0, tutorial : "hi there SM4"}}, 
+ 		                         {name: "SM5", status:  {stt1:0, tutorial : "hi there SM5"}}, 
+ 		                         {name: "SM6", status:  {stt1:0, tutorial : "hi there SM6"}}];
  		this.sumonings = [];
  	},
  	defineConfig: function(controller,def) {
@@ -99485,17 +99441,29 @@ exports.MapSelectionScene = VietScene.subclass({
  		for(var i = 0; i < this.sumonings.length; i++) {
  		    var s = this.sumonings[i];
  			if(s.imgPath == imgPath) {
- 			    eff.shakeNode(s.node, 4,5);
- 				var pos = new Core.Point(s.frame[0] + s.frame[2]/2, s.frame[1] + s.frame[3]/2); //screenToLocal.....//setup more here
- 				setTimeout(function() {this.sunLight(this.rock.localToScreen(pos));}.bind(this),1000);
+ 			    /*if (s.status.tutorial != undefined) {
+ 			        Log("sumoning: " + s.name + " has tutorial!!!: " + s.status.tutorial);
+ 			        s.status.tutorial = undefined;
+ 			        SceneDirector.push("TUTOR_SCENE", {cb: this.enterBattle.bind(this), args: s});
+ 			      // Push tutorial scene here  or create text of tutorial
+ 			      //After tutorial sh
+ 			    } else*/ this.enterBattle(s);
  			}
  		}
  		
- 		//Transition to Luc's Scene here, in setTimeout, after present effects.
- 		setTimeout(function() {this.bg.setColor(192/256, 255/256,62/256);
- 		                       this.bg.setDepth(60000);}.bind(this),3000);
+ 		
  	},
  	
+ 	enterBattle: function(s) {
+ 	      eff.shakeNode(s.node, 4,5);
+          //var pos = new Core.Point(s.frame[0] + s.frame[2]/2, s.frame[1] + s.frame[3]/2); //screenToLocal.....//setup more here
+          //setTimeout(function() {this.sunLight(this.rock.localToScreen(pos));}.bind(this),1000);
+          setTimeout(function() {
+                // this.bg.setColor(192/256, 255/256,62/256);
+                // this.bg.setDepth(60000);
+                SceneDirector.transition("MISSION_SCENE");
+           }.bind(this),2000);
+ 	},
  	
  	/*Make effect such as add "cleared" text on trained sumonor, "on-going" text on training sumonor,...
  	@param sumoNode: GL2.Node node that used to display image of sumoning.
@@ -99503,11 +99471,24 @@ exports.MapSelectionScene = VietScene.subclass({
  	
  	*/
  	_markProgress: function(sumoNode, status) {
- 		Log("call _markProgress ");
+ 		Log("call _markProgress  status = " + status );
+ 		var pos = this.rock.localToScreen(sumoNode.getPosition());
+        Log("Pos.x = " + pos.getX() + " pos.y = " + pos.getY());
  		switch(status) {
- 			case this.PROGRESS_STATUS_NEW: break;
- 			case this.PROGRESS_STATUS_CLEARED: break;
- 			case this.PROGRESS_STAUTS_TRAINING: break;
+ 			case this.PROGRESS_STATUS_NEW: 
+ 			  Log("status = new");
+ 			    //sumoNode.setColor(1,0,1);
+ 			    break;
+ 			case this.PROGRESS_STATUS_CLEARED: 
+ 			    Log("status = cleared");
+ 			    var mark = Builder.makeSprite(this.node, 'Content/viet/ninja.png', [pos.getX(), pos.getY()- 20,64,64],[0,0]);
+ 			    break;
+ 			case 2: 
+ 			     Log("status = training");
+ 			     sumoNode.setColor(1,0,1);  
+ 			     var sp1 = Builder.makeSprite(this.node, 'Content/viet/arrow.png',[pos.getX(), pos.getY() - 64,64,64],[0,0]);
+                 eff.swingNode(sp1,'vertical', 10, 2);
+ 			    break;
  		}
  	},
  	
@@ -99525,11 +99506,11 @@ exports.MapSelectionScene = VietScene.subclass({
  			sumoning.name = this.CONF.sumos[i].name;
  			sumoning.imgPath = this.CONF.sumos[i].imgPath;
  			sumoning.frame = this.CONF.sumos[i].frame;
- 			sumoning.status = this._getStatus(sumoning.name) || this.PROGRESS_STATUS_NORMAL;
+ 			sumoning.status = this._getStatus(sumoning.name) || this.PROGRESS_STATUS_NEW;
  			sumoning.node = Builder.makeSpriteButton(sumoning.imgPath,sumoning.frame,this.bind(this.onSelectSumonor));
  			this.sumonings.push(sumoning);
  			parentNode.addChild(sumoning.node);
- 			this._markProgress(sumoning.node, sumoning.status);
+ 			this._markProgress(sumoning.node, sumoning.status.stt1);
  		}	
  	},
  	// display rock
@@ -99555,6 +99536,1201 @@ exports.MapSelectionScene = VietScene.subclass({
  		Log("Can't find sumoning with name = " + sumoningName + " in data");
  	}
  });; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/TutorScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/TutorScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/TutorScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/TutorScene.js';
+
+var GL2                  = require('NGCore/Client/GL2').GL2;
+var Core                 = require('NGCore/Client/Core').Core;
+var UI                   = require('NGCore/Client/UI').UI;
+var Scene                = require('NGGo/Framework/Scene/Scene').Scene;
+var GUIBuilder           = require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var VFX                  = require('NGGo1.3/Service/Graphics/VFX').VFX;
+var VFXActions           = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
+var Ops                  = require('NGGo1.3/Foundation/Math/Ops').Ops;
+var Scene                = require('NGGo/Framework/Scene/Scene').Scene;
+var SceneDirector        = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var Builder              = require('Code/utils/Builder').Builder;
+var eff                  = require('Code/utils/eff').eff;
+var DebugView            = require('Code/utils/DebugView').DebugView;
+var VietScene            = require('Code/view/Scene/VietScene').VietScene;
+
+/*
+ * Tutor Scene: like opening a book to read. move to another page if long.
+ */
+exports.TutorScene = VietScene.subclass({
+    classname: "TutorScene",  // must be unique
+    sceneName: "TUTOR_SCENE",
+    initialize: function(data) {
+        Log(this.classname + " initialized");
+        this.controller = {};
+        this.CONF = {};
+        this.node = new GL2.Node();
+       // this._addBackground();
+    },
+    onEnter: function($super, preScene,option) {
+        $super();
+        Log("option in tutor scene is : " + option);
+        this.preScene = preScene;
+        this._data = option;
+    },
+    onSuccessConfig: function() {
+        Log("call onSuccessConfigwwwwwwwwwwwwww");
+        //Builder.makeSprite(this.node, 'Content/home.png', [200,200,90,90], [0,0]);
+        this.spreadClan();
+    },
+    spreadClan: function() {
+        Log("Clan spreading");
+        //this.preScene.node.setTouchable(false);
+        this.clan = Builder.makeSprite(this.node, 'Content/viet/clan.png', [100,-300, 280,320],[0,0]);
+        var txt = "I 123 12 456 12345 0 2   1.5 2.6 ";
+        this.text = Builder.makeText(this.clan, [0,20], [220,320], txt, 20, [1,0,0]);
+        
+        var tt = Builder.makeTouch(this.clan, [280,320], {func: this.rollingBackClan.bind(this), args: 0 });
+        var seq = VFX.sequence().moveTo(1, [100, 0], Ops.easeInExpo);
+        seq.play(this.clan);
+    },
+    rollingBackClan: function() {
+        Log("Clan is rolling back");
+        var seq = VFX.sequence().moveTo(1,[100, -300],Ops.easeInExpo);
+        seq.play(this.clan);
+        setTimeout(function() {
+            SceneDirector.pop();
+            if(this._data.cb && this._data.args)
+            this._data.cb(this._data.args);
+        }.bind(this), 1100
+        );
+       
+    },
+    
+    //Must be override
+    defineConfig: function(controller,def){
+            var conf = {};
+            conf.description = def.attrs.description;
+            conf.debug = def.attrs.debug || false;
+            conf.debugAttrs = def.attrs.debugAttrs || [];
+            return conf;
+    },
+  
+  
+ });; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/view/Scene/HomeScene'] = function(){var exports = $MODULE_REGISTRY['Code/view/Scene/HomeScene'] || {}; $MODULE_REGISTRY['Code/view/Scene/HomeScene'] = exports; 
+var __dirname = 'Code/view/Scene';
+var __filename = 'Code/view/Scene/HomeScene.js';
+
+/*
+ *ls
+ * 
+ * 
+ * 
+ * 
+ */
+var ImageListView		 = require('NGGo1.3/Service/Graphics/ImageListView').ImageListView;
+var GL2					 = require('NGCore/Client/GL2').GL2;
+var Core				 = require('NGCore/Client/Core').Core;
+var UI 					 = require('NGCore/Client/UI').UI;
+var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
+var SceneDirector        = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var SceneFactory         = require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var VFX					 = require('NGGo1.3/Service/Graphics/VFX').VFX;
+var VFXActions			 = require('NGGo1.3/Service/Graphics/VFXActions').VFXActions;
+var Ops 				 = require('NGGo1.3/Foundation/Math/Ops').Ops;
+var GLUI				 = require('NGGo1.3/GLUI').GLUI;
+var DebugView 			 = require('Code/utils/DebugView').DebugView;
+var Builder              = require('Code/utils/Builder').Builder;
+var eff                  = require('Code/utils/eff').eff;
+var VietScene            = require('Code/view/Scene/VietScene').VietScene;
+
+exports.HomeScene = VietScene.subclass({
+	classname: "HomeScene",
+	sceneName: "HOME_SCENE",
+	/*
+	 * type = 0 means display opening story
+	 * type = 1 means display boss story,...
+	 * conf is an array that contains stories for each type
+	 */
+	initialize: function($super, type) {
+		$super();
+		
+	},
+	defineConfig: function(controller,def) {
+		  var conf = {};
+            conf.description = def.attrs.description;
+            conf.debug = def.attrs.debug || false;
+            conf.debugAttrs = def.attrs.debugAttrs || [];
+            conf.maps = def.attrs.maps || [];
+            return conf;
+	},
+	onEnter: function($super, preScene,option) {
+        $super();
+        //Log("option in tutor scene is : " + option);
+        this.preScene = preScene;
+       // this._data = option;
+    },
+	onSuccessConfig: function() {
+		Log("call onSuccessConfig");
+		this.createMapButtons(this.CONF.maps);
+	},
+	
+	
+ 	createMapButtons: function(maps) {
+ 	    Log("createmapButtons");
+ 	    for (var i = 0; i < maps.length; i++) {
+ 	        Log("var i = " + i);
+ 	        var map = maps[i];
+ 	        map.node = new GL2.Node();
+ 	        Log("map.frame = " + map.frame);
+ 	        map.node.setPosition(map.frame[0], map.frame[1]);
+ 	        Builder.makeTouch(map.node,[map.frame[2], map.frame[3]], {func: this.bind(this.onSelectMap), args: map.id});
+ 	        this.node.addChild(map.node);
+ 	    }
+ 	},
+ 	/*
+ 	 * args is map_id
+ 	 */
+ 	onSelectMap: function(args) {
+ 	    Log(" Select a rock map: index is =====" + args);
+ 	    this.node.setTouchable(false);
+ 	    SceneDirector.push("MAP_SELECTION_SCENE");
+ 	},
+ 	onSelectOther: function() {
+ 	    Log("On select other button ");
+ 	},
+	
+	onExit: function($super) {
+	    this.preScene.node.setTouchable(true);
+		$super();
+	},
+	onPause: function() {
+		Log(this.classname + " paused");
+		this.node.setVisible(false);
+	},
+	_addBackground: function() {
+        this.bg = new GL2.Sprite();
+        this.bg.setImage("Content/home_bg.png", new Core.Size(480,320), new Core.Point(0,0));
+        this.node.addChild(this.bg);
+    },
+	onResume: function($super) {
+	   $super();
+		this.node.setVisible(true);
+		this.node.setTouchable(true);
+	},
+
+});
+
+
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/controller/MissionMainSceneController'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/controller/MissionMainSceneController'] || {}; $MODULE_REGISTRY['Code/module/mission/controller/MissionMainSceneController'] = exports; 
+var __dirname = 'Code/module/mission/controller';
+var __filename = 'Code/module/mission/controller/MissionMainSceneController.js';
+
+/**
+ * @author lucnd
+ */
+
+var Core 			= require('NGCore/Client/Core').Core;
+var GL2  			= require('NGCore/Client/GL2').GL2;
+var SceneDirector 	= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var SceneFactory 	= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var ParticleEmitter = require('NGGo/Service/Graphics/ParticleEmitter').ParticleEmitter;
+var Logger 			= require('Code/utils/Logger').Logger;
+var UI 				= require('NGCore/Client/UI').UI;
+var BattleEntry= require('Code/module/battle/BattleEntry').BattleEntry;
+
+var mainSceneController = 
+{
+	
+	initialize: function() {
+		this.currentBattle = "";
+		this.enemyTurn = false;
+		this.isFightingE = false;
+		this.isFighting = false;
+		this._skillTypeS = 1;
+		this._skillTypeE = 1;
+		this._addGoButton();
+	},
+    
+	initData: function(sumoObj, isEnemy) {
+		var hp = 200;
+		var ap = 1000;
+		var dp = 400;
+		var name = "dragon";
+		
+		if (isEnemy) {
+			if (this.currentBattle === "Battle1") {
+				ap = 600;
+				dp = 300;
+			} else {
+				ap = 1600;
+				dp = 600;
+			}
+		}
+		
+		sumoObj.hp = hp;
+		sumoObj.ap = ap;
+		sumoObj.dp = dp;
+		sumoObj.name = name;
+	},
+	
+	setupHero: function(hero) {		
+		if(hero) {
+				hero.setAnim("hero", "stand");
+				this.MainGame.addChild(hero.getAnim());
+		}
+			
+	},
+	setupMonster: function(monsters) {		
+		if(monsters) {
+			for(var i in monsters) {
+				var mon = monsters[i];
+				mon.setAnim("evil", "stand");
+				this.MainGame.addChild(mon.getNode());
+			}
+		}
+	},
+	
+	_addGoButton: function() {
+		this.nextButton = new UI.Button({
+			frame: [400, 10, 60, 30],
+			text: "Go",
+			disabledTextColor: "FFFF",
+			textSize: 14,
+			textGravity: UI.ViewGeometry.Gravity.Center,
+			gradient: {
+				corners: '8 8 8 8',
+				outerLine: "00 1.5",
+				gradient: [ "FF9bd6f4 0.0", "FF0077BC 1.0" ]
+			},
+			highlightedGradient: {
+				corners: '8 8 8 8',
+				outerLine: "00 1.5",
+				gradient: [ "FF0077BC 0.0", "FF9bd6f4 1.0" ]
+			},
+			disabledGradient: {
+				corners: '0 8 8 8',
+				gradient: [ "FF55 0.0", "FF00 1.0"],
+			},
+			// if the back button is pressed, then launch /Samples/Launcher
+			onClick: function(event) {
+				UI.Window.document.removeChild(this.nextButton);
+				this.nextButton.destroy();
+				new BattleEntry();
+			}.bind(this)
+		});
+	
+		UI.Window.document.addChild(this.nextButton);
+	}
+};
+
+exports.MissionMainSceneController = Core.MessageListener.subclass(mainSceneController);
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/controller/MissionDebugSceneController'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/controller/MissionDebugSceneController'] || {}; $MODULE_REGISTRY['Code/module/mission/controller/MissionDebugSceneController'] = exports; 
+var __dirname = 'Code/module/mission/controller';
+var __filename = 'Code/module/mission/controller/MissionDebugSceneController.js';
+
+/**
+ * @author lucnd
+ */
+
+var Core 				= require('NGCore/Client/Core').Core;
+var SceneDirector 		= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var SceneFactory 		= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var JSONData 			= require('NGGo/Service/Data/JSONData').JSONData;
+var GUIBuilder 			= require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var ScreenManager 		= require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var GL2 				= require('NGCore/Client/GL2').GL2;
+var GlobalParameter 	= require('Code/utils/GlobalParameter').GlobalParameter;
+//var SpecialMission 		= require_('../../../../module/cutscene/SpecialMission').SpecialMission;
+
+var debugSceneController = 
+{
+    action_click: function (elem, battleName)
+    {
+    	var self = this;
+        console.log('You clicked ' + battleName + '!');
+        
+        if (battleName === "Mission1" || battleName === "Mission2") {
+        	this.gotoMission(self, battleName);
+        } else if (battleName === "Test") {
+        	console.log("NDL:---- Test");
+        }
+    },
+    
+    gotoMission: function(self, battleName) {
+    	var jsondata = new JSONData();
+		jsondata.load("Config/player.json", function(err, obj) {
+			if (err) {
+				console.log("Error:"+err.errorText);
+			} else {
+				GlobalParameter.player = obj.data.player;
+				console.log("Player_01.name="+obj.data.player.player_01.name);
+
+				jsondata.load("Config/sumo.json", function(err, obj) {
+					if (err) {
+						
+					} else {
+						GlobalParameter.sumo = obj.data.sumos;
+						console.log("Sumo_01.name="+obj.data.sumos.sumo_01.name);
+						
+						jsondata.load("Config/skill.json", function(err, obj) {
+    						if (err) {
+    							
+    						} else {
+    							GlobalParameter.skill = obj.data.skills;
+    							console.log("Skill_01.name="+GlobalParameter.skill.skill_01.name);
+    							
+    							jsondata.load("Config/battle.json", function(err, obj) {
+	        						if (err) {
+	        							
+	        						} else {
+	        							GlobalParameter.battle = obj.data.battle;
+	        							console.log("battle_01.name="+obj.data.battle.background);
+									    
+									    self.transitionToMain(battleName);
+	        						}
+	        					});
+		        			}
+	        			});
+	        		}
+        		});
+			}
+		});
+    },
+    
+    transitionToMain: function(battleName) {
+		console.log("transition to main scene: " + battleName);
+		SceneDirector.transition("MISSION_MAIN_SCENE", battleName);
+    }
+};
+
+exports.MissionDebugSceneController = Core.Class.subclass(debugSceneController);
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/view/Scene/MissionDebugScene'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/view/Scene/MissionDebugScene'] || {}; $MODULE_REGISTRY['Code/module/mission/view/Scene/MissionDebugScene'] = exports; 
+var __dirname = 'Code/module/mission/view/Scene';
+var __filename = 'Code/module/mission/view/Scene/MissionDebugScene.js';
+
+/**
+ * @author lucnd
+ */
+var ScreenManager		 = require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
+var GL2					 = require('NGCore/Client/GL2').GL2;
+var MissionDebugSceneController = require('Code/module/mission/controller/MissionDebugSceneController').MissionDebugSceneController;
+
+var debugScene = {
+	initialize: function() {
+		this.controller = new MissionDebugSceneController();
+	},
+	
+	onEnter: function(prevScene, option) {
+		this.node = new GL2.Node();
+	    GUIBuilder.loadConfigFromFile("Config/Scene/mission/DebugScene.json", this.controller, function() {
+	    	this.node.addChild(this.controller.DebugScene);
+	        ScreenManager.getRootNode().addChild(this.node);
+	    }.bind(this));
+	},
+	
+	onExit: function(nextScene, option) {
+		this.node.destroy();
+	}
+};
+
+exports.MissionDebugScene = Scene.subclass(debugScene);
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/model/Entity/ModelBase'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/model/Entity/ModelBase'] || {}; $MODULE_REGISTRY['Code/module/mission/model/Entity/ModelBase'] = exports; 
+var __dirname = 'Code/module/mission/model/Entity';
+var __filename = 'Code/module/mission/model/Entity/ModelBase.js';
+
+var Core = require('NGCore/Client/Core').Core;
+exports.ModelBase = Core.MessageListener.subclass({
+    classname: 'ModelBase',
+
+    initialize: function (d) {
+        this._listeners = [];
+        this._setParams(d || {});
+    },
+
+    addListener: function (id, func) {
+        for (var i = 0; i < this._listeners.length; i++) {
+            if (this._listeners[i]["id"] === id) {
+                return;
+            }
+        }
+        this._listeners.push({"id": id, "func": func});
+    },
+
+    removeLister: function (id) {
+        for (var i = 0; i < this._listeners.length; i++) {
+            if (this._listeners[i]["id"] === id) {
+                this._listeners.splice(i, 1);
+                return;
+            }
+        }
+    },
+
+    removeAllListers: function() {
+        this._listeners = [];
+    },
+
+    destroy: function() {
+        removeAllListers();
+    },
+
+    dispath: function() {
+        for (var i = 0; i < this._listeners.length; i++) {
+            this._listeners[i]["func"](this);
+        }
+    },
+
+    update: function(d) {
+        this._setParams(d);
+        this.dispath();
+    },
+
+    _setParams: function(d) {}
+});
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/utils/SumoUtil'] = function(){var exports = $MODULE_REGISTRY['Code/utils/SumoUtil'] || {}; $MODULE_REGISTRY['Code/utils/SumoUtil'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/SumoUtil.js';
+
+var Core = require('NGCore/Client/Core').Core;
+var GL2  = require('NGCore/Client/GL2').GL2;
+
+exports.SumoUtil = Core.Class.singleton({
+    
+    //Create animation 
+    createAnimation: function(path, frameCount, duration, w, h){
+    	//path = nj.IMG(null, path);
+    	if (duration == undefined)
+    		duration = 500;
+        var animation = new GL2.Animation();
+
+    	for (var i = 0; i < frameCount ; i ++ ){
+        	animation.pushFrame(new GL2.Animation.Frame(path, duration, [w, h], [0.5, 1], [i/frameCount, 0, 1/frameCount, 1]));
+    	}
+        
+        return animation;
+    },
+	
+	//--------------------------------------------------------------------------
+	traverse: function( obj, func, level ) {
+		var level = level || 0;
+		for (var i in obj) {
+			func.apply( this, [i, obj[i], level] );
+			if (typeof( obj[i] ) === "object" ) {
+				this.traverse( obj[i], func, level+1 );
+			}
+		}
+	},
+	
+	//--------------------------------------------------------------------------
+	dump: function( obj, name ) {
+		NgLogD( '--------------- traverse: ' + name );
+		
+		this.traverse( obj, function( key, val, level ) {
+			var indent = '';
+			var output = '';
+			for (var i=0;  i<level;  i++) { indent += '    '; }
+			output += indent + key + ': ';
+			if (! (val + '').match(/\[object Object\]/)) {
+				output += val;
+			}
+			NgLogD( output );
+		}, 1);
+	},
+		
+	//--------------------------------------------------------------------------
+	makeButton: function( x, y, image, pressedImage, size, anchor, listener, onTouchHandler ) {
+	
+		var b = new GL2.Sprite();
+		nj.Utils.setSpriteImage(b,  image, size, anchor );
+		b.setPosition( x, y );
+		b.image = image;
+		b.pressedImage = pressedImage;
+		
+		var target = new GL2.TouchTarget();
+		target.setAnchor( [0, 0] );
+		target.setSize( size[0], size[1] );
+		nj.crystal.touchEmitter.addListener(
+			listener,
+			target,
+			//----- on touch
+			function( touch ) {
+				if (! this._hasPushed) { this._hasPushed = false; }
+				switch (touch.getAction()) {
+				case touch.Action.Start:
+					nj.Utils.setSpriteImage(b,  pressedImage, size, anchor );
+					this._hasPushed = true;
+					break;
+				case touch.Action.End:
+					if (this._hasPushed) {
+						nj.Utils.setSpriteImage(b,  image, size, anchor );
+						onTouchHandler.apply( listener );
+					}
+					break;
+				}
+			},
+			//----- on finger out
+			function() {
+				nj.Utils.setSpriteImage(b,  image, size, anchor );
+			}
+		);
+		b.addChild( target );
+		
+		return b;
+	},
+	
+	//--------------------------------------------------------------------------
+	makePrimitive: function( x, y, w, h, color1, color2, color3, color4 ) {
+		
+		if (arguments.length <= 6) {
+			color3 = color2 || color1;
+			color4 = color2 || color1;
+			color2 = color1;
+		}
+		
+		var p = new GL2.Primitive();
+		p.setType( GL2.Primitive.Type.TriangleStrip );
+		
+		p.pushVertex( new GL2.Primitive.Vertex([0, 0], [0, 0], color1) );
+		p.pushVertex( new GL2.Primitive.Vertex([w, 0], [1, 0], color2) );
+		p.pushVertex( new GL2.Primitive.Vertex([0, h], [0, 1], color3) );
+		p.pushVertex( new GL2.Primitive.Vertex([w, h], [1, 1], color4) );
+		
+		p.setPosition( x, y );
+		return p;
+	},
+	
+	//--------------------------------------------------------------------------
+	makeText: function( text, size, color ) {
+		return new nj.crystal.ShadowText( text, size, color );
+	},
+	
+	//--------------------------------------------------------------------------
+	makeBlind: function() {
+		
+		//----- linear scaling して余った部分を黒い帯で隠す
+		//----- (とりあえずの応急処置)
+		var width  = Core.Capabilities.getScreenHeight();
+		var height = Core.Capabilities.getScreenWidth();
+		
+		var scale    = height / 320;
+		var shortage = width - (480 * scale);
+		
+		var blind;
+		if (shortage > 0) {
+			blind = new GL2.Primitive();
+			blind.setType( GL2.Primitive.Type.TriangleStrip );
+			blind.pushVertex( new GL2.Primitive.Vertex([width - shortage,      0], [0, 0], [0,0,0]) );
+			blind.pushVertex( new GL2.Primitive.Vertex([width           ,      0], [1, 0], [0,0,0]) );
+			blind.pushVertex( new GL2.Primitive.Vertex([width - shortage, height], [0, 1], [0,0,0]) );
+			blind.pushVertex( new GL2.Primitive.Vertex([width           , height], [1, 1], [0,0,0]) );
+			blind.setDepth( 99999999 );
+			GL2.Root.addChild( blind );
+		}
+		return blind;
+	}
+});
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/utils/GlobalTouchEmitter'] = function(){var exports = $MODULE_REGISTRY['Code/utils/GlobalTouchEmitter'] || {}; $MODULE_REGISTRY['Code/utils/GlobalTouchEmitter'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/GlobalTouchEmitter.js';
+
+/*
+ * This class is ported based on DnGlobalTouchEmitter class of DnLib
+ * 
+ * @Purpose: To manage all touch events in game and make management of touch events easier
+ * 
+ */
+
+var Core = require('NGCore/Client/Core').Core;
+var GL2  = require('NGCore/Client/GL2').GL2;
+
+
+exports.GlobalTouchEmitter = Core.MessageListener.subclass({
+	
+	//--------------------------------------------------------------------------
+	initialize: function() {
+		
+		this.target = new GL2.TouchTarget();
+		this.target.setAnchor( [0, 0] );
+		this.target.setSize(
+			Core.Capabilities.getScreenHeight(), //----- adapt to landscape
+			Core.Capabilities.getScreenWidth()
+		);
+		this.target.getTouchEmitter().addListener( this, this.onTouch );
+		this.target.setDepth( 65535 );
+		
+		this.node = new GL2.Node();
+		this.node.addChild( this.target );
+		GL2.Root.addChild( this.node );
+		
+		this.listeners = {};
+		this.index = 0;
+		this.isActivated = true;
+	},
+	
+	//--------------------------------------------------------------------------
+	destroy: function() {
+		this.node.destroy();
+	},
+	
+	//--------------------------------------------------------------------------
+	activate:   function() { this.isActivated = true;  },
+	deactivate: function() { this.isActivated = false; },
+	
+	//--------------------------------------------------------------------------
+	addListener: function( object, touchTarget, handler, onFingerOutHandler ) {
+		
+		if (typeof( handler ) !== 'function') {
+			NgLogD( "dn.GlobalTouchEmitter.addListener - handler is not function" );
+			return false;
+		}
+		
+		this.index++;
+		var listener = {};
+		listener.object  = object;
+		listener.target  = touchTarget;
+		listener.handler = handler;
+		listener.hasHandled = false;
+		listener.onFingerOutHandler = onFingerOutHandler;
+		this.listeners[ this.index ] = listener;
+		object.touchObserverIndex = this.index;
+		
+		//NgLogD( "add listener: " + this.index );
+		return true;
+	},
+	
+	//--------------------------------------------------------------------------
+	removeListener: function( object ) {
+		
+		if (! object.touchObserverIndex) {
+			NgLogD( "dn.GlobalTouchEmitter.removeListener - object is not registered" );
+			return false;
+		}
+		
+		delete this.listeners[ object.touchObserverIndex ];
+		delete object.touchObserverIndex;
+		//NgLogD( "remove listener: " + this.index );
+		return true;
+	},
+	
+	//--------------------------------------------------------------------------
+	onTouch: function( touch ) {
+		
+		if (! this.isActivated) { return false; }
+		
+		//----- call listeners
+		for (var i in this.listeners) {
+			var listener = this.listeners[i];
+			if (listener.target) {
+				if (touch.getIsInside( listener.target )) {
+					listener.handler.apply( listener.object, [touch] );
+					listener.hasHandled = true;
+				} else {
+					if (listener.hasHandled) {
+						listener.hasHandled = false;
+						if (listener.onFingerOutHandler) {
+							listener.onFingerOutHandler.apply( listener.object );
+						}
+					}
+				}
+			} else {
+				listener.handler.apply( listener.object, [touch] );
+			}
+		}
+		
+		//----- return true to capture subsequent Move / End event.
+		//----- In this case, lower priority handlers cannot capture the event.
+		if (touch.getAction() === touch.Action.Start) {
+			return true;
+		}
+		return false;
+	}
+	
+});
+
+
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/utils/TouchManager'] = function(){var exports = $MODULE_REGISTRY['Code/utils/TouchManager'] || {}; $MODULE_REGISTRY['Code/utils/TouchManager'] = exports; 
+var __dirname = 'Code/utils';
+var __filename = 'Code/utils/TouchManager.js';
+
+var Class= require('NGCore/Shared/Class').Class;
+var GlobalTouchEmitter= require('Code/utils/GlobalTouchEmitter').GlobalTouchEmitter;
+
+exports.TouchManager= Class.singleton(
+{
+	classname:"TouchManager",
+	
+	initialize:function()
+	{
+		this._touchEmitter= new GlobalTouchEmitter();
+	},
+
+	instance:function()
+	{
+		return this._touchEmitter;
+	}
+}		
+); 
+
+
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/model/Entity/Monster'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/model/Entity/Monster'] || {}; $MODULE_REGISTRY['Code/module/mission/model/Entity/Monster'] = exports; 
+var __dirname = 'Code/module/mission/model/Entity';
+var __filename = 'Code/module/mission/model/Entity/Monster.js';
+
+var ModelBase = require('Code/module/mission/model/Entity/ModelBase').ModelBase;
+var GL2		  = require('NGCore/Client/GL2').GL2;
+var SumoUtil = require('Code/utils/SumoUtil').SumoUtil;
+var AnimationManager = require('NGGo/Framework/AnimationManager').AnimationManager;
+var TouchManager = require('Code/utils/TouchManager').TouchManager;
+var SceneDirector = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+
+exports.Monster = ModelBase.subclass({
+    classname: "Monster",
+
+    _setParams: function (d) {
+        d = d || {};
+        
+        this.monster_id = d.monster_id || "";
+        this.name = d.name || "";
+        this.type = d.type || "";
+        this.hp = d.hp || 0;
+        this.attack = d.attack || 0;
+        this.attackInterval = d.attackInterval || 0;
+        this.defense = d.defense || 0;
+        this.speed = d.speed || 0;
+        
+        this._node = new GL2.Node();
+        this._frameDuration = 300;   
+        
+        this._sprite = new GL2.Sprite();
+        this._sprite.setAnimation(AnimationManager.getAnimationGL2("evil", "stand", this._frameDuration));
+		this._node.addChild(this._sprite);
+		
+		
+		//this._node.addChild(this._slashSprite);
+		
+		// add touch target
+		//----- create touch target
+		
+		this.touch = new GL2.TouchTarget();
+		this.touch.setAnchor( [0.5, 0.5] );
+		this.touch.setSize(
+			this._sprite._animation.getFrame(0).getSize().getWidth(),
+			this._sprite._animation.getFrame(0).getSize().getHeight()
+		);
+		TouchManager.instance().addListener(this, this.touch, this.onTouch);
+		console.log("NDL:Sumo this._sprite.getSize()="+this._sprite._animation.getFrame(0).getSize().getWidth());
+		this._sprite.addChild(this.touch);
+		
+		this._isTouched = false;
+		this._isDamaged = false;
+    },
+    
+    onTouch: function(touch) {
+    	if (touch.getAction() === touch.Action.Start) {
+    		console.log("NDL:>>> onTouch Monster -- start");
+    		this.setAnim("evil", "damage");
+    		this._isTouched = true;
+    		//this._isDamaged = true;
+    		this._slashSprite = new GL2.Sprite();
+			this._slashSprite.setAnimation(AnimationManager.getAnimationGL2("slash", "default", this._frameDuration/3));
+    		this._slashSprite.getAnimation().setLoopingEnabled(false);
+    		this._node.addChild(this._slashSprite);
+    		var controller = SceneDirector.currentScene.controller;
+    		this._slashSprite.getAnimationCompleteEmitter().addListener(this, this.destroySlash);
+    		//this._slashSprite.getAnimationCompleteEmitter().addListener(controller, controller.test("111"));
+		}
+		else if (touch.getAction() === touch.Action.Move) {
+    		console.log("NDL:>>> onTouch Monster -- Move");
+    		//if(!this._isTouched){
+    			//if(!this._isDamaged) {
+    				//this.setAnim("evil", "damage");
+    				//this._isTouched = true;
+    				//this._isDamaged = true;
+    			//}    			
+    		//}
+    		//else {
+    			//this.setAnim("evil", "stand");
+    			//this._isTouched = false;
+    		//}
+    		
+    		//this._node.addChild(this._slashSprite);
+		}
+		else if (touch.getAction() === touch.Action.End) {
+			console.log("NDL:>>> onTouch Monster -- end");
+			this.setAnim("evil", "stand");
+			this._isTouched = false;
+		}
+    },
+    
+    destroySlash: function() {
+    	console.log("NDL:---destroySlash");
+    	if(this._slashSprite) {
+    		this._slashSprite.destroy();
+    	}
+    	if(this._sprite) {
+    		this._sprite.destroy();
+    	}
+    },
+    
+    updateHp: function(hp) {
+    	this.hp += hp;
+    },
+    
+    getHp: function() {
+    	return this.hp || 0;
+    },
+    
+    getNode:function() {
+    	return this._node;
+    },
+    
+    getAnim:function() {
+    	return this._sprite;
+    },
+    
+    setAnim:function(sumoName, sumoState) {
+    	this.name = sumoName || this.name; 
+    	this._sprite.setAnimation(AnimationManager.getAnimationGL2(this.name, sumoState, this._frameDuration));
+    },
+    
+    getPosition: function(x,y) {
+    	return this._node.getPosition();
+    },
+    
+    setPosition: function(x,y) {
+    	this._node.setPosition(x,y);
+    	//this._sprite.setPosition(x,y);
+    },
+    
+    setRotation: function(degrees) {
+    	this._node.setRotation();
+    	this._sprite.setRotation(degrees);
+    },
+    
+    setColor: function(r,g,b) {
+    	this._node.setColor(r,g,b);
+    	this._sprite.setColor(r,g,b);
+    },
+    
+    setScale: function(scaleX, scaleY) {
+    	this._node.setScale(scaleX, scaleY);
+    	this._sprite.setScale(scaleX, scaleY);
+    },
+    
+    setVisible: function(value) {
+    	this._sprite.setVisible(value);
+    },
+    
+    testData: {
+      "name" : "dragon",
+      "type" : "sumo",
+      "hp" : 500,
+      "attack" : 25,
+      "attackInterval" : 1000,
+      "defense" : 10,
+      "speed" : 50,
+      "move_type" : {
+      	"type":"small_jump",
+      	"step":1
+      }
+     }
+});
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/model/Entity/Mission'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/model/Entity/Mission'] || {}; $MODULE_REGISTRY['Code/module/mission/model/Entity/Mission'] = exports; 
+var __dirname = 'Code/module/mission/model/Entity';
+var __filename = 'Code/module/mission/model/Entity/Mission.js';
+
+var ModelBase = require('Code/module/mission/model/Entity/ModelBase').ModelBase;
+
+exports.Mission = ModelBase.subclass({
+    classname: "Mission",
+
+    _setParams: function (d) {
+        d = d || {};
+        
+        this.data = this.testData;
+        
+        this.name = d.name || "";
+        this.type = d.type || "";
+        this.level = d.level || 0;
+        this.default_sumo = d.default_sumo || {};
+    },
+    
+    testData: {
+		"background" : "image.png",
+		"width":480,
+	    "height":320,
+	    "bonus_gold": 400,
+	    "monsters" : [
+	      {
+	        "monster_id" : "evil",
+	        "x" : 100,
+	        "y" : 50
+	      },
+	      {
+	        "monster_id" : "evil2",
+	        "x" : 260,
+	        "y" : 50
+	      },
+	      {
+	        "monster_id" : "evil3",
+	        "x" : 300,
+	        "y" : 70
+	      },
+	      {
+	        "monster_id" : "evil4",
+	        "x" : 400,
+	        "y" : 100
+	      }
+	    ],
+	    "hero" : {
+	    	"hero_id":"hero",
+	        "x" : 150,
+	        "y" : 270
+	    },
+	    "bonus" : {
+	    } 
+  }
+});
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/model/Entity/Hero'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/model/Entity/Hero'] || {}; $MODULE_REGISTRY['Code/module/mission/model/Entity/Hero'] = exports; 
+var __dirname = 'Code/module/mission/model/Entity';
+var __filename = 'Code/module/mission/model/Entity/Hero.js';
+
+var ModelBase = require('Code/module/mission/model/Entity/ModelBase').ModelBase;
+var GL2		  = require('NGCore/Client/GL2').GL2;
+var SumoUtil = require('Code/utils/SumoUtil').SumoUtil;
+var AnimationManager = require('NGGo/Framework/AnimationManager').AnimationManager;
+var TouchManager = require('Code/utils/TouchManager').TouchManager;
+
+exports.Hero = ModelBase.subclass({
+    classname: "Hero",
+
+    _setParams: function (d) {
+        d = d || {};
+        
+        this.hero_id = d.hero_id || "";
+        this.name = d.name || "";
+        this.type = d.type || "";
+        this.hp = d.hp || 0;
+        this.attack = d.attack || 0;
+        this.attackInterval = d.attackInterval || 0;
+        this.defense = d.defense || 0;
+        this.speed = d.speed || 0;
+        
+        this._node = new GL2.Node();
+        this._sprite = new GL2.Sprite();
+        this._node.addChild(this._sprite);
+        
+        // this._standAnimation = SumoUtil.createAnimation(this.testData.animation.stand.img, this.testData.animation.stand.frameCount, 
+        //        this.testData.animation.stand.duration, this.testData.animation.stand.frameWidth, this.testData.animation.stand.frameHeight);
+
+		this._frameDuration = 300;          
+        this._sprite = new GL2.Sprite();
+        this._sprite.setAnimation(AnimationManager.getAnimationGL2("dragon", "stand", this._frameDuration));
+		
+		// this._sprite.setAnimation(this._standAnimation);
+		
+		// add touch target
+		//----- create touch target
+		
+		//this.touch = new GL2.TouchTarget();
+		//this.touch.setAnchor( [0.5, 0.5] );
+		//this.touch.setSize(
+		//	this._sprite._animation.getFrame(0).getSize().getWidth(),
+		//	this._sprite._animation.getFrame(0).getSize().getHeight()
+		//);
+		//TouchManager.instance().addListener(this, this.touch, this.onTouch);
+		//console.log("NDL:Sumo this._sprite.getSize()="+this._sprite._animation.getFrame(0).getSize().getWidth());
+		//this._sprite.addChild(this.touch);
+    },
+    
+    onTouch: function(touch) {
+    	if (touch.getAction() === touch.Action.Start) {
+			return true;
+		}
+		else if (touch.getAction() === touch.Action.End) {
+			console.log("NDL:>>> onTouch Hero");
+			return true;
+		}
+    	
+    },
+    
+    updateHp: function(hp) {
+    	this.hp += hp;
+    },
+    
+    getHp: function() {
+    	return this.hp || 0;
+    },
+    
+    getNode:function() {
+    	return this._node;
+    },
+    
+    getAnim:function() {
+    	return this._sprite;
+    },
+    
+    setAnim:function(sumoName, sumoState) {
+    	this.name = sumoName || this.name; 
+    	this._sprite.setAnimation(AnimationManager.getAnimationGL2(this.name, sumoState, this._frameDuration));;
+    },
+    
+    getPosition: function(x,y) {
+    	return this._sprite.getPosition();
+    },
+    
+    setPosition: function(x,y) {
+    	this._node.setPosition(x,y);
+    	this._sprite.setPosition(x,y);
+    },
+    
+    setRotation: function(degrees) {
+    	this._node.setRotation();
+    	this._sprite.setRotation(degrees);
+    },
+    
+    setColor: function(r,g,b) {
+    	this._node.setColor(r,g,b);
+    	this._sprite.setColor(r,g,b);
+    },
+    
+    setScale: function(scaleX, scaleY) {
+    	this._node.setScale(scaleX, scaleY);
+    	this._sprite.setScale(scaleX, scaleY);
+    },
+    
+    setVisible: function(value) {
+    	this._sprite.setVisible(value);
+    },
+    
+    testData: {
+      "name" : "evil",
+      "type" : "sumo",
+      "hp" : 500,
+      "attack" : 25,
+      "attackInterval" : 1000,
+      "defense" : 10,
+      "speed" : 50,
+      "move_type" : {
+      	"type":"small_jump",
+      	"step":1
+      }
+     }
+});
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/view/Scene/MissionMainScene'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/view/Scene/MissionMainScene'] || {}; $MODULE_REGISTRY['Code/module/mission/view/Scene/MissionMainScene'] = exports; 
+var __dirname = 'Code/module/mission/view/Scene';
+var __filename = 'Code/module/mission/view/Scene/MissionMainScene.js';
+
+/**
+ * @author sonnn
+ */
+var ScreenManager		 = require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var GUIBuilder			 = require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var Scene				 = require('NGGo/Framework/Scene/Scene').Scene;
+var GL2					 = require('NGCore/Client/GL2').GL2;
+var MissionMainSceneController	 = require('Code/module/mission/controller/MissionMainSceneController').MissionMainSceneController;
+var SceneDirector 		 = require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var Monster		 		 = require('Code/module/mission/model/Entity/Monster').Monster;
+var GlobalParameter 	 = require('Code/utils/GlobalParameter').GlobalParameter;
+var Mission		 		 = require('Code/module/mission/model/Entity/Mission').Mission;
+var Hero		 		 = require('Code/module/mission/model/Entity/Hero').Hero;
+var TouchManager 	 = require('Code/utils/TouchManager').TouchManager;
+
+var mainScene = {
+	initialize: function() {
+		this.controller = new MissionMainSceneController();
+		
+		this.mission = new Mission();
+		this.monsters = {};
+		this.hero = {}
+		
+		if(this.mission && this.mission.data && this.mission.data.monsters) {
+			for(var i = 0; i < this.mission.data.monsters.length; i++ ) {
+				var mon = new Monster(this.mission.data.monsters[i]);
+				mon.setPosition(this.mission.data.monsters[i].x, this.mission.data.monsters[i].y);
+				this.monsters[this.mission.data.monsters[i].monster_id] = mon;
+			}
+		}
+
+		if(this.mission && this.mission.data && this.mission.data.hero) {
+			this.hero = new Hero(this.mission.data.hero);
+			this.hero.setPosition(this.mission.data.hero.x, this.mission.data.hero.y);
+		}
+		
+	},
+	
+	onEnter: function(prevScene, option) {
+		this.controller.currentBattle = option;
+		this.node = new GL2.Node();
+	    GUIBuilder.loadConfigFromFile("Config/Scene/mission/MainScene.json", this.controller, function ()
+	    {
+	    	ScreenManager.getRootNode().addChild(this.node);
+	    	this.controller.MainGame.setDepth(0);
+	    	this.node.addChild(this.controller.MainGame);
+	    	this.controller.setupHero(this.hero);
+	    	this.controller.setupMonster(this.monsters);
+	    	
+	    }.bind(this));
+	},
+
+	onExit: function(nextScene, option) {
+		this.node.destroy();
+		TouchManager.instance().destroy();
+	}
+};
+
+exports.MissionMainScene = Scene.subclass(mainScene);
+; return exports;};
+$MODULE_FACTORY_REGISTRY['Code/module/mission/MissionScene'] = function(){var exports = $MODULE_REGISTRY['Code/module/mission/MissionScene'] || {}; $MODULE_REGISTRY['Code/module/mission/MissionScene'] = exports; 
+var __dirname = 'Code/module/mission';
+var __filename = 'Code/module/mission/MissionScene.js';
+
+/**
+ * @author sonnn
+ */
+var ScreenManager		 		= require('NGGo/Service/Display/ScreenManager').ScreenManager;
+var GUIBuilder			 		= require('NGGo/Framework/GUIBuilder').GUIBuilder;
+var Scene				 		= require('NGGo/Framework/Scene/Scene').Scene;
+var GL2					 		= require('NGCore/Client/GL2').GL2;
+var MissionMainSceneController	= require('Code/module/mission/controller/MissionMainSceneController').MissionMainSceneController;
+var SceneDirector 		 		= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var SceneFactory 				= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
+var GlobalParameter 	 		= require('Code/utils/GlobalParameter').GlobalParameter;
+var MissionDebugScene 			= require('Code/module/mission/view/Scene/MissionDebugScene').MissionDebugScene;
+var MissionMainScene 			= require('Code/module/mission/view/Scene/MissionMainScene').MissionMainScene;
+var missionScene = {
+	initialize: function() {
+		SceneFactory.register(MissionDebugScene, "MISSION_DEBUG_SCENE");
+    	SceneFactory.register(MissionMainScene, "MISSION_MAIN_SCENE");
+	},
+	
+	onEnter: function(prevScene, option) {
+		if(option) {
+			SceneDirector.transition("MISSION_DEBUG_SCENE");
+		}
+		else {
+			SceneDirector.transition("MISSION_MAIN_SCENE");
+		}
+		
+	},
+
+	onExit: function(nextScene, option) {
+	}
+};
+
+exports.MissionScene = Scene.subclass(missionScene);
+; return exports;};
 $MODULE_FACTORY_REGISTRY['Code/view/MainGame'] = function(){var exports = $MODULE_REGISTRY['Code/view/MainGame'] || {}; $MODULE_REGISTRY['Code/view/MainGame'] = exports; 
 var __dirname = 'Code/view';
 var __filename = 'Code/view/MainGame.js';
@@ -99572,18 +100748,17 @@ var ConfigurationManager    = require('NGGo/Framework/ConfigurationManager').Con
 var ScreenManager			= require('NGGo/Service/Display/ScreenManager').ScreenManager;
 var SceneDirector 			= require('NGGo/Framework/Scene/SceneDirector').SceneDirector;
 var SceneFactory 			= require('NGGo/Framework/Scene/SceneFactory').SceneFactory;
-var MainScene 				= require('Code/view/Scene/MainScene').MainScene;
 var DebugScene 				= require('Code/view/Scene/DebugScene').DebugScene;
-var HUDScene				= require('Code/view/Scene/HUD/HUDScene').HUDScene;
-var TestScene				= require('Code/view/Scene/Test/TestScene').TestScene;
-//var SpecialMission				= require_('../module/cutscene/SpecialMission').SpecialMission;
-//var ServerConsole		 	= require_('../utils/ServerConsole').ServerConsole;
-var VietScene				= require('Code/view/Scene/Viet/VietScene').VietScene;
-var StoryScene				= require('Code/view/Scene/Viet/StoryScene').StoryScene;
-var ListScene				= require('Code/view/Scene/Viet/ListScene').ListScene;
-var AllScene 				= require('Code/view/Scene/Viet/AllScene').AllScene;
-var EffectScene 			= require('Code/view/Scene/Viet/EffectScene').EffectScene;
-var MapSelectionScene 		= require('Code/view/Scene/Viet/MapSelectionScene').MapSelectionScene;
+var PreBattleScene   		= require('Code/module/battle/view/Scene/PreBattleScene').PreBattleScene;
+var VietScene				= require('Code/view/Scene/VietScene').VietScene;
+var StoryScene				= require('Code/view/Scene/StoryScene').StoryScene;
+var ListScene				= require('Code/view/Scene/ListScene').ListScene;
+var AllScene 				= require('Code/view/Scene/AllScene').AllScene;
+var EffectScene 			= require('Code/view/Scene/EffectScene').EffectScene;
+var MapSelectionScene 		= require('Code/view/Scene/MapSelectionScene').MapSelectionScene;
+var TutorScene              = require('Code/view/Scene/TutorScene').TutorScene;
+var HomeScene               = require('Code/view/Scene/HomeScene').HomeScene;
+var MissionScene            = require('Code/module/mission/MissionScene').MissionScene;
 
 exports.MainGame = Core.Class.subclass({
 	initialize:function() {
@@ -99603,14 +100778,14 @@ exports.MainGame = Core.Class.subclass({
 	            var w = 480;
 	            var h = 320;
 	            var onload = function() {
-				        // if (platformOS === 'Android') {
-				        	// w = h1/1.5;
-				        	// h = w1/1.5;
-				        // } 
+				        if (platformOS === 'Android') {
+				        	w = h1/1.5;
+				        	h = w1/1.5;
+				        } 
 				        
 				        ScreenManager.register(
 				        {
-				            type: "Fix",
+				            type: "LetterBox",
 				            name: "GUI",
 				            logicalSize: [w, h]
 				        });
@@ -99618,16 +100793,16 @@ exports.MainGame = Core.Class.subclass({
 				        ScreenManager.setDefault("GUI");
 				        
 				        if (platformOS === 'Android') {
-				        	// var scale = ScreenManager.screenSetting._scale;
-				        	// var ws = scale * w1;
-				        	// var hs = scale * h1;
+				        	var scale = ScreenManager.screenSetting._scale;
+				        	var ws = scale * w1;
+				        	var hs = scale * h1;
 				        	//var path = "/?q=BEGIN&scale=" + scale +"&ws=" + ws + "&hs=" + hs + "&w1=" + w1 + "&h1="+h1;
 				        	//ServerConsole.log(path);
-					        // var backdrop2 = new GL2.Sprite();
-					        // backdrop2.setImage("Content/bg1.png", [h1 - scale * w1, w1], [0, 0]);
-					        // backdrop2.setDepth(65535);
-					        // backdrop2.setPosition(ws, 0);
-					        // GL2.Root.addChild(backdrop2);
+					        var backdrop2 = new GL2.Sprite();
+					        backdrop2.setImage("Content/bg1.png", [h1 - scale * w1, w1], [0, 0]);
+					        backdrop2.setDepth(65535);
+					        backdrop2.setPosition(ws, 0);
+					        GL2.Root.addChild(backdrop2);
 				        
 				        }
 				        
@@ -99647,22 +100822,47 @@ exports.MainGame = Core.Class.subclass({
 	registerScenes: function() {
 		console.log("SON:in registerScenes");
 		SceneFactory.register(DebugScene, "DEBUG_SCENE");
-    	SceneFactory.register(MainScene, "MAIN_SCENE");
-    	SceneFactory.register(TestScene, "TEST_SCENE");
-    	//SceneFactory.register(SpecialMission, "CUT_SCENE");
-    	//SceneFactory.register(HUDScene, "HUD_SCENE");
+    	SceneFactory.register(PreBattleScene, "PRE_BATTLE_SCENE");
     	SceneFactory.register(VietScene,"VIET_SCENE");
     	SceneFactory.register(StoryScene, "STORY_SCENE");
     	SceneFactory.register(ListScene,"LIST_SCENE");
     	SceneFactory.register(AllScene, "ALL_SCENE");
     	SceneFactory.register(EffectScene, "EFFECT_SCENE");
     	SceneFactory.register(MapSelectionScene,"MAP_SELECTION_SCENE");
-	}
-});
-
-
-
-; return exports;};
+    	SceneFactory.register(TutorScene, "TUTOR_SCENE");
+    	SceneFactory.register(HomeScene, "HOME_SCENE");
+    	SceneFactory.register(MissionScene, "MISSION_SCENE");
+    	UI.Window.document.addChild(this.btnBack);
+	},
+	btnBack: new UI.Button({
+        frame: [460, 0, 20, 20],
+        text: "X",
+        disabledTextColor: "FFFF",
+        textSize: 14,
+        textGravity: UI.ViewGeometry.Gravity.Center,
+        gradient: {
+            corners: '8 8 8 8',
+            outerLine: "00 1.5",
+            gradient: [ "FF9bd6f4 0.0", "FF0077BC 1.0" ]
+        },
+        highlightedGradient: {
+            corners: '8 8 8 8',
+            outerLine: "00 1.5",
+            gradient: [ "FF0077BC 0.0", "FF9bd6f4 1.0" ]
+        },
+        disabledGradient: {
+            corners: '0 8 8 8',
+            gradient: [ "FF55 0.0", "FF00 1.0"],
+        },
+        onClick: function(event) {
+              Log("Back button onclicked + currentScene = " + SceneDirector.currentScene.sceneName);
+                if(SceneDirector.currentScene.sceneName != "DEBUG_SCENE")
+                    SceneDirector.pop();
+                else SceneDirector.currentScene.controller._initBackKey();
+             
+        }
+    })
+});; return exports;};
 
 var __dirname = 'NGCore/Client';
 var __filename = 'NGCore/Client/Legacy.js';
