@@ -87,9 +87,31 @@ exports.eff.touch = function(pos,cb) {
         GL2.Root.addChild(bubble);
         var seq = VFX.sequence().moveTo(1,pos, Ops.easeInExpo).fadeOut(1,0.5).disappear();
         seq.play(bubble);
-       // setTimeout(function() {Log("ahahahahah: +" + i);bubble.destroy();cb();}, 1100);
+       setTimeout(function() {
+           //Log("ahahahahah: +" + i);
+            bubble.destroy();
+            cb();
+       }, 1100);
     }
 },
+
+/*
+ * Effect similar to unlock screen of android or wave of water spread out when throw a stone to water surface
+ */
+exports.eff.touch2 = function(pos,cb) {
+    Log("vvvvvv=====touch2");
+    var Builder              = require('./Builder').Builder;
+    var firstCircle = Builder.makeSprite(GL2.Root, "Content/stone/frame.png", [pos.getX(), pos.getY(),50,50],[0.5,0.5], null, 62345);
+    var secondCircle = Builder.makeSprite(GL2.Root, "Content/stone/frame.png", [pos.getX(), pos.getY(),50,50],[0.5,0.5], null, 62345);
+    var seq = VFX.sequence().scaleTo(0.3, [2,2], Ops.EaseInExpo).scaleTo(0.3,[1,1], Ops.EaseInExpo);
+    seq.play(secondCircle);
+    setTimeout(function() {
+        firstCircle.destroy();
+        secondCircle.destroy();
+    }, 600);
+},
+
+
 /*
  * lighting a gl2 node by cycle ( node will delight each cycle time)
  * @params cycle: time that after each, node will delight

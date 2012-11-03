@@ -9,7 +9,7 @@ var Ops                  = require('../../../NGGo1.3/Foundation/Math/Ops').Ops;
 var Scene                = require('../../../NGGo/Framework/Scene/Scene').Scene;
 var SceneDirector        = require('../../../NGGo/Framework/Scene/SceneDirector').SceneDirector;
 var DebugView            = require('../../utils/DebugView').DebugView;
-
+var ScreenManager        = require('../../../NGGo/Service/Display/ScreenManager').ScreenManager;
 var VietScene = ({
  	classname: "VietScene",  // must be unique
  	sceneName: "VIET_SCENE",
@@ -38,7 +38,8 @@ var VietScene = ({
  				this.onSuccessConfig();
  			}
  		}.bind(this));
- 		GL2.Root.addChild(this.node);
+ 		ScreenManager.getRootNode().addChild(this.node);
+ 		//GL2.Root.addChild(this.node);
  		this._slowAppear();
  	},
  	onSuccessConfig: function() {

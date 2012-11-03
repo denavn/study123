@@ -32,11 +32,12 @@ exports.Builder.makeSpriteButton = function(imgPath, frame, cb) {
  * @params frame: [x,y,z,t] in this [x,y]: position of sprite, [z,t]: size of image
  * @return sprite :GL2 Sprite
  */
-exports.Builder.makeSprite = function(parent, imgPath, frame, anchor, uvs) {
+exports.Builder.makeSprite = function(parent, imgPath, frame, anchor, uvs, depth) {
     var anchor = (anchor == undefined ? [0,0] : anchor);
     var sprite = new GL2.Sprite();
     sprite.setPosition(frame[0], frame[1]);
     sprite.setImage(imgPath, [frame[2], frame[3]],anchor, uvs );
+    sprite.setDepth(depth);
     if(parent)
        parent.addChild(sprite);
     return sprite;
@@ -117,7 +118,8 @@ exports.Builder.makeTouch = function(parent, size, cb, type) {
                    // Log("type =========2 ");
                   
                 } else {
-                    eff.touch(this.trackingPosition, cb);
+                   // eff.touch(this.trackingPosition, cb);
+                   // eff.touch2(this.trackingPosition,cb);
                     cb.func(cb.args);
                       break;
                  }
