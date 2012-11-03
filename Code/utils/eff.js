@@ -63,6 +63,16 @@ exports.eff.guideArrow = function(arrowNode) {
     
 };
 
+exports.eff.warn = function(txt) {
+    var Builder              = require('./Builder').Builder;
+    Log("warn effect");
+    var text = Builder.makeText(GL2.Root, [-150,20], [300,50], txt, 16, new Core.Color(1,0,0));
+    text.setDepth(63768);
+    var seq = VFX.sequence().moveTo(1,[100,20], Ops.EaseInExpo).waitFor(1).move(0.3, [-20,0]).moveTo(1,[480,480], Ops.EaseInExpo);
+    seq.play(text);
+    setTimeout(function() {text.destroy();},3000);
+    
+},
 /*
  * Effect when user touch any point on screen, two circle appears and scale gradually (android  keyboard unlock)
  */

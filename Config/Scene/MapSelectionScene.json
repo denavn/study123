@@ -1,78 +1,90 @@
 [
-	{
-		"name": "CONF",
-		"type": "MapSelectionScene",
-		"attrs": {
-			"description" : "This is description for each Scene",
-	 		"debug" : true,
-	 		"debugAttrs" : [ "l0_ver", "l0_time", "l0_rot","l1_ver", "l1_time", "l1_rot", "l2_ver", "l2_time", "l2_rot","l3_ver", "l3_time", "l3_rot"],
-	 		"rock" : {
-	 			"imgPath" : "Content/black.png",
-	 			"size" : [420,100],
-	 			"pos" : [30,80]
-	 			},
-	 		"sumos" : [
-	 			{
-	 				"name" : "SM1",
-	 				"imgPath" : "Content/viet/avatar/001_attack.png",
-	 				"frame" : [10,10,50,50]
-	 			},
-	 			{
-	 				"name" : "SM2",
-	 				"imgPath" : "Content/viet/avatar/002_attack.png",
-	 				"frame" : [80,40,50,50]
-	 			},
-	 			{
-	 				"name" : "SM3",
-	 				"imgPath" : "Content/viet/avatar/003_attack.png",
-	 				"frame" : [150,10,50,50]
-	 			},
-	 			{
-	 				"name" : "SM4",
-	 				"imgPath" : "Content/viet/SM4.png",
-	 				"frame" : [220,40,50,50]
-	 			},
-	 			{
-	 				"name" : "SM5",
-	 				"imgPath" : "Content/viet/avatar/005_attack.png",
-	 				"frame" : [290,10,50,50]
-	 			},
-	 			{
-	 				"name" : "SM6",
-	 				"imgPath" : "Content/viet/avatar/006_attack.png",
-	 				"frame" : [360,40,50,50]
-	 			}
-	 		],
-	 		"lights" : [
-	 			{
-	 				"pos" : [100,100],
-	 				"ver" : [40,-40, 60,-40],
-	 				"rot" : -250,
-	 				"scale": [9,5],
-	 				"time" : 10
-	 			},
-	 			{
-	 				"pos" : [100,100],
-	 				"ver" : [-50,-40,-60,-20],
-	 				"rot" : 130,
-	 				"scale": [5,7],
-	 				"time" : 100
-	 			},
-	 			{
-	 				"pos" : [100,100],
-	 				"ver" : [-40,-40,-56,60],
-	 				"rot" : -350,
-	 				"scale": [6,4],
-	 				"time" : 220
-	 			},
-	 			{
-	 				"pos" : [100,100],
-	 				"ver" : [20,40,60,40],
-	 				"rot" : 90,
-	 				"scale": [3,5],
-	 				"time" : 500
-	 			}
-	 		]
-		}
-	}
+    {
+        "name": "CONF",
+        "type": "MapSelectionScene",
+        "attrs": {
+            "description" : "This is description for each Scene",
+            "debug" : true,
+            "debugAttrs" : [ "l0_ver", "l0_time", "l0_rot","l1_ver", "l1_time", "l1_rot", "l2_ver", "l2_time", "l2_rot","l3_ver", "l3_time", "l3_rot"],
+            "rock" : {
+                "imgPath" : "Content/stone/rock.png",
+                "size" : [320,200],
+                "pos" : [80,20]
+                },
+            "sumos" : [
+                {
+                    "name" : "SM1",
+                    "imgPath_new" : "Content/stone/icon_lock.png",
+                    "imgPath_training" : "Content/stone/fire1-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire1-unlock2.png",
+                    "frame" : [60,30,50,50]
+                },
+                {
+                    "name" : "SM2",
+                    "imgPath_new" : "Content/stone/icon_lock.png",
+                    "imgPath_training" : "Content/stone/fire2-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire2-unlock2.png",
+                    "frame" : [130,30,50,50]
+                },
+                {
+                    "name" : "SM3",
+                    "imgPath_new" : "Content/stone/icon_lock.png",
+                    "imgPath_training" : "Content/stone/fire3-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire3-unlock2.png",
+                    "frame" : [200,30,50,50]
+                },
+                {
+                    "name" : "SM4",
+                    "imgPath_new" : "Content/stone/icon_lock.png",
+                    "imgPath_training" : "Content/stone/fire4-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire4-unlock2.png",
+                    "frame" : [95,80,50,50]
+                },
+                {
+                    "name" : "SM5",
+                    "imgPath_new" : "Content/stone/icon_lock.png",
+                    "imgPath_training" : "Content/stone/fire5-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire5-unlock2.png",
+                    "frame" : [165,80,50,50]
+                },
+                {
+                    "name" : "SM6",
+                    "imgPath_new" : "Content/stone/icon_lock.png",
+                    "imgPath_training" : "Content/stone/fire6-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire6-unlock2.png",
+                    "frame" : [120,140,50,50]
+                }
+            ],
+            "lights" : [
+                {
+                    "pos" : [100,100],
+                    "ver" : [40,-40, 60,-40],
+                    "rot" : -250,
+                    "scale": [9,5],
+                    "time" : 10
+                },
+                {
+                    "pos" : [100,100],
+                    "ver" : [-50,-40,-60,-20],
+                    "rot" : 130,
+                    "scale": [5,7],
+                    "time" : 100
+                },
+                {
+                    "pos" : [100,100],
+                    "ver" : [-40,-40,-56,60],
+                    "rot" : -350,
+                    "scale": [6,4],
+                    "time" : 220
+                },
+                {
+                    "pos" : [100,100],
+                    "ver" : [20,40,60,40],
+                    "rot" : 90,
+                    "scale": [3,5],
+                    "time" : 500
+                }
+            ]
+        }
+    }
 ]
