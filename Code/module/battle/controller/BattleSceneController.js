@@ -4,6 +4,7 @@
 
 var Core 			= require('../../../../NGCore/Client/Core').Core;
 var GL2  			= require('../../../../NGCore/Client/GL2').GL2;
+var VFX 			= require('../../../../NGGo/Service/Graphics/VFX/VFX').VFX;
 var SceneDirector 	= require('../../../../NGGo/Framework/Scene/SceneDirector').SceneDirector;
 var SceneFactory 	= require('../../../../NGGo/Framework/Scene/SceneFactory').SceneFactory;
 var ParticleEmitter = require('../../../../NGGo/Service/Graphics/ParticleEmitter').ParticleEmitter;
@@ -332,10 +333,26 @@ var battleSceneController =
 		this.HUD[skillType + x].setColor(0, 0.7, 0.5);
 		
 		var pos = this.HUD[skillType + x].getPosition();
-		var light = new GL2.Sprite();
-		light.setImage("Content/battle/effect/light.png", new Core.Size(30, 30), new Core.Point(0,0));
-		light.setPosition(pos.getX() - 3, pos.getY());
-		this.HUD.addChild(light);
+		this._light = new GL2.Sprite();
+		this._light.setImage("Content/battle/effect/light.png", new Core.Size(30, 30), new Core.Point(0,0));
+		this._light.setPosition(pos.getX() - 3, pos.getY());
+		this.HUD.addChild(this._light);
+		
+		var obj = isEnemy ? this.enemy : this.sumo;
+		var dx = obj.getPosition().getX() - pos.getX();
+		var dy = obj.getPosition().getY() - pos.getY();
+		
+		VFX.enchant(this._light).moveByBezier(this, this.beginFighting, 2, dx, dy, 0);
+	},
+	
+	beginFighting: function() {
+		Logger.log("function = beginFighting");
+		if (this._light) {
+			this.HUD.removeChild(this._light);
+			delete this._light;
+		}
+		
+		this.isFighting = true;
 	},
 	
 	resetSkillSlot: function(skillType, isEnemy) {
@@ -433,7 +450,6 @@ var battleSceneController =
 	
 	fightEnemy: function() {
     	this.sumo.setAnim(null, "attack");
-    	this.isFighting = true;
 		this.skill.setRotation(180);
 		var skillType = this.getRandomSkill(false);
 		if (skillType == 1) { this.sumo.setAlpha(0); }
@@ -442,7 +458,6 @@ var battleSceneController =
 	
 	fightSumo: function() {
 		this.enemy.setAnim(null, "attack");
-		this.isFighting = true;
 		var skillType = this.enemy.isBoss ? this.enemy.skillType : this.getRandomSkill(false);
 		this._skillTypeE = skillType;
 		this.skill.setRotation(0);
