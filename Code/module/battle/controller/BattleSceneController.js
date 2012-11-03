@@ -332,7 +332,6 @@ var battleSceneController =
 		this.HUD[skillType + x].setColor(0, 0.7, 0.5);
 		
 		var pos = this.HUD[skillType + x].getPosition();
-		Logger.log("pos = " + pos.getX() + ", " + pos.getY());
 		var light = new GL2.Sprite();
 		light.setImage("Content/battle/effect/light.png", new Core.Size(30, 30), new Core.Point(0,0));
 		light.setPosition(pos.getX() - 3, pos.getY());
