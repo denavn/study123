@@ -11,9 +11,10 @@ var Ops                  = require('../../NGGo1.3/Foundation/Math/Ops').Ops;
 var Builder              = require('./Builder').Builder;
 
 exports.eff = {};
-exports.eff.shakeNode = function(node, time, dx) {
+exports.eff.shakeNode = function(node, time, dx, frequency) {
         Log("call eff shakeNode");
-        var n = 50;
+        var f = frequency || 50;
+        var n = Math.round(f * time);
         var dt = time*1000/n;
         var x = node.getPosition().getX();
         var y = node.getPosition().getY();

@@ -95,7 +95,10 @@ exports.MainGame = Core.Class.subclass({
     	SceneFactory.register(TutorScene, "TUTOR_SCENE");
     	SceneFactory.register(HomeScene, "HOME_SCENE");
     	SceneFactory.register(MissionScene, "MISSION_SCENE");
+    	if(Core.Capabilities.getPlatformOS() == "Android") 
+    		this.btnBack.setFrame([760,0,40,40]);
     	UI.Window.document.addChild(this.btnBack);
+    	
 	},
 	btnBack: new UI.Button({
         frame: [460, 0, 20, 20],

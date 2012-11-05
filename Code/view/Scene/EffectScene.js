@@ -31,11 +31,14 @@ exports.EffectScene = VietScene.subclass({
     },
     effSwingNode: function() {
         var sp = Builder.makeSprite(this.node, 'Content/viet/arrow.png',[100,50,64,64]);
-        eff.swingNode(sp,'horizontal', 15, 0.5);
+        eff.shakeNode(sp, 10, 3, 100);
+        //eff.swingNode(sp,'horizontal', 15, 0.5);
         var sp1 = Builder.makeSprite(this.node, 'Content/viet/arrow.png',[200,50,64,64]);
-        eff.swingNode(sp1,'vertical', 20, 2);
+        //eff.swingNode(sp1,'vertical', 20, 2);
+        eff.shakeNode(sp1, 20, 2);
         var sp2 = Builder.makeSprite(this.node, 'Content/viet/arrow.png',[200,200,64,64]);
-        eff.swingNode(sp2,'other', 18, 0.5);
+        //eff.swingNode(sp2,'other', 18, 0.5);
+        eff.shakeNode(sp2, 30, 1, 10);
     },
     
     

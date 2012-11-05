@@ -49,6 +49,7 @@ exports.MapSelectionScene = VietScene.subclass({
     onSuccessConfig: function() {
         Log("call onSuccessConfig");
         this._addRock(this.node);
+        this._riseRock();
         //this.sunSet(this.node);
         //this.sunLight();
     },
@@ -113,7 +114,9 @@ exports.MapSelectionScene = VietScene.subclass({
                     SceneDirector.push("TUTOR_SCENE", {cb: this.enterBattle.bind(this), args: s});
                   // Push tutorial scene here  or create text of tutorial
                   //After tutorial sh
-                } else*/ this.enterBattle(sumoning);
+                } else*/ 
+                this._downRock();
+                this.enterBattle(sumoning);
             
         
         
@@ -127,7 +130,7 @@ exports.MapSelectionScene = VietScene.subclass({
                 // this.bg.setColor(192/256, 255/256,62/256);
                 // this.bg.setDepth(60000);
                 SceneDirector.transition("MISSION_SCENE");
-           }.bind(this),2000);
+           }.bind(this),2200);
     },
     
     /*Make effect such as add "cleared" text on trained sumonor, "on-going" text on training sumonor,...
@@ -200,6 +203,21 @@ exports.MapSelectionScene = VietScene.subclass({
               return sumoning.imgPath_cleared;
     },
     
+    _riseRock: function() {
+    	var seq = VFX.sequence().move(2, [0, -180], Ops.EaseInQuad);
+    	setTimeout(function() {
+    		seq.play(this.rock);
+    		eff.shakeNode(this.bg, 2, 1);
+    		eff.shakeNode(this.bg2, 2, 1);
+    	}.bind(this), 800);
+    	//seq.play(this.rock);
+    },
+    _downRock: function() {
+    	var seq = VFX.sequence().move(2, [0, 180], Ops.EaseInQuad);
+    	setTimeout(function() {seq.play(this.rock)}.bind(this), 300);
+    	//seq.play(this.rock);
+    },
+    
     
     /*
      * get progress status of each mission (sumoning) from data
@@ -214,7 +232,13 @@ exports.MapSelectionScene = VietScene.subclass({
     },
     _addBackground: function() {
         this.bg = new GL2.Sprite();
-        this.bg.setImage("Content/bg4.png", new Core.Size(480,320), new Core.Point(0,0));
+        this.bg.setPosition(-2,0);
+        this.bg.setImage("Content/bg4.png", new Core.Size(482,320), new Core.Point(0,0));
+        this.bg2 = new GL2.Sprite();
+        this.bg2.setImage("Content/bg4.png", new Core.Size(482,80), new Core.Point(0,0),[0,0.75,1,0.25]);
+        this.bg2.setPosition(-2,240);
+        this.bg2.setDepth(62346);
         this.node.addChild(this.bg);
+        this.node.addChild(this.bg2);
     }
  });

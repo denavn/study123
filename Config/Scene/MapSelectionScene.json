@@ -8,51 +8,51 @@
             "debugAttrs" : [ "l0_ver", "l0_time", "l0_rot","l1_ver", "l1_time", "l1_rot", "l2_ver", "l2_time", "l2_rot","l3_ver", "l3_time", "l3_rot"],
             "rock" : {
                 "imgPath" : "Content/stone/rock.png",
-                "size" : [320,200],
-                "pos" : [80,20]
+                "size" : [140,200],
+                "pos" : [160,230]
                 },
             "sumos" : [
                 {
                     "name" : "SM1",
                     "imgPath_new" : "Content/stone/icon_lock.png",
                     "imgPath_training" : "Content/stone/fire1-unlock1.png",
-                    "imgPath_cleared" : "Content/stone/fire1-unlock2.png",
-                    "frame" : [60,30,50,50]
+                    "imgPath_cleared" : "Content/stone/fire1-unlock1.png",
+                    "frame" : [30,30,35,35]
                 },
                 {
                     "name" : "SM2",
                     "imgPath_new" : "Content/stone/icon_lock.png",
-                    "imgPath_training" : "Content/stone/fire2-unlock1.png",
-                    "imgPath_cleared" : "Content/stone/fire2-unlock2.png",
-                    "frame" : [130,30,50,50]
+                    "imgPath_training" : "Content/stone/fire1-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire1-unlock1.png",
+                    "frame" : [80,30,30,30]
                 },
                 {
                     "name" : "SM3",
                     "imgPath_new" : "Content/stone/icon_lock.png",
-                    "imgPath_training" : "Content/stone/fire3-unlock1.png",
-                    "imgPath_cleared" : "Content/stone/fire3-unlock2.png",
-                    "frame" : [200,30,50,50]
+                    "imgPath_training" : "Content/stone/fire1-unlock1.png",
+                    "imgPath_cleared" : "Content/stone/fire1-unlock1.png",
+                    "frame" : [30,90,35,35]
                 },
                 {
                     "name" : "SM4",
                     "imgPath_new" : "Content/stone/icon_lock.png",
                     "imgPath_training" : "Content/stone/fire4-unlock1.png",
-                    "imgPath_cleared" : "Content/stone/fire4-unlock2.png",
-                    "frame" : [95,80,50,50]
+                    "imgPath_cleared" : "Content/stone/fire4-unlock1.png",
+                    "frame" : [80,90,35,35]
                 },
                 {
                     "name" : "SM5",
                     "imgPath_new" : "Content/stone/icon_lock.png",
                     "imgPath_training" : "Content/stone/fire5-unlock1.png",
-                    "imgPath_cleared" : "Content/stone/fire5-unlock2.png",
-                    "frame" : [165,80,50,50]
+                    "imgPath_cleared" : "Content/stone/fire5-unlock1.png",
+                    "frame" : [30,150,35,35]
                 },
                 {
                     "name" : "SM6",
                     "imgPath_new" : "Content/stone/icon_lock.png",
                     "imgPath_training" : "Content/stone/fire6-unlock1.png",
-                    "imgPath_cleared" : "Content/stone/fire6-unlock2.png",
-                    "frame" : [120,140,50,50]
+                    "imgPath_cleared" : "Content/stone/fire6-unlock1.png",
+                    "frame" : [80,150,35,35]
                 }
             ],
             "lights" : [
