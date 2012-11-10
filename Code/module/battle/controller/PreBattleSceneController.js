@@ -53,7 +53,6 @@ var preBattleSceneController =
     },
     
 	_initBackKey: function () {
-		// back key
 		var KeyListener = Core.MessageListener.singleton ({
 			initialize: function() {
 				Device.KeyEmitter.addListener(this, this.onUpdate);

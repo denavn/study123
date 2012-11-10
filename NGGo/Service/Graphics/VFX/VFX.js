@@ -33,6 +33,7 @@ var MessageListener = require('../../../../NGCore/Client/Core/MessageListener').
 var UpdateEmitter 	= require('../../../../NGCore/Client/Core/UpdateEmitter').UpdateEmitter;
 var Class 			= require('../../../../NGCore/Client/Core/Class').Class;
 var Timekeeper 		= require('./Timekeeper').Timekeeper;
+var Bezier	 		= require('./Bezier').Bezier;
 var utils 			= require('./utils').utils;
 
 /**
@@ -216,6 +217,10 @@ exports.VFXTaskNode = Class.subclass(
 	
 	move2: function( cb, duration, dx, dy, easing ) {
 		return this.and( 'move2', [cb, duration, dx, dy, easing] );
+	},
+	
+	moveByBezier: function( cb, args, duration, dx, dy, easing ) {
+		return this.and( 'moveByBezier', [cb, args, duration, dx, dy, easing] );
 	},
 
 	/**
@@ -590,6 +595,39 @@ exports.VFX = MessageListener.singleton(
 		if (this.finish( duration )) {
 			this.node.setPosition( this.param.targetX, this.param.targetY );
 			cb.apply(obj, []);
+		}
+ 	},
+ 	
+ 	//--------------------------------------------------------------------------
+	moveByBezier: function( obj, cb, args, duration, dx, dy, dir, easeIn ) {
+		
+		if (! this.isInitialized) {
+			var x = this.node.getPosition().getX();
+			var y = this.node.getPosition().getY();
+			var t = (this.progress / duration);
+			this.isInitialized = true;
+			this.param.p0_x  = x;
+			this.param.p0_y  = y;
+
+			this.param.p1_x    = dir == 1 ? x + 20 : x - 20;
+			this.param.p1_y    = y - 10;
+
+			this.param.p2_x    = dir == 1 ? x + 30 : x - 30;
+			this.param.p2_y    = y - 60;
+						
+			this.param.p3_x = x + dx;
+			this.param.p3_y = y + dy;
+		}
+		
+		t = (this.progress / duration);
+		x = Bezier.bezier3(t, this.param.p0_x, this.param.p1_x, this.param.p2_x, this.param.p3_x);
+		y = Bezier.bezier3(t, this.param.p0_y, this.param.p1_y, this.param.p2_y, this.param.p3_y);
+		
+		this.node.setPosition(x, y);
+		
+		if (this.finish( duration )) {
+			this.node.setPosition( this.param.p3_x, this.param.p3_y );
+			cb.apply(obj, args);
 		}
  	},
 	
