@@ -1,0 +1,38 @@
+{
+	"test":"test123",
+	"player":{
+		"player_01": {
+			"name":"Player 1",
+			"type":"player",
+			"level": 1,
+			"default_sumo":{
+				"type":"sumo_01",
+				"level":5,
+				"skill":["skill_01", "skill_02"]
+			},
+			"extra_sumonor":[]
+		},
+		"player_02": {
+			"name":"Player 2",
+			"type":"friend",
+			"level": 1,
+			"default_sumo":{
+				"type":"sumo_01",
+				"level":5,
+				"skill":["skill_01", "skill_02"]
+			},
+			"extra_sumonor":[]
+		},
+		"player_03": {
+			"name":"Player 2",
+			"type":"other",
+			"level": 1,
+			"default_sumo":{
+				"type":"sumo_01",
+				"level":5,
+				"skill":["skill_01", "skill_02"]
+			},
+			"extra_sumonor":[]
+		}
+	}
+}

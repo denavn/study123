@@ -86,9 +86,9 @@ var MoveListener = Core.MessageListener.subclass({
 	onUpdate: function(delta) {
 		
 		if (this._controller.isFighting) {
-			this._fCounter += 20;
+			this._fCounter += 10;
 			
-			if ((this._fCounter / 60) >= 1) {
+			if ((this._fCounter / 50) >= 1) {
 				this._fightReady = true;
 				this._fCounter = 0;
 			}
@@ -245,25 +245,25 @@ var MoveListener = Core.MessageListener.subclass({
 				if (this._newY <= this._maxY && this._dirY == 1) {
 					obj.setPosition(x, this._newY);
 				} else {
-					if (this._controller.enemyHp && this._controller.sumoHp) {
-						this._dirY = -1;
-					} else {
-						this._died = true;
-					}
-					
+					this._dirY = -1;
+					// if (this._controller.enemyHp && this._controller.sumoHp) {
+						// this._dirY = -1;
+					// } else {
+						// this._died = true;
+					// }
+
 					if (this._newY >= this._minY) {
 						obj.setPosition(x, this._newY);
 					} else {
 						obj.setPosition(x, this._minY);
 						this._dirY = 1;
-					}
-				}
-			
+					}
+				}			
 			} else {
-				this._alpha -= 0.05;
-				obj.setAlpha(this._alpha);
-				var s = obj.getScale();
-				obj.setScale(s.getX() > 0 ? s.getX() - 0.05 : s.getX() + 0.05, s.getY() - 0.05);
+				// this._alpha -= 0.05;
+				// obj.setAlpha(this._alpha);
+				// var s = obj.getScale();
+				// obj.setScale(s.getX() > 0 ? s.getX() - 0.05 : s.getX() + 0.05, s.getY() - 0.05);
 			}
 			
 			var d = 0.5;
@@ -272,17 +272,17 @@ var MoveListener = Core.MessageListener.subclass({
 				this._controller.sumo.setAnim(null, "stand");
 			}
 			
-			if (this._controller.enemyHp == 0 || this._controller.sumoHp == 0) {
-				d = 1.5;
-			}
+			// if (this._controller.enemyHp == 0 || this._controller.sumoHp == 0) {
+				// d = 1.5;
+			// }
 			
 			if ((this._dCounter / 1000) >= d) {
 				this._dCounter = 0;
 				
-				if (this._controller.enemyHp == 0 || this._controller.sumoHp == 0) {
-					this.destroy();
-					SceneDirector.pop();
-				}
+				// if (this._controller.enemyHp == 0 || this._controller.sumoHp == 0) {
+					// this.destroy();
+					// SceneDirector.pop();
+				// }
 				
 				this._resetObj();
 				
@@ -296,7 +296,7 @@ var MoveListener = Core.MessageListener.subclass({
 		
 		this._counter += 50;
 		
-		if ((this._counter / 1000) >= 2) {
+		if (this._done && !this._controller.isFighting && !this._controller._light[2] ) { //&& this._controller.enemyHp != 0 && this._controller.sumoHp != 0) {
 			this._counter = 0;
 			
 			if (this._controller.enemyTurn) {
@@ -319,6 +319,8 @@ var battleSceneController =
 		this.isFighting = false;
 		this._skillTypeS = 0;
 		this._skillTypeE = 0;
+		this._light = [];
+		this._lightCount = 0;
 	},
 	
 	action_click: function (elem, buttnName) {
@@ -342,37 +344,53 @@ var battleSceneController =
 	
 	highlightSkillSlot: function(skillType, isEnemy) {
 	    Logger.log("skillType = " + skillType);
+	    var d = isEnemy ? -1 : 1;
 	    var x = isEnemy ? 3 : 0;
 		this.HUD[skillType + x].setColor(0, 0.7, 0.5);
 		
 		var pos = this.HUD[skillType + x].getPosition();
-		this._light = new GL2.Sprite();
-		this._light.setImage("Content/battle/effect/light.png", new Core.Size(30, 30), new Core.Point(0,0));
-		this._light.setPosition(pos.getX() - 3, pos.getY());
-		this.HUD.addChild(this._light);
-		
 		var obj = isEnemy ? this.enemy : this.sumo;
-		var dx = obj.getPosition().getX() - pos.getX();
-		var dy = obj.getPosition().getY() - pos.getY();
+		p0 = {x: pos.getX(), y: pos.getY()};
+		p3 = {x: obj.getPosition().getX(), y: obj.getPosition().getY()};
 		
-		VFX.enchant(this._light).moveByBezier(this, this.beginFighting, [skillType, isEnemy], 0.5, dx, dy, 0);
+		
+		var epsilon = 100;
+		for (var i = 0; i < 3; i++) {
+			this._light[i] = new GL2.Sprite();
+			this._light[i].setImage("Content/battle/effect/light.png", new Core.Size(30, 30), new Core.Point(0,0));
+			this._light[i].setPosition(pos.getX() - 3, pos.getY());
+			this.HUD.addChild(this._light[i]);
+			
+			epsilon *= (i + 0.5) * d;
+			
+			p1 = {x: p0.x + epsilon * (d == 1 && i == 0 ? -2 : 1), y: p0.y - 10};
+			p2 = {x: p0.x + epsilon, y: p0.y - 90};
+			
+			VFX.enchant(this._light[i]).moveByBezier(this, this.beginFighting, [skillType, isEnemy], 1, p0, p1, p2, p3, 0);
+		}
 	},
 	
 	beginFighting: function(skillType, isEnemy) {
 		Logger.log("function = beginFighting");
 		
-		if (this._light) {
-			this.HUD.removeChild(this._light);
-			delete this._light;
+		if (this._light[this._lightCount]) {
+			this.HUD.removeChild(this._light[this._lightCount]);
+			delete this._light[this._lightCount];
 		}
 		
-		this.isFighting = true;
-		var obj = (skillType == 1 && isEnemy) ? this.enemy : ((skillType == 1) ? this.sumo : null);
-		var obj2 = isEnemy ? this.enemy : this.sumo;
+		this._lightCount++;
 		
-		if (obj) {
-			obj.setAlpha(0);
-		}		obj2.setAnim(null, "attack");
+		if (this._lightCount == 3) {
+		
+			this.isFighting = true;
+			var obj = (skillType == 1 && isEnemy) ? this.enemy : ((skillType == 1) ? this.sumo : null);
+			var obj2 = isEnemy ? this.enemy : this.sumo;
+			
+			if (obj) {
+				obj.setAlpha(0);
+			}				obj2.setAnim(null, "attack");
+			this._lightCount = 0;
+		}
 	},
 	
 	resetSkillSlot: function(skillType, isEnemy) {
@@ -470,7 +488,7 @@ var battleSceneController =
 	
 	fightEnemy: function() {
 		this.skill.setRotation(180);
-		var skillType = this.getRandomSkill(false);
+		var skillType = this.getRandomSkill(false, true);
 
 		this.highlightSkillSlot(skillType);
 	},
@@ -484,7 +502,7 @@ var battleSceneController =
 		this.highlightSkillSlot(skillType, true);
 	},
 	
-	getRandomSkill: function(isEnemy) {
+	getRandomSkill: function(isEnemy, isLeftSumo) {
 		if (isEnemy) {
 			this._skillTypeE = 1;
 			return this._skillTypeE; 

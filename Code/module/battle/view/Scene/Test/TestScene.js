@@ -1,11 +1,11 @@
 /**
  * @author sonnn
  */
-var ScreenManager		 = require('../../../../NGGo/Service/Display/ScreenManager').ScreenManager;
-var GUIBuilder			 = require('../../../../NGGo/Framework/GUIBuilder').GUIBuilder;
-var Scene				 = require('../../../../NGGo/Framework/Scene/Scene').Scene;
-var GL2					 = require('../../../../NGCore/Client/GL2').GL2;
-var SceneDirector 		 = require('../../../../NGGo/Framework/Scene/SceneDirector').SceneDirector;
+var ScreenManager		 = require('../../../../../../NGGo/Service/Display/ScreenManager').ScreenManager;
+var GUIBuilder			 = require('../../../../../../NGGo/Framework/GUIBuilder').GUIBuilder;
+var Scene				 = require('../../../../../../NGGo/Framework/Scene/Scene').Scene;
+var GL2					 = require('../../../../../../NGCore/Client/GL2').GL2;
+var SceneDirector 		 = require('../../../../../../NGGo/Framework/Scene/SceneDirector').SceneDirector;
 var TestSceneController	 = require('../../../controller/TestSceneController').TestSceneController;
 
 var testScene = {
@@ -15,7 +15,7 @@ var testScene = {
 	
 	onEnter: function(prevScene, option) {
 		this.node = new GL2.Node();
-	    GUIBuilder.loadConfigFromFile("Config/Scene/TestScene.json", this.controller, function ()
+	    GUIBuilder.loadConfigFromFile("Config/Scene/battle/TestScene.json", this.controller, function ()
 	    {
 	    	ScreenManager.getRootNode().addChild(this.node);
 	    	this.controller.HUD.setDepth(65535);
@@ -29,6 +29,7 @@ var testScene = {
 	
 	onExit: function(nextScene, option) {
 		this.node.destroy();
+		delete this.node;
 	}
 };
 

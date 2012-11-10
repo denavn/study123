@@ -1,0 +1,11 @@
+[
+    {
+     "name" : "CONF",
+     "type" : "ListScene",
+     "attrs" : {
+        "description" : "This is description for each Scene",
+        "debug" : false,
+        "debugAttrs" : []
+     }
+    }
+]

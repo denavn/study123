@@ -1,0 +1,22 @@
+{
+    "screens" :
+    {
+        "LetterBox" : 
+        {
+            "type" : "LetterBox",
+            "logicalSize" : [ 1024, 768]
+        },
+        "pan" :
+        {
+            "type" : "PanAndScan",
+            "logicalSize" : [ 1024, 768]
+        },
+        "smallPan" :
+        {
+            "type" : "PanAndScan",
+            "logicalSize" : [ 480, 320]
+        }
+    },
+    "defaultScreen" : "pan",
+    "orientation" : "Portrait"
+}

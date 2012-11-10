@@ -28,8 +28,8 @@ var preBattleSceneController =
         	this.gotoBattle(self, battleName);
         } else if (battleName === "Reload") {
         	this._initBackKey();
-        } else if (battleName === "Back") {
-            this.transitionToDebugScene();
+        } else if (battleName === "Test") {
+            this.transitionToTestScene();
         }
     },
     
@@ -42,7 +42,7 @@ var preBattleSceneController =
 		SceneDirector.push("BATTLE_SCENE", battleName);
     },
     
-    transitionToTest: function() {
+    transitionToTestScene: function() {
 		console.log("transition to test scene");
 		SceneDirector.transition("TEST_SCENE");
     },

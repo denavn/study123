@@ -8,6 +8,7 @@ var JSONData 			= require('../../../NGGo/Service/Data/JSONData').JSONData;
 var GlobalParameter 	= require('../../utils/GlobalParameter').GlobalParameter;
 var PreBattleScene 		= require('./view/Scene/PreBattleScene').PreBattleScene;
 var BattleScene 		= require('./view/Scene/BattleScene').BattleScene;
+var TestScene 			= require('./view/Scene/Test/TestScene').TestScene;
 
 var battleEntry = {
 	initialize: function(mode) {
@@ -39,6 +40,7 @@ var battleEntry = {
 	        							
 	        							SceneFactory.register(PreBattleScene, "PRE_BATTLE_SCENE");
 								    	SceneFactory.register(BattleScene, "BATTLE_SCENE");
+								    	SceneFactory.register(TestScene, "TEST_SCENE");
 								    	
 								    	if (mode == "DEBUG") {
 								    		SceneDirector.push("PRE_BATTLE_SCENE");
