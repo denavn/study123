@@ -219,8 +219,8 @@ exports.VFXTaskNode = Class.subclass(
 		return this.and( 'move2', [cb, duration, dx, dy, easing] );
 	},
 	
-	moveByBezier: function( cb, duration, dx, dy, easing ) {
-		return this.and( 'moveByBezier', [cb, duration, dx, dy, easing] );
+	moveByBezier: function( cb, args, duration, dx, dy, easing ) {
+		return this.and( 'moveByBezier', [cb, args, duration, dx, dy, easing] );
 	},
 
 	/**
@@ -599,7 +599,7 @@ exports.VFX = MessageListener.singleton(
  	},
  	
  	//--------------------------------------------------------------------------
-	moveByBezier: function( obj, cb, duration, dx, dy, dir, easeIn ) {
+	moveByBezier: function( obj, cb, args, duration, dx, dy, dir, easeIn ) {
 		
 		if (! this.isInitialized) {
 			var x = this.node.getPosition().getX();
@@ -627,7 +627,7 @@ exports.VFX = MessageListener.singleton(
 		
 		if (this.finish( duration )) {
 			this.node.setPosition( this.param.p3_x, this.param.p3_y );
-			cb.apply(obj, []);
+			cb.apply(obj, args);
 		}
  	},
 	
