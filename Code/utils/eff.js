@@ -9,6 +9,7 @@ var VFX                  = require('../../NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions           = require('../../NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops                  = require('../../NGGo1.3/Foundation/Math/Ops').Ops;
 var Builder              = require('./Builder').Builder;
+var ListNode             = require('./ListNode').ListNode;
 
 exports.eff = {};
 exports.eff.shakeNode = function(node, time, dx, frequency) {
@@ -27,6 +28,50 @@ exports.eff.shakeNode = function(node, time, dx, frequency) {
             }
         }
 };
+
+/*
+    Note when using this function, because it will create some new properties for scene, include:
+    bb sprite
+    listNode ListNode
+    2. Ensure that scene has property helps which is array of help message.
+
+
+*/
+exports.eff.makeHelp = function(frame, context) {
+    var Builder              = require('./Builder').Builder;
+    context.bb = context.bb != undefined ? context.bb : Builder.makeSprite(null, "Content/black.png", [0,0,800,400], [0,0], [0,0,1,1], 63768);
+    context.bb.setAlpha(0.9);
+  
+    var items = [];
+    if( context.helps == undefined) {Log("ERROR: scene must have helps array message"); return;}
+    for (var i = 0; i < context.helps.length; i++) {
+        var item = Builder.makeText(null, [0,0], [200,200], context.helps[i], 18);
+        items.push(item)
+    }
+    context.listNode = context.listNode != undefined ? context.listNode : new ListNode(2,items);
+    var close = function() {
+        this.node.removeChild(this.bb);
+        GL2.Root.removeChild(this.listNode);
+        var seq = VFX.sequence().scaleTo(0.5,[1,1], Ops.EaseInExpo).moveTo(0.5,[430,40]);
+        seq.play(this.clan);
+        setTimeout(function() {this.node.setTouchable(true);}.bind(this), 1012);
+    };
+    var open = function() {
+            this.node.addChild(this.bb);
+            this.node.setTouchable(false);
+            var seq = VFX.sequence().moveTo(0.5,[240,160]).scaleTo(0.5,[4,5], Ops.EaseInExpo);
+            seq.play(this.clan);
+            setTimeout(function() {
+                this.listNode.setDepth(63970);
+                GL2.Root.addChild(this.listNode);
+            }.bind(this), 1012);
+    };
+    var back = Builder.makeSpriteButton(context.listNode,"Content/viet/img_batu.png", [455,55,60,30],{func: close.bind(context), args: 0});
+    context.clan = Builder.makeSpriteButton(context.node, "Content/viet/clan.png", frame, {func: open.bind(context), args: 0}, [0.5,0.5]);
+    context.clan.setDepth(63769);
+    Log("======00000000000000add clan");
+
+},
 exports.eff.scaleAppear = function(parent, child, time) {
     child.setScale(0.1,0.1);
     parent.addChild(child);

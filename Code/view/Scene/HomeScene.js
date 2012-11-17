@@ -51,6 +51,9 @@ exports.HomeScene = VietScene.subclass({
     onSuccessConfig: function() {
         Log("call onSuccessConfig");
         this.createMapButtons(this.CONF.maps);
+        // this._addClan();
+        this._addVietConfig();
+        this._addHelp();
     },
     
     
@@ -74,8 +77,7 @@ exports.HomeScene = VietScene.subclass({
             this.node.addChild(map.node);
         }
         
-       // this._addClan();
-        this._addVietConfig();
+       
         var x_icon = new GL2.Node();
         x_icon.setPosition(430,255);
         Builder.makeSprite(this.node, 'Content/stone/frame.png', [430,255,50,50], [0,0]);
@@ -93,7 +95,7 @@ exports.HomeScene = VietScene.subclass({
      },
     _addVietConfig: function() {
         var rect_icon = new GL2.Node();
-        Builder.makeSprite(this.node, 'Content/stone/frame.png', [430,120,50,50], [0,0]);
+        Builder.makeSprite(this.node, 'Content/stone/frame.png', [445,114,50,50], [0,0]);
         rect_icon.setPosition(430,120);
         Builder.makeTouch(rect_icon, [50,50], {func: function() {SceneDirector.push("ALL_SCENE");}, args: 0});
         this.node.addChild(rect_icon);
@@ -106,6 +108,19 @@ exports.HomeScene = VietScene.subclass({
     },
     onSelectOther: function() {
         Log("On select other button ");
+    },
+    _addHelp: function() {
+        Log("On select Help");
+        this.helps = ["ALFJJRHG@#$@#","#$@#@VZXCNV", "ASLFJASLGJLRJGLKEJJ3LR2L3J", "LFJALSJFLS!@#!@#!@#!@#!@#!@",
+                        "SLJFAISHG12!@#$^&#(" ,"*@#@$@#!@$mFASLFSFdrSHRRHTRG!@#NS","ASLASFJ!@#!@#!@#!$$%#%#$%#$%#%45",
+                            "SLDJFLAJSDFJ437953TH!@$g%((%S4HSFAHK", "SFJALSFALSGHLAGRDSASFASFSHF",
+                                "ALSJVSRVJ3487534@#rfASHG@#eheTHRTHHSLFHAW4H!2EHA@#$tJ","SJLFAHSLGG!@#!@#!@#!@",
+                                "23RJW40Q4FFasefW332@#$RTG^G4*(^&*mEKJGERHasgGSDRG#$3",
+                                    "SSLGKJERG343sDGJD!@#!@ENRGKJLDRJGLHGHHGHER4GH", "SLKFJSLGJLE12312312312E5ELT@#",
+                                    "AAGLDSGJDKLGJEG!@#!@#!$@#%$%#$SJGFKAJSGJ",
+                                    "SLFJALSJGLKDJG123123#$@#%#@$%#$%$#", "WLJSJGLSJGLJRR@#$!@$!GLDJ", 
+                                    "SFJLAJGLDGJD12434@#$@#$@"];
+        eff.makeHelp([455,30,50,50], this);
     },
     
     onExit: function($super) {

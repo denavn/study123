@@ -7,6 +7,7 @@ var GLUI				 = require('../../NGGo1.3/GLUI').GLUI;
 var VFX                  = require('../../NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions           = require('../../NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops                  = require('../../NGGo1.3/Foundation/Math/Ops').Ops;
+var ScreenManager        = require('../../NGGo/Service/Display/ScreenManager').ScreenManager;
 //var VietScene            = require('./VietScene').VietScene;
 //var Builder              = require('./VietLib/Builder').Builder;
 //var eff                  = require('./VietLib/eff').eff;
@@ -45,10 +46,11 @@ exports.ListNode = GL2.Node.subclass({
 			var conf = {};
    		 	conf.style0 = def.attrs.style0;
    		 	conf.style1 = def.attrs.style1;
+   		 	conf.style2 = def.attrs.style2;
     		return conf;
 		};
 		GUIBuilder.registerTypeMethod(this.classname, config);
-		GUIBuilder.loadConfigFromFile("Config/VietConfig/ListNode.json", this.controller, function(err) {
+		GUIBuilder.loadConfigFromFile("Config/Scene/ListNode.json", this.controller, function(err) {
 			if(this.controller.CONF!= undefined) {
 				this.CONF = this.controller.CONF;
 				//this._debugAttrs = [".....", "......", "........", "........", "......", "....."];
@@ -56,7 +58,8 @@ exports.ListNode = GL2.Node.subclass({
  				this.onSuccessConfig();
  			}
  		}.bind(this));
- 		GL2.Root.addChild(this.node);
+ 		//ScreenManager.getRootNode().addChild(this.node);
+ 		//GL2.Root.addChild(this.node);
  	},
  	onSuccessConfig: function() {
  		Log("call onSuccessConfig");
@@ -71,7 +74,9 @@ exports.ListNode = GL2.Node.subclass({
 			case 0:
 				return this.CONF.style0;
 			case 1:
-				return this.CONF.style1;	
+				return this.CONF.style1;
+			case 2:
+				return this.CONF.style2;
 		}
 	},
 	

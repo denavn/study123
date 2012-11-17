@@ -178,10 +178,9 @@ exports.MapSelectionScene = VietScene.subclass({
             Log("skfjalsfjajfaf: " + this.CONF.sumos[i].imgPath_cleared);
             sumoning.imgPath = this._getImgPath(this.CONF.sumos[i], sumoning.status.stt1);
             Log("IMG PSSSS: " + sumoning.imgPath);
-            sumoning.node = Builder.makeSpriteButton(sumoning.imgPath,sumoning.frame,{func: this.bind(this.onSelectSumonor), args: sumoning});
+            sumoning.node = Builder.makeSpriteButton(parentNode,sumoning.imgPath,sumoning.frame,{func: this.bind(this.onSelectSumonor), args: sumoning});
             sumoning.node.addChild(Builder.makeSprite(sumoning.node, "Content/stone/frame.png",[0,0,sumoning.frame[2], sumoning.frame[3]], [0,0]));
             this.sumonings.push(sumoning);
-            parentNode.addChild(sumoning.node);
             this._markProgress(sumoning.node, sumoning.status.stt1);
         }   
     },
@@ -235,10 +234,9 @@ exports.MapSelectionScene = VietScene.subclass({
         this.keys = [];
         for (var i = 0; i < 6; i++) {
             Log("i ===" + i);
-            var key = Builder.makeSpriteButton("Content/stone/fire1-unlock1.png", 
+            var key = Builder.makeSpriteButton(this.node,"Content/stone/fire1-unlock1.png", 
                 [80 + i* 60,280,35,35], {func: cb.bind(this), args: i});
             key.setDepth(62768);
-            this.node.addChild(key);
             this.keys.push(key);
         }
     },

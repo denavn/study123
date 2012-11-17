@@ -10,10 +10,11 @@ var VFXActions           = require('../../NGGo1.3/Service/Graphics/VFXActions').
 var Ops                  = require('../../NGGo1.3/Foundation/Math/Ops').Ops;
 var eff                  = require('./eff').eff;
 exports.Builder = {};
-exports.Builder.makeSpriteButton = function(imgPath, frame, cb) {
+exports.Builder.makeSpriteButton = function(parent, imgPath, frame, cb, anchor) {
         //Log("[SpriteButton] = " + imgPath);
         var sprite = new GL2.Sprite();
-        sprite.setImage(imgPath,new Core.Size(frame[2],frame[3]), [0,0]);
+        anchor = (anchor != undefined ? anchor : [0,0]);
+        sprite.setImage(imgPath,new Core.Size(frame[2],frame[3]), anchor);
         sprite.setPosition(frame[0], frame[1]);
         
         var button = new GLUI.Button();
@@ -25,6 +26,8 @@ exports.Builder.makeSpriteButton = function(imgPath, frame, cb) {
             cb.func(cb.args);
         }
         sprite.addChild(button.getGLObject());
+        if(parent)
+            parent.addChild(sprite);
         return sprite;
 };
 /*
@@ -42,6 +45,8 @@ exports.Builder.makeSprite = function(parent, imgPath, frame, anchor, uvs, depth
        parent.addChild(sprite);
     return sprite;
 };
+
+
 //ver = [40, -40, 60,-40]
 exports.Builder.makeLight = function(parent, pos, ver, angle, scale,time) {
     
@@ -62,8 +67,7 @@ exports.Builder.makeLight = function(parent, pos, ver, angle, scale,time) {
 
 };
 exports.Builder.makeNode = function(parent, frame) {
-    // var prim1 = new GL2.Primitive();
-//     
+    // var prim1 = new GL2.Primitive();  
     // prim1.setPosition(frame[0]);
     // prim1.setType(GL2.Primitive.TriangleStrip);
     // prim1.pushVertex(new GL2.Primitive.Vertex([0, 0], [0, 0]));
@@ -173,6 +177,7 @@ exports.Builder.makeText = function(parent, pos, size, message, fontSize, fontCo
    text.setAnchor(0,0);
    // text.setFont("Arial");
     text.setText(message || "");
-    parent.addChild(text);
+    if(parent)
+        parent.addChild(text);
     return text;
 }

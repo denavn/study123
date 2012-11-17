@@ -28,6 +28,19 @@
        			"stretchDecay" : 0.65,
        			"smoothingFactor" : 0.3,
        			"friction" : 0.9
+			},
+			"style2" : {
+				"orientation" : 2,
+				"frame" : [270,80,200,300],
+				"itemSize" : [200,100],
+				"isSnap" : true,
+				"hasScrollbar" : false,
+				"touchSensitivity": 2,
+       			"flickSpeed" : 0.3,
+       			"rangeFactor" : 0.5,
+       			"stretchDecay" : 0.65,
+       			"smoothingFactor" : 0.3,
+       			"friction" : 0.9
 			}
 		}		
 	}
