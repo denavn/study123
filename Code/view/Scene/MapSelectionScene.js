@@ -50,6 +50,7 @@ exports.MapSelectionScene = VietScene.subclass({
         Log("call onSuccessConfig");
         this._addRock(this.node);
         this._riseRock();
+        this.addKey();
         //this.sunSet(this.node);
         //this.sunLight();
     },
@@ -216,6 +217,38 @@ exports.MapSelectionScene = VietScene.subclass({
     	var seq = VFX.sequence().move(2, [0, 180], Ops.EaseInQuad);
     	setTimeout(function() {seq.play(this.rock)}.bind(this), 300);
     	//seq.play(this.rock);
+    },
+
+    /*
+    Display all availble key of player, when player tap on one key, if key is suitable, it will fly to fit with
+    sumoning on rock
+    */
+    addKey: function() {
+        Log("addKey")
+        var cb = function(i) {
+            Log("Click a key");
+           // var target = new Core.Point(this.CONF.sumos[i].frame[2], this.CONF.sumos[i].frame[3]);
+            var target = this.getGlobalPositionOfSumoning(i);
+            var seq = VFX.spawn().moveTo(3, target).rotate(3, 720, Ops.EaseInExpo);
+            seq.play(this.keys[i]);
+        };
+        this.keys = [];
+        for (var i = 0; i < 6; i++) {
+            Log("i ===" + i);
+            var key = Builder.makeSpriteButton("Content/stone/fire1-unlock1.png", 
+                [80 + i* 60,280,35,35], {func: cb.bind(this), args: i});
+            key.setDepth(62768);
+            this.node.addChild(key);
+            this.keys.push(key);
+        }
+    },
+
+    getGlobalPositionOfSumoning: function(i) {
+            var x = this.rock.getPosition().getX() + this.sumonings[i].node.getPosition().getX();
+            var y = this.rock.getPosition().getY() + this.sumonings[i].node.getPosition().getY();
+            Log("..............x/y: " + x + "/" + y);
+            return new Core.Point(x,y);
+           // return this.rock.localToScreen(this.sumonings[i].node.getPosition());
     },
     
     

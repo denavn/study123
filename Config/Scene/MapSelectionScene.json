@@ -9,7 +9,7 @@
             "rock" : {
                 "imgPath" : "Content/stone/rock.png",
                 "size" : [140,200],
-                "pos" : [160,230]
+                "pos" : [260,200]
                 },
             "sumos" : [
                 {
@@ -83,6 +83,11 @@
                     "rot" : 90,
                     "scale": [3,5],
                     "time" : 500
+                }
+            ],
+            "key" : [
+                {
+                    "pos" :  [20,270]
                 }
             ]
         }
