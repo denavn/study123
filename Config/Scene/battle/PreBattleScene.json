@@ -47,6 +47,24 @@
 						"params": "Battle2"
 					}
 				}
+			},
+			{
+				"name": "Test",
+				"type": "button",
+				"attrs": {
+					"frame": [300, 100, 70, 40],
+					"normalText": "Test",
+					"textSize": 10,
+					"normalImage": {
+						"url": "Content/mainmenu/1.png",
+						"size": [70, 40],
+						"anchor": [0, 0]
+					},
+					"action": {
+						"name": "click",
+						"params": "Test"
+					}
+				}
 			}
 		]
 	}

@@ -19,6 +19,7 @@ var skillObj = {
         this._frameDuration = 150;          
         this._sprite = new GL2.Sprite();
         this._sprite.setAnimation(AnimationManager.getAnimationGL2("fire", "begin", this._frameDuration));
+        this._animPool = [];
         
         this.isFinished = false;
     },
@@ -53,11 +54,21 @@ var skillObj = {
     	return this._sprite;
     },
     
-    setAnim: function(name, state, frameRate) {
+    setAnim: function(name, state, frameRate, forceFinish) {
     	frameRate = frameRate || this._frameDuration;
-    	var anim = AnimationManager.getAnimationGL2(name, state, frameRate);
-    	anim.setLoopingEnabled(false);
+    	var anim = this._animPool[state];
+    	
+    	if (!anim) {
+    		anim = AnimationManager.getAnimationGL2(name, state, frameRate);
+    		anim.setLoopingEnabled(false);
+    		this._animPool[state] = anim;
+    	}
+    	
     	this._sprite.setAnimation(anim);
+    	
+    	if (forceFinish) {
+    		this._sprite.getAnimationCompleteEmitter().addListener(this, this.finish);
+    	}
     	
     	Logger.log("Anim state = " + state);
     },
@@ -75,9 +86,12 @@ var skillObj = {
     	Logger.log("Skill-->Bigfire");
     	var p = this._sprite.getPosition();
     	this._sprite.setPosition(p.getX() - 330 * this._direction, p.getY());
-    	this.setAnim("fire", "end");
-    	
+    	this.setAnim("fire", "end", undefined, true);
+    },
+    
+    finish: function() {
     	this.isFinished = true;
+    	this._sprite.getAnimationCompleteEmitter().removeListener(this, this.finish);
     },
     
     fire: function() {
