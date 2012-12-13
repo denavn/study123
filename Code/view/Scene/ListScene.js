@@ -36,8 +36,9 @@ exports.ListScene = VietScene.subclass({
 	onSuccessConfig: function() {
 	 //   Core.updateEmitter.addListener
 	    var imgs = [];
-            for (var i = 1; i < 10; i++) {
-                imgs.push("Content/viet/avatar/00" + i + "_attack.png");
+            for (var i = 1; i < 7; i++) {
+                imgs.push("Content/viet/avatar/fire0" + i + ".png");
+                 imgs.push("Content/viet/avatar/plant0" + i + ".png");
             }
 	    this.listNode = new ListNode(0,this.getItems(imgs, [200,200],[0,0]));
         this.node.addChild(this.listNode);

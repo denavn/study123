@@ -9,7 +9,11 @@ var VFX                  = require('../../NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions           = require('../../NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops                  = require('../../NGGo1.3/Foundation/Math/Ops').Ops;
 var eff                  = require('./eff').eff;
+var Commands			 = require('../../NGCore/Client/UI/Commands').Commands;
 exports.Builder = {};
+/*
+ * Why GLUI Button let us touch only center, not at edge of button?
+ */
 exports.Builder.makeSpriteButton = function(parent, imgPath, frame, cb, anchor) {
         //Log("[SpriteButton] = " + imgPath);
         var sprite = new GL2.Sprite();
@@ -18,8 +22,12 @@ exports.Builder.makeSpriteButton = function(parent, imgPath, frame, cb, anchor) 
         sprite.setPosition(frame[0], frame[1]);
         
         var button = new GLUI.Button();
-        button.setFrame([0,0,frame[2], frame[3]]);
-        //button.setBackgroundColor('FF0000');
+        button.setFrame([0 - anchor[0] * frame[2],0 - anchor[1] * frame[3],frame[2], frame[3]]);
+        //button.setFrame(0,0, frame[2], frame[3]);
+        button.setImage(imgPath, Commands.State.Normal,frame[2], frame[3]);
+        button.setImage(imgPath, Commands.State.Pressed, frame[2], frame[3]);
+
+       // button.setBackgroundColor(1,0,0);
         button.onclick = function() {
             sprite.setColor(1,0,0);
             setTimeout(function() {sprite.setColor(1,1,1);}, 200);
@@ -28,7 +36,7 @@ exports.Builder.makeSpriteButton = function(parent, imgPath, frame, cb, anchor) 
         sprite.addChild(button.getGLObject());
         if(parent)
             parent.addChild(sprite);
-        return sprite;
+		return sprite;
 };
 /*
  * Create a GL2 Sprite and add to parent

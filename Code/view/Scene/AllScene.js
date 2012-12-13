@@ -8,7 +8,7 @@ var VFX					 = require('../../../NGGo1.3/Service/Graphics/VFX').VFX;
 var VFXActions			 = require('../../../NGGo1.3/Service/Graphics/VFXActions').VFXActions;
 var Ops 				 = require('../../../NGGo1.3/Foundation/Math/Ops').Ops;
 var VietScene 			 = require('./VietScene').VietScene;
-
+var eff                  = require('../../utils/eff').eff;
 exports.AllScene = VietScene.subclass({
  	classname: "AllScene",  // must be unique
  	sceneName: "ALL_SCENE",
@@ -29,7 +29,9 @@ exports.AllScene = VietScene.subclass({
  		$super();
  		this.make_buttons(this.CONF.buttons, this.CONF.btnSize);
  		this.ui.setVisible(true);
+
  	},
+ 	
  	make_buttons: function(btns, btnSize) {
  		
  		Log("function make_button");
@@ -61,7 +63,7 @@ exports.AllScene = VietScene.subclass({
 	 		sceneButton.setOnClick(function() {
 	 			this.getParent().setVisible(false);
 	 			if(this.getText() == 'TUTOR_SCENE')
-	 			   SceneDirector.push(this.getText(), "OPP pa pa gangnam style");
+	 			   SceneDirector.push(this.getText(), "Option for scene");
 	 			else SceneDirector.push(this.getText());
 	 		});
 	 		this.ui.addChild(sceneButton);
