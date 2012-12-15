@@ -48,7 +48,7 @@ exports.eff.makeHelp = function(frame, context) {
  		this.listNode.destroy();
  		this.bb.destroy();
  		this.back.destroy();
-        var seq = VFX.sequence().scaleTo(0.5,[1,1], Ops.EaseInExpo).moveTo(0.5,[430,40]);
+        var seq = VFX.spawn().scaleTo(1,[1,1], Ops.EaseInExpo).moveTo(1,[frame[0],frame[1]], Ops.EaseInExpo);
         seq.play(this.clan);
         setTimeout(function() {this.node.setTouchable(true);}.bind(this), 1012);
     };
@@ -59,7 +59,7 @@ exports.eff.makeHelp = function(frame, context) {
     	 var items = [];
     		if( this.helps == undefined) {Log("ERROR: scene must have helps array message"); return;}
     	 for (var i = 0; i < this.helps.length; i++) {
-        	var item = Builder.makeText(null, [0,0], [200,200], this.helps[i], 14);
+        	var item = Builder.makeText(null, [0,0], [180,180], this.helps[i], 14, [0.1,0,0]);
         	items.push(item)
     	 }
     	
@@ -69,7 +69,7 @@ exports.eff.makeHelp = function(frame, context) {
 
             this.node.addChild(this.bb);
             this.node.setTouchable(false);
-            var seq = VFX.sequence().moveTo(0.5,[240,160]).scaleTo(0.5,[4,5], Ops.EaseInExpo);
+            var seq = VFX.spawn().moveTo(1,[240,160], Ops.EaseInExpo).scaleTo(1,[8,8], Ops.EaseInExpo);
             seq.play(this.clan);
             setTimeout(function() {
                 this.listNode.setDepth(63970);

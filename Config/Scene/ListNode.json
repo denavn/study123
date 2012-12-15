@@ -31,7 +31,7 @@
 			},
 			"style2" : {
 				"orientation" : 2,
-				"frame" : [140,60,200,200],
+				"frame" : [150,60,200,200],
 				"itemSize" : [200,100],
 				"isSnap" : true,
 				"hasScrollbar" : false,

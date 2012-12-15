@@ -99,7 +99,7 @@ exports.MapSelectionScene = VietScene.subclass({
         				+   words[i + 4] + " " +   words[i + 5] + " "; 
         	this.helps.push(help);
         }
-        eff.makeHelp([455,30,50,50], this);
+        eff.makeHelp([455,60,30,40], this);
     },
     sunSet: function(parentNode) {
         Log("call sunSet");
