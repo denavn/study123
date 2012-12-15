@@ -29,11 +29,12 @@ exports.MapSelectionScene = VietScene.subclass({
     initialize: function($super,data) {
         $super();
         this._data = data || [   {name: "SM1", status:  {stt1:0, tutorial : "hi there SM1"}}, 
-                                 {name: "SM2", status:  {stt1:1}},
-                                 {name: "SM3", status:  {stt1:2}}, 
+                                 {name: "SM2", status:  {stt1:0}},
+                                 {name: "SM3", status:  {stt1:0}}, 
                                  {name: "SM4", status:  {stt1:0, tutorial : "hi there SM4"}}, 
                                  {name: "SM5", status:  {stt1:0, tutorial : "hi there SM5"}}, 
                                  {name: "SM6", status:  {stt1:0, tutorial : "hi there SM6"}}];
+        this._data2 = {keys: [{id: 1, img: "Content/stone/fire1-unlock2.png"},{id: 2, img: "Content/stone/fire1-unlock1.png"}]};
         this.sumonings = [];
     },
     defineConfig: function(controller,def) {
@@ -49,7 +50,7 @@ exports.MapSelectionScene = VietScene.subclass({
     onSuccessConfig: function() {
         Log("call onSuccessConfig");
         this._addRock(this.node);
-        this._riseRock();
+        //this._riseRock();
         this.addKey();
         this._addHelp();
         //this.sunSet(this.node);
@@ -130,15 +131,16 @@ exports.MapSelectionScene = VietScene.subclass({
                   // Push tutorial scene here  or create text of tutorial
                   //After tutorial sh
                 } else*/ 
-                this._downRock();
-                this.enterBattle(sumoning);
-            
+               // this._downRock();
+               // this.enterBattle(sumoning);
+         
+      eff.warn("Please choose a key, if you have!!");
         
         
     },
     
     enterBattle: function(s) {
-          eff.shakeNode(s.node, 4,5);
+         // eff.shakeNode(s.node, 4,5);
           //var pos = new Core.Point(s.frame[0] + s.frame[2]/2, s.frame[1] + s.frame[3]/2); //screenToLocal.....//setup more here
           //setTimeout(function() {this.sunLight(this.rock.localToScreen(pos));}.bind(this),1000);
           setTimeout(function() {
@@ -164,7 +166,7 @@ exports.MapSelectionScene = VietScene.subclass({
                 break;
             case this.PROGRESS_STATUS_CLEARED: 
                // Log("status = cleared");
-                var mark = Builder.makeSprite(this.node, 'Content/viet/ninja.png', [pos.getX(), pos.getY()- 20,64,64],[0,0]);
+               // var mark = Builder.makeSprite(this.node, 'Content/viet/ninja.png', [pos.getX(), pos.getY()- 20,64,64],[0,0]);
                 break;
             case 2: 
                 // Log("status = training");
@@ -200,12 +202,14 @@ exports.MapSelectionScene = VietScene.subclass({
     },
     // display rock
     _addRock: function(parentNode) {
-        Log("call _addRock");
-        this.rock = new GL2.Sprite();
-        this.rock.setImage(this.CONF.rock.imgPath, this.CONF.rock.size, [0,0]);
-        this.rock.setPosition(this.CONF.rock.pos);
-        parentNode.addChild(this.rock);
-        this._addSumoning(this.rock);
+       // Log("call _addRock");
+      //  this.rock = new GL2.Sprite();
+      this.rock = this.node;
+       // this.rock.setImage(this.CONF.rock.imgPath, this.CONF.rock.size, [0,0]);
+       // this.rock.setPosition(this.CONF.rock.pos);
+       // parentNode.addChild(this.rock);
+        //this._addSumoning(this.rock);
+        this._addSumoning(this.node);
     },
     _getImgPath: function(sumoning, status) {
         Log("SSSSSSSSSSS+ " + status);
@@ -242,13 +246,18 @@ exports.MapSelectionScene = VietScene.subclass({
             Log("Click a key");
            // var target = new Core.Point(this.CONF.sumos[i].frame[2], this.CONF.sumos[i].frame[3]);
             var target = this.getGlobalPositionOfSumoning(i);
-            var seq = VFX.spawn().moveTo(3, target).rotate(3, 720, Ops.EaseInExpo);
+            var seq = VFX.spawn().moveTo(2, target).rotate(2, 720, Ops.EaseInExpo);
             seq.play(this.keys[i]);
+            setTimeout(function() {
+            	this._downRock();
+            	 eff.shakeNode(this.keys[i], 4,5);
+            	this.enterBattle(this.sumonings[this._data2.keys[i].id - 1]);
+            }.bind(this), 2090);
         };
         this.keys = [];
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < this._data2.keys.length; i++) {
             Log("i ===" + i);
-            var key = Builder.makeSpriteButton(this.node,"Content/stone/fire1-unlock1.png", 
+            var key = Builder.makeSpriteButton(this.node,this._data2.keys[i].img, 
                 [80 + i* 60,280,35,35], {func: cb.bind(this), args: i});
             key.setDepth(62768);
             this.keys.push(key);
@@ -284,6 +293,6 @@ exports.MapSelectionScene = VietScene.subclass({
         this.bg2.setPosition(-2,240);
         this.bg2.setDepth(62346);
         this.node.addChild(this.bg);
-        this.node.addChild(this.bg2);
+        //this.node.addChild(this.bg2);
     }
  });

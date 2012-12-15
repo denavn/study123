@@ -50,33 +50,37 @@ exports.HomeScene = VietScene.subclass({
     },
     onSuccessConfig: function() {
         Log("call onSuccessConfig");
-        this.createMapButtons(this.CONF.maps);
+        
         // this._addClan();
         this._addVietConfig();
         
         this._addChooseSumoning();
+        this._createSumonerLand();
+        this._createSumoningLand(this.CONF.maps);
         this._addHelp();
     },
     
-    
-    createMapButtons: function(maps) {
-        Log("createmapButtons");
+    _createSumonerLand: function(data) {
+        var land = Builder.makeSprite(this.node, 'Content/stone/frame.png', [200,90,110,80], [0,0]);
+        Builder.makeTouch(land, [110,80], {func: function() {SceneDirector.push("ALL_SCENE");}, args: 0});
+    },
+    _createSumoningLand: function(maps) {
+    	 Log("createmSumoningLand");
         /*
      * args is map_id
      */
-        var onSelectMap = function(args) {
-            Log(" Select a rock map: index is =====" + args);
+        var onSelectLand = function(args) {
+            Log(" Select a sumoning land: index is =====" + args);
             this.node.setTouchable(false);
             SceneDirector.push("MAP_SELECTION_SCENE");
         };
         for (var i = 0; i < maps.length; i++) {
-           // Log("var i = " + i);
+            Log("var i = " + i);
             var map = maps[i];
-            map.node = new GL2.Node();
+            map.node = Builder.makeSprite(this.node, 'Content/stone/frame.png', map.frame, [0,0]);
             //Log("map.frame = " + map.frame);
-            map.node.setPosition(map.frame[0], map.frame[1]);
-            Builder.makeTouch(map.node,[map.frame[2], map.frame[3]], {func: this.bind(onSelectMap), args: map.id});
-            this.node.addChild(map.node);
+           // map.node.setPosition(map.frame[0], map.frame[1]);
+            Builder.makeTouch(map.node,[map.frame[2], map.frame[3]], {func: this.bind(onSelectLand), args: map.id});
         }
         
        
@@ -87,6 +91,9 @@ exports.HomeScene = VietScene.subclass({
         this.node.addChild(x_icon);
        // this.node.addChild(Builder.makeSprite(this.node, "Content/fire.png", [430,255,50,50], [0,0]));
     },
+    createMapButtons: function(maps) {
+       
+    },
     _addClan: function() {
         var txt = "It's amazing how you, can speak right to my heart, without saying a word, you can light up the dark, try aas i may, i colud never define, what's been said betwwen ou";
         var text = Builder.makeText(GL2.Root, [50,20], [300,220], txt, 16, new Core.Color(1,0,0));
@@ -96,11 +103,10 @@ exports.HomeScene = VietScene.subclass({
       
      },
     _addVietConfig: function() {
-        var rect_icon = new GL2.Node();
-        Builder.makeSprite(this.node, 'Content/stone/frame.png', [445,114,50,50], [0,0]);
-        rect_icon.setPosition(430,120);
-        Builder.makeTouch(rect_icon, [50,50], {func: function() {SceneDirector.push("ALL_SCENE");}, args: 0});
-        this.node.addChild(rect_icon);
+  
+        var allScene = Builder.makeSprite(this.node, 'Content/stone/frame.png', [445,114,50,50], [0,0]);
+     
+        Builder.makeTouch(allScene, [50,50], {func: function() {SceneDirector.push("ALL_SCENE");}, args: 0});
     },
     /*
      * args is map_id
